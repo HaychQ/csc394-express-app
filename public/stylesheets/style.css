@@ -371,5 +371,7 @@ html {
 
 .admin-actions {
   border-right: 1px solid white;
+  display: flex;
+  column-gap: 6px;
 }
 /***********************************************/
