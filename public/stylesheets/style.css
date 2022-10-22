@@ -346,11 +346,11 @@ html {
 /***********************************************/
 /* ADMIN PORTAL */
 .admin-header {
+  /* Dark Mode */
   color: white;
-}
 
-.admin-element {
-  border: 1px solid white;
+  /* Light Mode */
+  /* color: black; */
 }
 
 .admin-row,
@@ -361,12 +361,20 @@ html {
   font-size: 16px;
   vertical-align: middle;
   border-left: 1px solid white;
+
+  /* Dark Mode */
   color: white;
+
+  /* Light Mode */
+  /* color: black; */
+}
+
+.admin-element {
+  border: 1px solid white;
 }
 
 .admin-apikey {
   border-right: 1px solid white;
-  background-color: red;
 }
 
 .admin-actions {
