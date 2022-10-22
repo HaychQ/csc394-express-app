@@ -68,6 +68,7 @@ const btn_CreateAccount = document.getElementById("btn_CreateAccount");
 // Individual Game Selectors
 // const game1 = document.getElementById("game-1");
 
+/* 
 btn_CreateAccount.addEventListener("click", function (event) {
   // PREVENTS FORM SUBMISSION
   // event.preventDefault();
@@ -91,6 +92,7 @@ btn_CreateAccount.addEventListener("click", function (event) {
     alert("Please fill out all input fields");
   }
 });
+*/
 
 // Checks that User provided Username, Password, SteamId, & Api Key
 function isCreateAccountValid() {
@@ -103,6 +105,7 @@ function isCreateAccountValid() {
   else return false;
 }
 
+/* 
 btn_UserInput.addEventListener("click", function (event) {
   // PREVENTS FORM SUBMISSION
   event.preventDefault();
@@ -122,6 +125,7 @@ btn_UserInput.addEventListener("click", function (event) {
     alert("Please enter Steam ID and Steam API Key");
   }
 });
+*/
 
 // Checks that User has provided SteamId & Api Key
 function isUserInputValid() {
@@ -156,3 +160,53 @@ document.getElementById("game-8").innerHTML = "Display8";
 document.getElementById("game-9").innerHTML = "Display9";
 document.getElementById("game-10").innerHTML = "Display10";
 */
+
+//ADMIN PANEL
+console.log("TESTING IN SCRIPT");
+
+const addUserIntoTable = () => {
+  for (let i = 1; i < 11; i++) {
+    // document.getElementById(`game-${i}`).innerHTML = `Display${i}`;
+    // console.log("inside for loop");
+
+    // let elements = document.getElementsByClassName("user-row");
+    // document.getElementsByClassName("user-row").adjacentHTML = `<div>test</div>`;
+    // document.getElementById(`game-${i}`).innerHTML = `<img src=${imageList[0]}/>`;
+
+    // if (i < 6) {
+    //   document.getElementById(`game-${i}`).innerHTML = `<img src=${imageList[0]}/>`;
+    // } else document.getElementById(`game-${i}`).innerHTML = `<img src=${imageList[1]}/>`;
+
+    var table = document.getElementById("myTable");
+    // Inserts new row
+    var row = table.insertRow(0);
+
+    // Inserts into first cell
+    var cell1 = row.insertCell(0);
+
+    // Inserts into second cell
+    var cell2 = row.insertCell(1);
+
+    // Inserts into third cell
+    var cell3 = row.insertCell(2);
+
+    // Inserts into fourth cell
+    var cell4 = row.insertCell(3);
+
+    // Inserts into fifth cell
+    var cell5 = row.insertCell(4);
+
+    // Inserts into six cell
+    var cell6 = row.insertCell(5);
+
+    cell1.innerHTML = "#";
+    cell2.innerHTML = "username";
+    cell3.innerHTML = "password";
+    cell4.innerHTML = "steamuserId";
+    cell5.innerHTML = "steamapikey";
+    cell6.innerHTML = "action";
+  }
+};
+
+// Renders 10 cells
+// addUserIntoTable();
