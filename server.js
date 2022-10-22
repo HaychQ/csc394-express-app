@@ -1,90 +1,54 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
-}
-
 const express = require("express");
-const app = express();
-const path = require("path");
+const { pool } = require("./dbConfig");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
-const methodOverride = require("method-override");
+require("dotenv").config();
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 const initializePassport = require("./passport-config");
-initializePassport(
-  passport,
-  (email) => users.find((user) => user.email === email),
-  (id) => users.find((user) => user.id === id)
-);
 
-const users = [];
+initializePassport(passport);
 
-app.set("view-engine", "ejs");
+// Middleware
+
+// Parses details from a form
+app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
-app.use(flash());
-// app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static("public"));
-// app.use(express.static("stylesheets"));
 
-// app.use(express.static(__dirname + "/public/stylesheets"));
-// app.use(express.static(__dirname + "/public"));
-// app.use("/public", express.static("public"));
 app.use(
   session({
+    // Key we want to keep secret which will encrypt all of our information
     secret: process.env.SESSION_SECRET,
+    // Should we resave our session variables if nothing has changes which we dont
     resave: false,
-    saveUninitialized: false,
+    // Save empty value if there is no vaue which we do not want to do
+    saveUninitialized: false
   })
 );
+// Funtion inside passport which initializes passport
 app.use(passport.initialize());
+// Store our variables to be persisted across the whole session. Works with app.use(Session) above
 app.use(passport.session());
-app.use(methodOverride("_method"));
+app.use(flash());
 
-app.get("/", checkAuthenticated, (req, res) => {
-  res.render("index.ejs", { name: req.user.name });
+app.get("/", checkNotAuthenticated, (req, res) => {
+  res.render("index.ejs");
 });
 
-app.get("/login", checkNotAuthenticated, (req, res) => {
+app.get("/login", checkAuthenticated, (req, res) => {
   res.render("login.ejs");
 });
 
-// App BEGINS on the LOGIN PAGE, on successful entry, USER will bE REDIRECTED to index.ejs/home page
-app.post(
-  "/login",
-  checkNotAuthenticated,
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true,
-  })
-);
-
-app.get("/register", checkNotAuthenticated, (req, res) => {
+app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.post("/register", checkNotAuthenticated, async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    users.push({
-      id: Date.now().toString(),
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-    res.redirect("/login");
-  } catch {
-    res.redirect("/register");
-  }
-});
-
-// app.delete("/logout", (req, res) => {
-//   req.logOut();
-//   res.redirect("/login");
-// });
 
 app.delete("/logout", (req, res, next) => {
   req.logOut((err) => {
@@ -95,27 +59,111 @@ app.delete("/logout", (req, res, next) => {
   });
 });
 
-////////////
-//ADDED CODE 10/21
 app.get("/admin", (req, res) => {
-  res.render("admin.ejs");
+  pool.connect((err, connection) => {
+    if(err) throw err;
+    console.log('Connected as ID ')
+  })
+
+  pool.query(`SELECT * FROM usertable`, (err, results) => {
+    if(!err){
+      res.render("admin.ejs", { results });
+    }
+    else {
+      console.log(err);
+    }
+
+    console.log('the data from the user table: \n', results.rows);
+
+  });
 });
-////////////
+
+app.post("/register", async (req, res) => {
+  let { email, password, steamid, apikey } = req.body;
+
+  console.log({
+    email,
+    password,
+    steamid,
+    apikey
+  });
+
+  let errors = [];
+
+  if (!email || !password || !steamid || !apikey) {
+    errors.push({ message: "Please enter all fields" });
+  }
+
+  if (password.length < 6) {
+    errors.push({ message: "Password should be at least 6 characters" });
+  }
+
+  if(errors.length > 0){
+    res.render('register', { errors });
+  }
+
+  else {
+    // Form validation has passed
+
+    let hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword);
+
+    pool.query(
+      `SELECT * FROM usertable
+      WHERE email = $1`, [email], (err, results)=>{
+        if (err){
+          throw err;
+        }
+
+        console.log(results.rows);
+
+        if (results.rows.length > 0){
+          errors.push({ message: "email already registered" });
+          res.render('register', { errors });
+        }
+        else {
+          pool.query(
+            `INSERT INTO usertable (email, password, steamid, apikey)
+            VALUES ($1, $2, $3, $4)
+            RETURNING id, password`, [email, hashedPassword, steamid, apikey],
+            (err, results) => {
+              if (err){
+                throw err
+              }
+              console.log(results.rows)
+              req.flash("success_msg", "You are now registered. Please log in.");
+              res.redirect('/login');
+            }
+          )
+        }
+      }
+    )
+  }
+});
+
+app.post(
+  "/login",
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login",
+    failureFlash: true
+  })
+);
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return next();
-  }
-
-  res.redirect("/login");
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    // redirects them back to dashboard
     return res.redirect("/");
   }
   next();
 }
 
-app.listen(3000);
+function checkNotAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.redirect("/login");
+}
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

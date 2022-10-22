@@ -20,20 +20,21 @@
       </tr>
     </thead>
     <tbody>
+      {{#each results.rows}}
       <tr>
-        <th scope="row">1</th>
-        <td>User@email.com</td>
-        <td>testpassword</td>
-        <td>123456789</td>
-        <td>a1b2c3d4e5f6g7h8</td>
+        <th scope="row">{{this.id}}</th>
+        <td>{{this.email}}</td>
+        <td>{{this.password}}</td>
+        <td>{{this.steamid}}</td>
+        <td>{{this.apikey}}</td>
         <td>
-
             <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-eye"></i> View</a>
             <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-pencil"></i> Edit</a>
             <a href="#" type="button" class="btn btn-light btn-small"><i class="bi bi-person-x"></i> Delete User</a>
 
         </td>
       </tr>
+      {{/each}}
     </tbody>
   </table>
 </div>
