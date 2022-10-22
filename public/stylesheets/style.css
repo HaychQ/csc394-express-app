@@ -343,6 +343,8 @@ html {
   background-color: #777;
 }
 
+/***********************************************/
+/* ADMIN PORTAL */
 .admin-header {
   color: white;
 }
@@ -356,11 +358,18 @@ html {
 .admin-password,
 .admin-id,
 .admin-apikey {
-  color: white;
+  font-size: 16px;
+  vertical-align: middle;
   border-left: 1px solid white;
+  color: white;
 }
 
 .admin-apikey {
   border-right: 1px solid white;
   background-color: red;
 }
+
+.admin-actions {
+  border-right: 1px solid white;
+}
+/***********************************************/
