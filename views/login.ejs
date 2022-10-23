@@ -15,6 +15,18 @@
     <div class="modal-body">
       <div class="contact-form">
         <!-- <form action="php/action.php" method="POST" class="create-account-form" id="createAccountForm"> -->
+          <ul>
+            <% if(messages.success_msg) { %>
+            <li><%= messages.success_msg %></li>
+            <% } %>
+          </ul>
+
+          <ul>
+            <% if (messages.error) { %>
+            <li><%= messages.error %></li>
+            <% } %>
+          </ul>
+          
         <form class="login-form" action="/login" method="POST">
           <div class="row">
             <!-- USERNAME -->
