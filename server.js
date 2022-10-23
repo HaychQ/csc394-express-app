@@ -28,7 +28,7 @@ app.use(
     // Should we resave our session variables if nothing has changes which we dont
     resave: false,
     // Save empty value if there is no vaue which we do not want to do
-    saveUninitialized: false
+    saveUninitialized: false,
   })
 );
 // Funtion inside passport which initializes passport
@@ -49,7 +49,6 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-
 app.delete("/logout", (req, res, next) => {
   req.logOut((err) => {
     if (err) {
@@ -59,22 +58,24 @@ app.delete("/logout", (req, res, next) => {
   });
 });
 
+//DB HERE
 app.get("/admin", (req, res) => {
   pool.connect((err, connection) => {
-    if(err) throw err;
-    console.log('Connected as ID ')
-  })
+    if (err) throw err;
+    console.log("Connected as ID ");
+  });
 
   pool.query(`SELECT * FROM usertable`, (err, results) => {
-    if(!err){
-      res.render("admin.ejs", { results });
-    }
-    else {
-      console.log(err);
+    if (!err) {
+      console.log("inside if, results.rows[0]: ", results.rows);
+      // res.render("admin.ejs", { data: results.rows[0] });
+      res.render("admin.ejs", { data: results.rows });
+      // res.render("admin.ejs", { results });
+    } else {
+      console.log("error: ", err);
     }
 
-    console.log('the data from the user table: \n', results.rows);
-
+    console.log("the data from the user table: \n", results.rows);
   });
 });
 
@@ -85,7 +86,7 @@ app.post("/register", async (req, res) => {
     email,
     password,
     steamid,
-    apikey
+    apikey,
   });
 
   let errors = [];
@@ -98,11 +99,9 @@ app.post("/register", async (req, res) => {
     errors.push({ message: "Password should be at least 6 characters" });
   }
 
-  if(errors.length > 0){
-    res.render('register', { errors });
-  }
-
-  else {
+  if (errors.length > 0) {
+    res.render("register", { errors });
+  } else {
     // Form validation has passed
 
     let hashedPassword = await bcrypt.hash(password, 10);
@@ -110,34 +109,36 @@ app.post("/register", async (req, res) => {
 
     pool.query(
       `SELECT * FROM usertable
-      WHERE email = $1`, [email], (err, results)=>{
-        if (err){
+      WHERE email = $1`,
+      [email],
+      (err, results) => {
+        if (err) {
           throw err;
         }
 
         console.log(results.rows);
 
-        if (results.rows.length > 0){
+        if (results.rows.length > 0) {
           errors.push({ message: "email already registered" });
-          res.render('register', { errors });
-        }
-        else {
+          res.render("register", { errors });
+        } else {
           pool.query(
             `INSERT INTO usertable (email, password, steamid, apikey)
             VALUES ($1, $2, $3, $4)
-            RETURNING id, password`, [email, hashedPassword, steamid, apikey],
+            RETURNING id, password`,
+            [email, hashedPassword, steamid, apikey],
             (err, results) => {
-              if (err){
-                throw err
+              if (err) {
+                throw err;
               }
-              console.log(results.rows)
+              console.log(results.rows);
               req.flash("success_msg", "You are now registered. Please log in.");
-              res.redirect('/login');
+              res.redirect("/login");
             }
-          )
+          );
         }
       }
-    )
+    );
   }
 });
 
@@ -146,7 +147,7 @@ app.post(
   passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
-    failureFlash: true
+    failureFlash: true,
   })
 );
 

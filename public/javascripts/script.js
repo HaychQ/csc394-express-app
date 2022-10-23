@@ -210,4 +210,4 @@ const addUserIntoTable = () => {
 };
 
 // Renders 10 cells
-addUserIntoTable();
+// addUserIntoTable();
