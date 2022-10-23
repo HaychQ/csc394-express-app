@@ -342,3 +342,44 @@ html {
   color: white;
   background-color: #777;
 }
+
+/***********************************************/
+/* ADMIN PORTAL */
+.admin-header {
+  /* Dark Mode */
+  color: white;
+
+  /* Light Mode */
+  /* color: black; */
+}
+
+.admin-row,
+.admin-user,
+.admin-password,
+.admin-id,
+.admin-apikey {
+  font-size: 16px;
+  vertical-align: middle;
+  border-left: 1px solid white;
+
+  /* Dark Mode */
+  color: white;
+
+  /* Light Mode */
+  /* color: black; */
+}
+
+.admin-element {
+  border: 1px solid white;
+}
+
+.admin-apikey {
+  border-right: 1px solid white;
+}
+
+.admin-actions {
+  border-right: 1px solid white;
+  display: flex;
+  column-gap: 6px;
+}
+/***********************************************/
