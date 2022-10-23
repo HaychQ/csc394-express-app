@@ -6,7 +6,9 @@ const flash = require("express-flash");
 const session = require("express-session");
 require("dotenv").config();
 const app = express();
+const request = require('request');
 const PORT = process.env.PORT || 3000;
+
 
 const initializePassport = require("./passport-config");
 
@@ -20,6 +22,12 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + "/public"));
 app.use(express.static("public"));
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(
   session({
@@ -49,12 +57,29 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.delete("/logout", (req, res, next) => {
-  req.logOut((err) => {
-    if (err) {
-      return next(err);
+app.get('/getnews', function (req,res){
+  var qParams = [];
+  for (var p in req.query) {
+    qParams.push({ 'name':p, 'value': req.query[p]})
+  }
+  var url = 'http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=' + qParams[0].name + '&count=3&maxlength=300&format=json';
+  request(url, function(err, response, body){
+    if (!err && response.statusCode < 400) {
+      console.log(body);
+      res.send(body);
     }
-    res.redirect("/login");
+  });
+});
+
+// app.("/logout", (req, res, next) => {
+//   req.logOut();
+//   res.redirect("/login");
+//   });
+
+app.post("/logout", function(req, res, next) {
+  req.logout(function(err){
+    if (err) { return next (err); }
+    res.redirect('/login');
   });
 });
 
@@ -93,15 +118,18 @@ app.post("/register", async (req, res) => {
 
   if (!email || !password || !steamid || !apikey) {
     errors.push({ message: "Please enter all fields" });
+    console.log("checking to see if field is empty")
   }
 
   if (password.length < 6) {
     errors.push({ message: "Password should be at least 6 characters" });
+    console.log("checking to see if password is less than 6")
   }
 
   if (errors.length > 0) {
     res.render("register", { errors });
-  } else {
+  } 
+  else {
     // Form validation has passed
 
     let hashedPassword = await bcrypt.hash(password, 10);
@@ -163,6 +191,27 @@ function checkNotAuthenticated(req, res, next) {
     return next();
   }
   res.redirect("/login");
+}
+
+// Added function for get news
+function bindGetNewsButton(){
+	document.getElementById('getNewsForApp').addEventListener('click', function(event) {
+	var homeURL = "http://localhost:3000/getnews/?"
+	var userInput = document.getElementById('getNewsInput').value;
+	var newURL = homeURL+userInput;
+	var req = new XMLHttpRequest();
+	req.open("GET", newURL, true);
+	req.addEventListener('load', function(){
+		if(req.status>= 200 && req.status<400){
+		var response = JSON.parse(req.responseText);
+		console.log(response.appnews.newsitems[0].contents);
+		}
+		else {
+			console.log("Error in network request: " + request.statusText);
+		}
+	});
+	req.send(null);
+});
 }
 
 app.listen(PORT, () => {
