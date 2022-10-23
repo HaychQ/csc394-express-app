@@ -178,35 +178,36 @@ const addUserIntoTable = () => {
     // } else document.getElementById(`game-${i}`).innerHTML = `<img src=${imageList[1]}/>`;
 
     var table = document.getElementById("myTable");
-    // Inserts new row
+
+    // Inserts new user row
     var row = table.insertRow(0);
 
-    // Inserts into first cell
-    var cell1 = row.insertCell(0);
+    // Inserts into userNum cell
+    var usernum = row.insertCell(0);
 
-    // Inserts into second cell
-    var cell2 = row.insertCell(1);
+    // Inserts into username cell
+    var username = row.insertCell(1);
 
-    // Inserts into third cell
-    var cell3 = row.insertCell(2);
+    // Inserts into password cell
+    var password = row.insertCell(2);
 
-    // Inserts into fourth cell
-    var cell4 = row.insertCell(3);
+    // Inserts into id cell
+    var id = row.insertCell(3);
 
-    // Inserts into fifth cell
-    var cell5 = row.insertCell(4);
+    // Inserts into apikey cell
+    var apikey = row.insertCell(4);
 
-    // Inserts into six cell
-    var cell6 = row.insertCell(5);
+    // Inserts into action cell
+    var action = row.insertCell(5);
 
-    cell1.innerHTML = "#";
-    cell2.innerHTML = "username";
-    cell3.innerHTML = "password";
-    cell4.innerHTML = "steamuserId";
-    cell5.innerHTML = "steamapikey";
-    cell6.innerHTML = "action";
+    usernum.innerHTML = "#";
+    username.innerHTML = "username";
+    password.innerHTML = "password";
+    id.innerHTML = "steamuserId";
+    apikey.innerHTML = "steamapikey";
+    action.innerHTML = "action";
   }
 };
 
 // Renders 10 cells
-// addUserIntoTable();
+addUserIntoTable();
