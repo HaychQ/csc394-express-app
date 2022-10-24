@@ -21,6 +21,7 @@
   <body>
     <!-- NAVIGATION MENU -->
     <!-- <nav class="navbar navbar-expand-lg bg-light"> -->
+     
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
@@ -39,9 +40,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
+              <a href="/getnews" class="btn btn-primary nav-btn">Game News</a>
+            </li>
+            <li class="nav-item">
               <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
             </li>
-
+            <li class="nav-item">
+              <a href="/" class="btn btn-primary nav-btn">Dashboard</a>
+            </li>
             <li class="nav-item">
               <form action="/logout?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-primary nav-btn">Log Out</button>
