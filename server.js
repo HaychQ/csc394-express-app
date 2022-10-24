@@ -65,8 +65,19 @@ app.get('/getnews', (req,res) => {
   var url = 'http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json';
   request(url, function(err, response, body){
     if (!err && response.statusCode < 400) {
-      console.log(body);
-      res.render("getnews.ejs", { body });
+      // console.log(body);
+      // console.log(typeof body);
+
+      const toJSONbody = JSON.parse(body);
+      // console.log(typeof toJSONbody);
+
+      var jsonappnews = toJSONbody.appnews;
+
+      // console.log(jsonappnews.newsitems[0].title);
+
+      var jsonTitle = jsonappnews.newsitems[0].title;
+
+      res.render("getnews.ejs", { jsonTitle });
     }
   }); 
 });
