@@ -395,12 +395,19 @@ html {
 
 /* getnews.ejs - GET GAME NEWS PAGE*/
 .page-header {
-  font-size: 52px;
+  font-size: 36px;
   text-align: center;
   margin-bottom: 30px;
 }
 
-.title {
+/* getnews.ejs - GET GAME NEWS PAGE*/
+.page-footer {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.table-header {
   font-size: 18px;
 }
 
@@ -412,7 +419,13 @@ html {
   font-size: 18px;
 }
 
-.get-news-table {
+.center-table {
   max-width: 800px;
+  margin: 0 auto;
+}
+
+/* getOwnedGames */
+img.game-icon {
+  display: block;
   margin: 0 auto;
 }
