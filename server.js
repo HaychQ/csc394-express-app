@@ -71,13 +71,16 @@ app.get('/getnews', (req,res) => {
       const toJSONbody = JSON.parse(body);
       // console.log(typeof toJSONbody);
 
-      var jsonappnews = toJSONbody.appnews;
+      const jsonappnews = toJSONbody.appnews;
 
       // console.log(jsonappnews.newsitems[0].title);
 
-      var jsonTitle = jsonappnews.newsitems[0].title;
+      const jsonTitle = jsonappnews.newsitems[0].title;
+      const jsonappid = jsonappnews.newsitems[0].appid;
 
-      res.render("getnews.ejs", { jsonTitle });
+      console.log(typeof jsonTitle);
+
+      res.render("getnews.ejs", { jsonTitle, jsonappid });
     }
   }); 
 });
