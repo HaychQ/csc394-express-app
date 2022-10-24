@@ -56,12 +56,13 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.get("/getnews", (req, res) => {
-  //  var qParams = [];
-  //   for (var p in req.query) {
-  //     qParams.push({ 'name':p, 'value': req.query[p]})
-  //   }
-  var url = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json";
+app.get("/getnews", function (req, res) {
+  var qParams = [];
+  for (var p in req.query) {
+    qParams.push({ name: p, value: req.query[p] });
+  }
+  var url =
+    "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=" + qParams[0].name + "&count=3&maxlength=300&format=json";
   request(url, function (err, response, body) {
     if (!err && response.statusCode < 400) {
       // console.log(body);
@@ -208,25 +209,24 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 // Added function for get news
-// function bindGetNewsButton(){
-// 	document.getElementById('getNewsForApp').addEventListener('click', function(event) {
-// 	var homeURL = "http://localhost:3000/getnews/?"
-// 	var userInput = document.getElementById('getNewsInput').value;
-// 	var newURL = homeURL+userInput;
-// 	var req = new XMLHttpRequest();
-// 	req.open("GET", newURL, true);
-// 	req.addEventListener('load', function(){
-// 		if(req.status>= 200 && req.status<400){
-// 		var response = JSON.parse(req.responseText);
-// 		console.log(response.appnews.newsitems[0].contents);
-// 		}
-// 		else {
-// 			console.log("Error in network request: " + request.statusText);
-// 		}
-// 	});
-// 	req.send(null);
-// });
-// }
+function bindGetNewsButton() {
+  document.getElementById("getNewsForApp").addEventListener("click", function (event) {
+    var homeURL = "http://localhost:3000/getnews/?";
+    var userInput = document.getElementById("getNewsInput").value;
+    var newURL = homeURL + userInput;
+    var req = new XMLHttpRequest();
+    req.open("GET", newURL, true);
+    req.addEventListener("load", function () {
+      if (req.status >= 200 && req.status < 400) {
+        var response = JSON.parse(req.responseText);
+        console.log(response.appnews.newsitems[0].contents);
+      } else {
+        console.log("Error in network request: " + request.statusText);
+      }
+    });
+    req.send(null);
+  });
+}
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
