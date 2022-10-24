@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 
 const initializePassport = require("./passport-config");
+const { json } = require("express");
 
 initializePassport(passport);
 
@@ -57,13 +58,53 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
+app.get('/getOwnedGames', (req, res) => {
+  const urlgetGames = 
+  'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=F6DB64D7E827FA916F5F5AF44CD29AF5&steamid=76561198119482646&include_appinfo=true&format=json';
+  request(urlgetGames, function(err, response, body){
+    if(!err && response.statusCode < 400){
+      // console.log(body);
+      // console.log(typeof body);
+
+      const toJSONbody = JSON.parse(body);
+      // console.log(typeof toJSONbody);
+
+      //convert the body string into a json file + Select only the first results query:
+      const jsonGameData0 = toJSONbody.response.games;
+      // console.log(jsonGameData0);
+      // console.log(typeof jsonGameData0);
+
+      const stringGameData = JSON.stringify(jsonGameData0);
+      // console.log(typeof stringGameData);
+
+      res.render("getOwnedGames.ejs", { stringGameData });
+
+      // const jsonOwnedGames = toJSONbody.response.games;
+      // console.log(typeof jsonOwnedGames);
+      // const jsonGameName = jsonOwnedGames[0].name
+      // console.log(typeof jsonGameName);
+      // console.log(jsonGameName);
+
+      // const stringOwned = JSON.stringify(jsonOwnedGames);
+      // console.log(typeof stringOwned);
+
+
+      // res.json("getOwnedGames.ejs", { jsonGameName });
+      // res.status(201).json( {jsonOwnedGames} );
+
+      // res.render("getOwnedGames.ejs");
+    }
+  });
+});
+
 app.get('/getnews', (req,res) => {
 //  var qParams = [];
 //   for (var p in req.query) {
 //     qParams.push({ 'name':p, 'value': req.query[p]})
 //   }
-  var url = 'http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json';
-  request(url, function(err, response, body){
+  const urlgetnews = 
+  'http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json';
+  request(urlgetnews, function(err, response, body){
     if (!err && response.statusCode < 400) {
       // console.log(body);
       // console.log(typeof body);

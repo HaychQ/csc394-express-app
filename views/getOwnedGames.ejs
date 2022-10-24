@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Owned Games</title>
+</head>
+<body>
+    <h1>Get Owned Games</h1>
+    <!-- <%= loc = JSON.parse(stringGameData) %> -->
+    <table>
+        <thead>
+            <th>Game Name</th>
+            <th>Game Id</th>
+            <th>Game Icon</th>
+        </thead>
+        <% for(var i=0; i < loc.length; i++) { %>
+           <tr>
+             <td><%= loc[i].name %></td>
+             <td><%= loc[i].appid %></td>
+             <td><a href><%= 'http://media.steampowered.com/steamcommunity/public/images/apps/' + loc[i].appid + '/' + loc[i].img_icon_url + '.jpg'%></a></td>
+           </tr>
+        <% } %>
+        </table>
+    <h2> <%= loc[0].name %> </h2>
+</body>
+</html>
