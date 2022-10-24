@@ -343,6 +343,10 @@ html {
   background-color: #777;
 }
 
+.group {
+  font-size: 32px;
+}
+
 /***********************************************/
 /* ADMIN PORTAL */
 .admin-header {
@@ -384,6 +388,31 @@ html {
 }
 /***********************************************/
 
-.textColor {
-  color: red;
+.text-size {
+  font-size: 32px;
+  padding-left: 20px;
+}
+
+/* getnews.ejs - GET GAME NEWS PAGE*/
+.page-header {
+  font-size: 52px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-size: 18px;
+}
+
+.description {
+  font-size: 18px;
+}
+
+.api-text {
+  font-size: 18px;
+}
+
+.get-news-table {
+  max-width: 800px;
+  margin: 0 auto;
 }

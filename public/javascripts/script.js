@@ -94,16 +94,77 @@ btn_CreateAccount.addEventListener("click", function (event) {
 });
 */
 
-// Checks that User provided Username, Password, SteamId, & Api Key
-function isCreateAccountValid() {
-  const username = create_AccountForm.createUsername.value;
-  const password = create_AccountForm.createPassword.value;
-  const id = create_AccountForm.createSteamId.value;
-  const key = create_AccountForm.createApiKey.value;
+/* 
+const handleReq = document.getElementById("submittest");
+handleReq.addEventListener("click", function (event) {
+  var req = new XMLHttpRequest();
+  req.open("GET", URL, true);
+  req.addEventListener("load", function () {
+    if (req.status >= 200 && req.status < 400) {
+      var response = JSON.parse(req.responseText);
+      console.log(JSON.parse(req.responseText));
+    } else {
+      console.log("Error in network request: " + request.statusText);
+    }
+  });
+  req.send(null);
 
-  if (username.length !== 0 && password.length !== 0 && id.length !== 0 && key.length !== 0) return true;
-  else return false;
-}
+  ///////////////////////////////////////
+  //For this part of the guide, we will be making a client side AJAX request to our server we are running. This will take a format similar to first experiment on Page 2:
+  // Checks that User provided Username, Password, SteamId, & Api Key
+  function isCreateAccountValid() {
+    const username = create_AccountForm.createUsername.value;
+    const password = create_AccountForm.createPassword.value;
+    const id = create_AccountForm.createSteamId.value;
+    const key = create_AccountForm.createApiKey.value;
+
+    if (username.length !== 0 && password.length !== 0 && id.length !== 0 && key.length !== 0) return true;
+    else return false;
+  }
+
+  //
+  function bindGetNewsButton() {
+    document.getElementById("getNewsForApp").addEventListener("click", function (event) {
+      var homeURL = "http://localhost:3000/getnews/?";
+      var userInput = document.getElementById("getNewsInput").value;
+      var newURL = homeURL + userInput;
+      var req = new XMLHttpRequest();
+      req.open("GET", newURL, true);
+      req.addEventListener("load", function () {
+        if (req.status >= 200 && req.status < 400) {
+          var response = JSON.parse(req.responseText);
+          console.log(JSON.parse(req.responseText));
+        } else {
+          console.log("Error in network request: " + request.statusText);
+        }
+      });
+      req.send(null);
+    });
+  }
+
+  function bindUserStatsButton() {
+    document.getElementById("getUserStatsForGame").addEventListener("click", function (event) {
+      var homeURL = "http://localhost:3000/getuserstats/?";
+      var userAppID = document.getElementById("getUserStatsAppID").value;
+      var userPlayerID = document.getElementById("getUserStatsPlayerID").value;
+      var newURL = homeURL + userAppID + "=" + userPlayerID;
+      var req = new XMLHttpRequest();
+      req.open("GET", newURL, true);
+      req.addEventListener("load", function () {
+        if (req.status >= 200 && req.status < 400) {
+          var response = JSON.parse(req.responseText);
+          console.log(JSON.parse(req.responseText));
+        } else {
+          console.log("Error in network request: " + request.statusText);
+        }
+      });
+      req.send(null);
+      console.log("Egg");
+      event.preventDefault();
+    });
+  }
+});
+*/
 
 /* 
 btn_UserInput.addEventListener("click", function (event) {

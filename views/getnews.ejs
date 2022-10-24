@@ -1,14 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GetNews</title>
-</head>
-<body>
-    <h1> get news page </h1>
-    <h2> <%= jsonTitle %> </h2>
-    <h2> <%= jsonappid %> </h2>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- BOOTSTRAP CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+
+    <!-- OUR CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
+    <title>Steam API Dashboard</title>
+  </head>
+  <body>
+    <!-- NAVIGATION MENU -->
+    <!-- <nav class="navbar navbar-expand-lg bg-light"> -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
+        <span class="group">Group 4 - Steam API</span>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
+            </li>
+
+            <li class="nav-item">
+              <form action="/logout?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-primary nav-btn">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <button id="getNewsForApp"></button> -->
+
+    <h1 class="page-header">Game News Page</h1>
+    <!-- <div class="game-news-container">
+      <p class="description">TITLE:</p>
+      <p class="api-text"><%= jsonTitle %></p>
+      <p class="description">APPID:</p>
+      <p class="api-text"><%= jsonappid %></p>
+    </div> -->
+
+    <!-- <table class="table table-dark table-striped"> -->
+    <div class="table-responsive-xxl get-news-table">
+      <table class="table table-hover align-middle">
+        <thead>
+          <!-- Header -->
+          <tr>
+            <th scope="col" class="title table-dark">Game Details</th>
+            <th scope="col" class="title table-dark">Received</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1 -->
+          <tr>
+            <th scope="row" class="description table-dark">TITLE:</th>
+            <td class="api-text table-dark"><%= jsonTitle %></td>
+          </tr>
+          <!-- Row 2 -->
+          <tr>
+            <th scope="row" class="description table-dark">APPID:</th>
+            <td class="api-text table-dark"><%= jsonappid %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BOOTSTRAP JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- OUR JS FILE -->
+    <script src="./javascripts/script.js"></script>
+  </body>
 </html>
+
+<!-- <div class="intro-section">
+  <h1 class="intro-heading">Provide a Steam ID & API Key to Begin</h1>
+  <form action="php/action.php" method="POST" class="user-input-form" id="userInputForm">
+  <form class="user-input-form" id="userInputForm">
+    <input class="user-textbox" type="text" name="steamid" placeholder="Steam ID*" id="userSteamId" required />
+    <input class="user-textbox" type="text" name="apikey" placeholder="API Key*" id="userApiKey" required />
+    <input class="btn-submit" type="submit" id="btn_UserInput" />
+  </form>
+</div> -->
