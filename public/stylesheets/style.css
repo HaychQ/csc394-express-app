@@ -350,6 +350,9 @@ html {
 /***********************************************/
 /* ADMIN PORTAL */
 .admin-header {
+  text-align: center;
+  font-size: 16px;
+
   /* Dark Mode */
   color: white;
 
@@ -358,13 +361,13 @@ html {
 }
 
 .admin-row,
-.admin-user,
+.admin-email,
 .admin-password,
 .admin-id,
 .admin-apikey {
   font-size: 16px;
   vertical-align: middle;
-  border-left: 1px solid white;
+  border-left: 1px solid #373b3e;
 
   /* Dark Mode */
   color: white;
@@ -373,18 +376,37 @@ html {
   /* color: black; */
 }
 
+th.admin-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 50px;
+  /* border-left: 1px solid #373b3e; */
+}
+
 .admin-element {
-  border: 1px solid white;
+  /* border: 1px solid white; */
+}
+
+.admin-id {
+  text-align: center;
 }
 
 .admin-apikey {
-  border-right: 1px solid white;
+  border-right: 1px solid #373b3e;
+  text-align: center;
 }
 
-.admin-actions {
-  border-right: 1px solid white;
+td.admin-actions {
+  border-right: 1px solid #373b3e;
   display: flex;
   column-gap: 6px;
+  padding: 10px 10px 10px 10px;
+  width: 300px;
+}
+
+.action-btn {
+  color: white;
+  background-color: #0d6efd;
 }
 /***********************************************/
 
