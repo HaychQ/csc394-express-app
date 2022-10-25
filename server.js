@@ -57,43 +57,71 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.get('/getOwnedGames', (req, res) => {
-  const urlgetGames = 
-  'https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=F6DB64D7E827FA916F5F5AF44CD29AF5&steamid=76561198119482646&include_appinfo=true&format=json';
-  request(urlgetGames, function(err, response, body){
-    if(!err && response.statusCode < 400){
-      // console.log(body);
-      // console.log(typeof body);
+app.get("/getOwnedGames", (req, res) => {
 
-      const toJSONbody = JSON.parse(body);
-      // console.log(typeof toJSONbody);
-
-      //convert the body string into a json file + Select only the first results query:
-      const jsonGameData0 = toJSONbody.response.games;
-      // console.log(jsonGameData0);
-      // console.log(typeof jsonGameData0);
-
-      const stringGameData = JSON.stringify(jsonGameData0);
-      // console.log(typeof stringGameData);
-
-      res.render("getOwnedGames.ejs", { stringGameData });
-
-      // const jsonOwnedGames = toJSONbody.response.games;
-      // console.log(typeof jsonOwnedGames);
-      // const jsonGameName = jsonOwnedGames[0].name
-      // console.log(typeof jsonGameName);
-      // console.log(jsonGameName);
-
-      // const stringOwned = JSON.stringify(jsonOwnedGames);
-      // console.log(typeof stringOwned);
-
-
-      // res.json("getOwnedGames.ejs", { jsonGameName });
-      // res.status(201).json( {jsonOwnedGames} );
-
-      // res.render("getOwnedGames.ejs");
-    }
+  pool.connect((err, connection) => {
+    if (err) throw err;
   });
+
+  // console.log("this is the user id logged in:", [user.id]);
+
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
+
+      // const urlgetGames = 
+      // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
+      // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
+
+      const urlgetGames = 
+      `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
+
+      request(urlgetGames, function(err, response, body){
+        
+        if(!err && response.statusCode < 400){
+          // console.log(body);
+          // console.log(typeof body);
+    
+          const toJSONbody = JSON.parse(body);
+          // console.log(typeof toJSONbody);
+    
+          //convert the body string into a json file + Select only the first results query:
+          const jsonGameData0 = toJSONbody.response.games;
+          // console.log(jsonGameData0);
+          // console.log(typeof jsonGameData0);
+    
+          const stringGameData = JSON.stringify(jsonGameData0);
+          // console.log(typeof stringGameData);
+    
+          res.render("getOwnedGames.ejs", { stringGameData });
+    
+          // const jsonOwnedGames = toJSONbody.response.games;
+          // console.log(typeof jsonOwnedGames);
+          // const jsonGameName = jsonOwnedGames[0].name
+          // console.log(typeof jsonGameName);
+          // console.log(jsonGameName);
+    
+          // const stringOwned = JSON.stringify(jsonOwnedGames);
+          // console.log(typeof stringOwned);
+    
+    
+          // res.json("getOwnedGames.ejs", { jsonGameName });
+          // res.status(201).json( {jsonOwnedGames} );
+    
+          // res.render("getOwnedGames.ejs");
+        }
+
+      })
+    }
+  )
 });
 
 app.get('/getnews', (req,res) => {
@@ -148,6 +176,7 @@ app.get("/admin", (req, res) => {
       //Checking to see if the user who is trying to acesss admin panel is superuser.
       if(req.user.isadmin == true){
         res.render("admin.ejs", { data: results.rows, adminuser: req.user.email });
+        // console.log(results.rows);
       }
 
       // res.render("admin.ejs", { data: results.rows } );
@@ -203,6 +232,26 @@ app.post("/editUser/:id", (req, res) => {
       }
     }
   )
+});
+
+app.get("/:id", async (req, res) => {
+  // pool.connect((err, connection) => {
+  //   if (err) throw err;
+  // });
+  
+  pool.query(
+    `DELETE FROM usertable
+    WHERE id = $1`,
+    [req.params.id],
+    (err, results) => {
+      console.log("we are here");
+      if(!err){
+        res.redirect("/admin");
+      }
+      else {
+        console.log(err);
+      }
+    })
 });
 
 app.post("/register", async (req, res) => {
