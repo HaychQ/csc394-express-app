@@ -130,34 +130,79 @@ app.get('/getnews', (req,res) => {
 //   res.redirect("/login");
 //   });
 
-app.post("/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/login");
-  });
-});
+
 
 //DB HERE
 app.get("/admin", (req, res) => {
   pool.connect((err, connection) => {
     if (err) throw err;
-    console.log("Connected as ID ");
+    // console.log(req.user.email)
   });
 
-  pool.query(`SELECT * FROM usertable`, (err, results) => {
+  pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
+    
     if (!err) {
-      console.log("inside if, results.rows[0]: ", results.rows);
+      // console.log("inside if, results.rows[0]: ", results.rows);
       // res.render("admin.ejs", { data: results.rows[0] });
-      res.render("admin.ejs", { data: results.rows });
+
+      //Checking to see if the user who is trying to acesss admin panel is superuser.
+      if(req.user.isadmin == true){
+        res.render("admin.ejs", { data: results.rows, adminuser: req.user.email });
+      }
+
+      // res.render("admin.ejs", { data: results.rows } );
+      // console.log(results.rows);
+      
       // res.render("admin.ejs", { results });
-    } else {
+    } 
+    else {
+      console.log("You do not have access to this page.")
       console.log("error: ", err);
+      // res.render("/");
     }
 
-    console.log("the data from the user table: \n", results.rows);
+    // console.log("the data from the user table: \n", results.rows);
   });
+});
+
+app.get("/editUser/:id", (req, res) => {
+  console.log(req.params.id);
+
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`, [req.params.id],
+    (err, results) => {
+      if (err) console.log(err.stack);
+      
+      else {
+        console.log(results.rows);
+      }
+      // console.log(results);
+      res.render("editUser.ejs", { data: results.rows });
+    }
+  )  
+});
+
+app.post("/editUser/:id", (req, res) => {
+  let { steamid, apikey } = req.body;
+
+  console.log(steamid, apikey);
+
+  pool.query(
+    `UPDATE usertable
+    SET steamid = $1, apikey = $2
+    WHERE id = $3`,
+    [steamid, apikey, req.params.id],
+    (err, results) => {
+      if (err) console.log(err.stack);
+
+
+      else {
+        res.redirect("/admin");
+        // console.log(results.rows);
+      }
+    }
+  )
 });
 
 app.post("/register", async (req, res) => {
@@ -233,6 +278,15 @@ app.post(
     failureFlash: true,
   })
 );
+
+app.post("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
+});
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
