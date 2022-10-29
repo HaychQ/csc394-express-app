@@ -164,6 +164,8 @@ app.get("/getFriendsList", (req, res) => {
 
   });
 
+});
+
 app.get("/getnews", (req, res) => {
   //  var qParams = [];
   //   for (var p in req.query) {
