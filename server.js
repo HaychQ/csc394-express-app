@@ -58,56 +58,107 @@ app.get("/register", checkAuthenticated, (req, res) => {
 });
 
 app.get("/getOwnedGames", (req, res) => {
-  const urlgetGames =
-    "https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=F6DB64D7E827FA916F5F5AF44CD29AF5&steamid=76561198119482646&include_appinfo=true&format=json";
-  request(urlgetGames, function (err, response, body) {
-    if (!err && response.statusCode < 400) {
-      // console.log(body);
-      // console.log(typeof body);
-
-      const toJSONbody = JSON.parse(body);
-      // console.log(typeof toJSONbody);
-
-      //convert the body string into a json file + Select only the first results query:
-      const jsonGameData0 = toJSONbody.response.games;
-      // console.log(jsonGameData0);
-      // console.log(typeof jsonGameData0);
-
-      const stringGameData = JSON.stringify(jsonGameData0);
-      // console.log(typeof stringGameData);
-
-      res.render("getOwnedGames.ejs", { stringGameData });
-    }
+  pool.connect((err, connection) => {
+    if (err) throw err;
   });
+
+  // console.log("this is the user id logged in:", [user.id]);
+
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
+
+      // const urlgetGames =
+      // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
+      // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
+
+      const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
+
+      request(urlgetGames, function (err, response, body) {
+        if (!err && response.statusCode < 400) {
+          // console.log(body);
+          // console.log(typeof body);
+
+          const toJSONbody = JSON.parse(body);
+          // console.log(typeof toJSONbody);
+
+          //convert the body string into a json file + Select only the first results query:
+          const jsonGameData0 = toJSONbody.response.games;
+          // console.log(jsonGameData0);
+          // console.log(typeof jsonGameData0);
+
+          const stringGameData = JSON.stringify(jsonGameData0);
+          // console.log(typeof stringGameData);
+
+          res.render("getOwnedGames.ejs", { stringGameData });
+
+          // const jsonOwnedGames = toJSONbody.response.games;
+          // console.log(typeof jsonOwnedGames);
+          // const jsonGameName = jsonOwnedGames[0].name
+          // console.log(typeof jsonGameName);
+          // console.log(jsonGameName);
+
+          // const stringOwned = JSON.stringify(jsonOwnedGames);
+          // console.log(typeof stringOwned);
+
+          // res.json("getOwnedGames.ejs", { jsonGameName });
+          // res.status(201).json( {jsonOwnedGames} );
+
+          // res.render("getOwnedGames.ejs");
+        }
+      });
+    }
+  );
 });
+
 /*
-if(!err && response.statusCode < 400){
-      // console.log(body);
-      // console.log(typeof body);
+ * Work in progres, get all your friend's owned games
+ */
+app.get("/getFriendsOwnedGames", (req, res) => {
+  // query the database to get the logged in user
 
-      const toJSONbody = JSON.parse(body);
-      // console.log(typeof toJSONbody);
+  // use logged in userID to get friend list
+  var friendList = [];
+  var friend_games = {};
 
-      //convert the body string into a json file + Select only the first results query:
-      const jsonGameData0 = toJSONbody.response.games;
-      // console.log(jsonGameData0);
-      // console.log(typeof jsonGameData0);
+  // iterate friends list
+  friendList.forEach((element) => {
+    console.log(element);
 
-      const stringGameData = JSON.stringify(jsonGameData0);
-      // console.log(typeof stringGameData);
+    // add current friend's game list to dict
+    var gameList = []; // TODO: populate
+    friend_games[element] = gameList;
+  });
 
-      res.render("getOwnedGames.ejs", { stringGameData });
-*/
+  // return or save list
+  return friend_games;
+});
 
 app.get("/getnews", (req, res) => {
+  //  var qParams = [];
+  //   for (var p in req.query) {
+  //     qParams.push({ 'name':p, 'value': req.query[p]})
+  //   }
   const urlgetnews = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json";
   request(urlgetnews, function (err, response, body) {
     if (!err && response.statusCode < 400) {
       // console.log(body);
+      // console.log(typeof body);
 
       const toJSONbody = JSON.parse(body);
+      // console.log(typeof toJSONbody);
 
       const jsonappnews = toJSONbody.appnews;
+
+      // console.log(jsonappnews.newsitems[0].title);
 
       const jsonTitle = jsonappnews.newsitems[0].title;
       const jsonappid = jsonappnews.newsitems[0].appid;
@@ -119,34 +170,99 @@ app.get("/getnews", (req, res) => {
   });
 });
 
-app.post("/logout", function (req, res, next) {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.redirect("/login");
-  });
-});
+// app.("/logout", (req, res, next) => {
+//   req.logOut();
+//   res.redirect("/login");
+//   });
 
 //DB HERE
 app.get("/admin", (req, res) => {
   pool.connect((err, connection) => {
     if (err) throw err;
-    console.log("Connected as ID ");
+    // console.log(req.user.email)
   });
 
-  pool.query(`SELECT * FROM usertable`, (err, results) => {
+  pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
     if (!err) {
-      console.log("inside if, results.rows[0]: ", results.rows);
+      // console.log("inside if, results.rows[0]: ", results.rows);
       // res.render("admin.ejs", { data: results.rows[0] });
-      res.render("admin.ejs", { data: results.rows });
+
+      //Checking to see if the user who is trying to acesss admin panel is superuser.
+      if (req.user.isadmin == true) {
+        res.render("admin.ejs", { data: results.rows, adminuser: req.user.email });
+        // console.log(results.rows);
+      }
+
+      // res.render("admin.ejs", { data: results.rows } );
+      // console.log(results.rows);
+
       // res.render("admin.ejs", { results });
     } else {
+      console.log("You do not have access to this page.");
       console.log("error: ", err);
+      // res.render("/");
     }
 
-    console.log("the data from the user table: \n", results.rows);
+    // console.log("the data from the user table: \n", results.rows);
   });
+});
+
+app.get("/editUser/:id", (req, res) => {
+  console.log(req.params.id);
+
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.params.id],
+    (err, results) => {
+      if (err) console.log(err.stack);
+      else {
+        console.log(results.rows);
+      }
+      // console.log(results);
+      res.render("editUser.ejs", { data: results.rows });
+    }
+  );
+});
+
+app.post("/editUser/:id", (req, res) => {
+  let { steamid, apikey } = req.body;
+
+  console.log(steamid, apikey);
+
+  pool.query(
+    `UPDATE usertable
+    SET steamid = $1, apikey = $2
+    WHERE id = $3`,
+    [steamid, apikey, req.params.id],
+    (err, results) => {
+      if (err) console.log(err.stack);
+      else {
+        res.redirect("/admin");
+        // console.log(results.rows);
+      }
+    }
+  );
+});
+
+app.get("/:id", async (req, res) => {
+  // pool.connect((err, connection) => {
+  //   if (err) throw err;
+  // });
+
+  pool.query(
+    `DELETE FROM usertable
+    WHERE id = $1`,
+    [req.params.id],
+    (err, results) => {
+      console.log("we are here");
+      if (!err) {
+        res.redirect("/admin");
+      } else {
+        console.log(err);
+      }
+    }
+  );
 });
 
 app.post("/register", async (req, res) => {
@@ -222,6 +338,15 @@ app.post(
     failureFlash: true,
   })
 );
+
+app.post("/logout", function (req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/login");
+  });
+});
 
 function checkAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
