@@ -129,30 +129,49 @@ app.get("/getOwnedGames", (req, res) => {
 /*
 * Work in progres, get all your friend's owned games 
 */
-app.get("/getFriendsOwnedGames", (req, res) => {
+app.get("/getFriendsList", (req, res) => {
     
     // query the database to get the logged in user 
   
     // use logged in userID to get friend list 
-    var friendList = [];
-    var friend_games = {};
+
+    // const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
+
+    const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487&relationship=friend&format=json`;
+    // var friendList = []; // stores their steam ids
+    // var friend_games = {};
   
-    // iterate friends list
-    friendList.forEach (element => {
-        console.log(element);
-      
-        // add current friend's game list to dict 
-        var gameList = []; // TODO: populate
-        friend_games[element] = gameList;
-      
-      
-    });
+  request(urlgetFriends, function(err, response, body){
+        
+    if(!err && response.statusCode < 400){
+       console.log(body);
+       console.log(typeof body);
+
+
+       const toJSONbodyFriends = JSON.parse(body);
+
+        //convert the body string into a json file + Select only the first results query:
+       const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
+
+       // currently it returns the first friends steam id in the page
+
+       // we have to loop through every friend get their steamid and then 
+       // call the get playersummaris steam api function 
+       // in order to get their personaname and their avatar in order to display it 
+        
   
-    // return or save list 
-    return friend_games;
-    
-    
-});
+       const stringFriendData = JSON.stringify(jsonFriendData1);
+
+       res.render("getFriendsList.ejs", { stringFriendData });
+
+       //console.log(stringFriendData);
+
+
+      }
+
+  });
+
+})
 
 
 
@@ -281,7 +300,7 @@ app.get("/:id", async (req, res) => {
         res.redirect("/admin");
       }
       else {
-        console.log(err);
+        //console.log(err);
       }
     })
 });
