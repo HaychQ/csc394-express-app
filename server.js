@@ -57,7 +57,7 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-app.get("/getOwnedGames", (req, res) => {
+app.get("/getOwnedGames", checkAuthenticated, (req, res) => {
   pool.connect((err, connection) => {
     if (err) throw err;
   });
