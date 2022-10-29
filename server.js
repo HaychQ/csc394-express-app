@@ -124,6 +124,38 @@ app.get("/getOwnedGames", (req, res) => {
   )
 });
 
+
+
+/*
+* Work in progres, get all your friend's owned games 
+*/
+app.get("/getFriendsOwnedGames", (req, res) => {
+    
+    // query the database to get the logged in user 
+  
+    // use logged in userID to get friend list 
+    var friendList = [];
+    var friend_games = {};
+  
+    // iterate friends list
+    friendList.forEach (element => {
+        console.log(element);
+      
+        // add current friend's game list to dict 
+        var gameList = []; // TODO: populate
+        friend_games[element] = gameList;
+      
+      
+    });
+  
+    // return or save list 
+    return friend_games;
+    
+    
+});
+
+
+
 app.get('/getnews', (req,res) => {
 //  var qParams = [];
 //   for (var p in req.query) {
