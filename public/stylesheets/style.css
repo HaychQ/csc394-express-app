@@ -24,6 +24,14 @@ html {
   font-size: 62.5%;
 }
 
+/* .navbar {
+  font-size: 2rem;
+  color: white;
+  border: 2px solid #0d6efd;
+  padding: 12px;
+  box-shadow: 0px 1px 15px 5px rgb(0 0 0 / 30%);
+} */
+
 .navbar-brand {
   font-size: 2rem;
   color: white;
@@ -453,4 +461,24 @@ td.admin-actions {
 img.game-icon {
   display: block;
   margin: 0 auto;
+}
+
+/*************************************************/
+/* GET FRIENDS */
+/*************************************************/
+/* getnews.ejs - GET GAME NEWS PAGE*/
+.page-header-friends {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-top: 20px;
+}
+
+.navbar {
+  font-size: 2rem;
+  color: white;
+  /* border: 2px solid #0d6efd; */
+  padding: 12px 12px 22px 12px;
+
+  box-shadow: 0px 1px 15px 5px rgb(0 0 0 / 30%);
 }
