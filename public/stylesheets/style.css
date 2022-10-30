@@ -17,6 +17,9 @@ body {
   /* Steam Background */
   background-color: #1b2838;
   color: white;
+
+  /* font-family: "Roboto Slab", serif; */
+  font-family: "Oswald", sans-serif;
 }
 
 html {
@@ -189,6 +192,8 @@ html {
   color: #0d6efd;
   border: 3px solid #0d6efd;
   background-color: rgb(0, 0, 0, 0);
+
+  font-family: "Roboto Slab", serif;
 }
 
 .nav-btn {
@@ -440,8 +445,48 @@ td.admin-actions {
   margin-bottom: 30px;
 }
 
+.custom-table {
+  box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 6px 6px 10px 1px rgba(1, 9, 255, 0.5); */
+  /* box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.5); */
+  /* box-shadow: 6px 6px 10px 1px rgba(206, 206, 206, 0.5); */
+  /* border: 2px solid white; */
+  /* padding: 50px; */
+  /* border-radius: 50%; */
+}
+
+/* Have to style in here because of Bootstrap */
+.table > :not(caption) > * > * {
+  /* padding: 20px; */
+  padding: 10px;
+  /* border-radius: 25px;
+  border-radius: 2px solid white; */
+}
+
+table.custom-table {
+  border: 2px solid #373b3e;
+  /* border: 2px solid white; */
+  /* border-right: 1px solid white;
+  border-bottom: 1px solid white; */
+  padding: 200px;
+  /* border-radius: 50%; */
+}
+/* thead,
+th,
+tr,
+td {
+  padding: 30px;
+} */
+
+.row-hover:hover {
+  transform: scale(1.04);
+  transition: 300ms ease-in-out;
+  overflow-y: hidden;
+}
 .table-header {
-  font-size: 18px;
+  font-size: 22px;
+
+  font-weight: 600;
 }
 
 .description {
@@ -467,7 +512,9 @@ img.game-icon {
 /* GET FRIENDS */
 /*************************************************/
 /* getnews.ejs - GET GAME NEWS PAGE*/
-.page-header-friends {
+.page-header,
+.page-header-friends,
+.page-header-game-news {
   font-size: 36px;
   text-align: center;
   margin-bottom: 30px;
@@ -478,7 +525,7 @@ img.game-icon {
   font-size: 2rem;
   color: white;
   /* border: 2px solid #0d6efd; */
-  padding: 12px 12px 22px 12px;
+  padding: 8px 12px 12px 12px;
 
-  box-shadow: 0px 1px 15px 5px rgb(0 0 0 / 30%);
+  box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3);
 }
