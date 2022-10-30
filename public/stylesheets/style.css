@@ -480,9 +480,10 @@ td {
 
 .row-hover:hover {
   transform: scale(1.04);
-  transition: 300ms ease-in-out;
+  transition: 200ms ease-in-out;
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
 }
+
 .table-header {
   font-size: 22px;
 
