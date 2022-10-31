@@ -25,6 +25,9 @@ body {
 html {
   /* This makes 1rem = 10px */
   font-size: 62.5%;
+
+  /* Hides scrollbars during Container Animations */
+  overflow: hidden;
 }
 
 /* .navbar {
@@ -558,6 +561,225 @@ img.game-icon {
     opacity: 0;
   }
   to {
+    opacity: 1;
+  }
+}
+
+/*************************************************/
+/* INDEX/DASHBOARD */
+/*************************************************/
+/* Will contain all grid-items on screen */
+.navbar-dashboard:hover {
+  /* font-size: 2rem;
+  color: white; */
+  /* border: 2px solid #0d6efd; */
+  /* padding: 8px 12px 12px 12px;
+
+  box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3); */
+  transition: 300ms ease-in-out;
+  box-shadow: 0px 1px 15px 5px rgb(67, 147, 205);
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.page-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* margin-left: 10vw; */
+  margin-left: 15vw;
+  margin-right: 15vw;
+  margin-top: 4vw;
+  position: relative;
+  margin-bottom: 100px;
+}
+
+.page-img {
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 5%;
+
+  width: 80%;
+  height: 50%;
+}
+
+.page-text {
+  text-align: center;
+}
+
+.page-btn {
+  list-style: none;
+  margin: 0 auto;
+  padding: 5px;
+
+  font-size: 16px;
+  font-weight: 700;
+  vertical-align: middle;
+  color: #0d6efd;
+  /* border: 2px solid #0d6efd; */
+  background-color: rgb(0, 0, 0, 0);
+
+  font-family: "Roboto Slab", serif;
+}
+
+.game-news-container,
+.owned-games-container,
+.friends-list-container {
+  display: flex;
+  flex-direction: column;
+  /* opacity: 0; */
+  font-size: 24px;
+  max-width: 400px;
+  max-height: 400px;
+
+  /* background-color: #373b3e; */
+  background-color: #131d2a;
+
+  border-radius: 12px;
+  border: 2px solid #373b3e;
+  box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3);
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.game-news-container:hover,
+.owned-games-container:hover,
+.friends-list-container:hover,
+.admin-container:hover {
+  transition: 300ms ease-in-out;
+  box-shadow: 0px 1px 15px 5px rgb(67, 147, 205);
+}
+
+.fadeInLeft {
+  /* -webkit-animation: fadeInLeft 1.2s both;
+  animation: fadeInLeft 1.2s both; */
+  -webkit-animation: fadeInLeft 1.4s both;
+  animation: fadeInLeft 1.4s both;
+}
+
+.fadeInRight {
+  /* -webkit-animation: fadeInRight 1.2s both;
+  animation: fadeInRight 1.2s both; */
+  -webkit-animation: fadeInRight 1.4s both;
+  animation: fadeInRight 1.4s both;
+}
+
+.fadeInBottom {
+  /* -webkit-animation: fadeInBottom 1.2s both;
+  animation: fadeInBottom 1.2s both; */
+  -webkit-animation: fadeInBottom 1.4s both;
+  animation: fadeInBottom 1.4s both;
+}
+
+/* Goes from LEFT to RIGHT */
+@-webkit-keyframes fadeInLeft {
+  /* 0% OF THE ANIMATION */
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateX(50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
+
+/* Goes from BOTTOM to TOP */
+@-webkit-keyframes fadeInBottom {
+  /* 0% OF THE ANIMATION */
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateY(-50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+
+/* 
+Goes from RIGHT to LEFT
+0px = endpoint, 250px = right/starting point 
+*/
+@-webkit-keyframes fadeInRight {
+  /* 0% OF THE ANIMATION - Starts 250px from the RIGHT*/
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateX(-50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
+
+/* FADE IN ANIMATION/KEYFRAMES */
+.admin-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  row-gap: 15px;
+
+  font-size: 24px;
+  max-width: 70vw;
+  min-height: 400px;
+  /* border: 2px solid #0d6efd; */
+  /* margin: 0 auto; */
+  margin-left: 15vw;
+  margin-top: 2vw;
+
+  background-color: #131d2a;
+
+  border-radius: 12px;
+  border: 2px solid #373b3e;
+  box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3);
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.admin-btn {
+  width: 25%;
+}
+
+/* TESTING FADE IN */
+.fade-in {
+  /* COMPLETES FADE IN 5 SECS */
+  animation: fadeIn 3s;
+  -webkit-animation: fadeIn 3s;
+  -moz-animation: fadeIn 3s;
+  -o-animation: fadeIn 3s;
+  -ms-animation: fadeIn 3s;
+}
+
+/* WILL BE USED TO FADE IN OUR INTRO AND ABOUT SECTION */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }

@@ -57,10 +57,16 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-// Added to work on design, could be commented out if not needed
+/*************************************************************/
+// DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
 app.get("/friendsplaceholder", (req, res) => {
   res.render("friendsplaceholder.ejs");
 });
+// Added to work on design, could be commented out if not needed
+app.get("/indexplaceholder", (req, res) => {
+  res.render("indexplaceholder.ejs");
+});
+/*************************************************************/
 
 app.get("/getOwnedGames", checkAuthenticated, (req, res) => {
   pool.connect((err, connection) => {
@@ -125,50 +131,42 @@ app.get("/getOwnedGames", checkAuthenticated, (req, res) => {
 });
 
 /*
-* Work in progres, get all your friend's owned games 
-*/
+ * Work in progres, get all your friend's owned games
+ */
 app.get("/getFriendsList", (req, res) => {
-    
-    // query the database to get the logged in user 
-  
-    // use logged in userID to get friend list 
+  // query the database to get the logged in user
 
-    // const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
+  // use logged in userID to get friend list
 
-    const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487&relationship=friend&format=json`;
-    // var friendList = []; // stores their steam ids
-    // var friend_games = {};
-  
-  request(urlgetFriends, function(err, response, body){
-        
-    if(!err && response.statusCode < 400){
-       console.log(body);
-       console.log(typeof body);
+  // const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
 
+  const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487&relationship=friend&format=json`;
+  // var friendList = []; // stores their steam ids
+  // var friend_games = {};
 
-       const toJSONbodyFriends = JSON.parse(body);
+  request(urlgetFriends, function (err, response, body) {
+    if (!err && response.statusCode < 400) {
+      console.log(body);
+      console.log(typeof body);
 
-        //convert the body string into a json file + Select only the first results query:
-       const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
+      const toJSONbodyFriends = JSON.parse(body);
 
-       // currently it returns the first friends steam id in the page
+      //convert the body string into a json file + Select only the first results query:
+      const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
 
-       // we have to loop through every friend get their steamid and then 
-       // call the get playersummaris steam api function 
-       // in order to get their personaname and their avatar in order to display it 
-        
-  
-       const stringFriendData = JSON.stringify(jsonFriendData1);
+      // currently it returns the first friends steam id in the page
 
-       res.render("getFriendsList.ejs", { stringFriendData });
+      // we have to loop through every friend get their steamid and then
+      // call the get playersummaris steam api function
+      // in order to get their personaname and their avatar in order to display it
 
-       //console.log(stringFriendData);
+      const stringFriendData = JSON.stringify(jsonFriendData1);
 
+      res.render("getFriendsList.ejs", { stringFriendData });
 
-      }
-
+      //console.log(stringFriendData);
+    }
   });
-
 });
 
 app.get("/getnews", (req, res) => {
@@ -287,8 +285,7 @@ app.get("/:id", async (req, res) => {
       console.log("we are here");
       if (!err) {
         res.redirect("/admin");
-      }
-      else {
+      } else {
         //console.log(err);
       }
     }

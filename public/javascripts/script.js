@@ -272,3 +272,17 @@ const addUserIntoTable = () => {
 
 // Renders 10 cells
 // addUserIntoTable();
+
+// ADDS Fade effect when we reach the CLASS IN DOC ON SCROLL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    // If classes ARE INTERSECTING then we will ADD BACK IN fade class
+    if (entry.isIntersecting) {
+      document.querySelectorAll(".animated")[0].classList.add("fadeInLeft", "display");
+      document.querySelectorAll(".animated")[1].classList.add("fadeInBottom", "display");
+      document.querySelectorAll(".animated")[2].classList.add("fadeInRight", "display");
+    }
+  });
+});
+
+observer.observe(document.querySelector(".page-container"));
