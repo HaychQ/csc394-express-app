@@ -28,7 +28,7 @@
   <body>
     <!-- NAVIGATION MENU -->
     <!-- <nav class="navbar navbar-expand-lg bg-light"> -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-dashboard">
       <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
         <span class="group">Group 4 - Steam API</span>
@@ -45,15 +45,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="/getnews" class="btn btn-primary nav-btn">Game News</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
               <a href="/getownedgames" class="btn btn-primary nav-btn">Owned Games</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
               <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <form action="/logout?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-primary nav-btn">Log Out</button>
@@ -64,49 +64,46 @@
       </div>
     </nav>
 
-    <!-- steamid, relationship, friend, friend_since -->
-    <h1 class="page-header-friends fade-in">User Friends List</h1>
-    <div class="table-responsive-xxl center-table fade-in">
-      <!-- <table class="table table-hover align-middle custom-table"> -->
-      <table class="table align-middle custom-table">
-        <thead>
-          <!-- Header -->
-          <tr>
-            <th scope="col" class="table-header table-dark">SteamID</th>
-            <th scope="col" class="table-header table-dark">Relationship</th>
-            <th scope="col" class="table-header table-dark">Friend Since</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Row 1 -->
-          <tr class="row-hover">
-            <td class="api-text table-dark">SteamID_placeholder</td>
-            <td class="api-text table-dark">Relationship_placeholder</td>
-            <td class="api-text table-dark">Friend Since_placeholder</td>
-          </tr>
+    <div class="dashboard-container">
+      <!-- <div class="admin-container fade-in">
+        <h1>Admin items here</h1>
+        <a href="/admin" class="btn btn-primary nav-btn admin-btn">Admin P ortal</a>
+      </div> -->
 
-          <!-- Row 1 -->
-          <tr class="row-hover">
-            <!-- <td class="api-text table-dark">SteamID_placeholder</td> -->
-            <td class="api-text table-dark">SteamID_placeholder</td>
-            <td class="api-text table-dark">Relationship_placeholder</td>
-            <td class="api-text table-dark">Friend Since_placeholder</td>
-          </tr>
-          <!-- Row 1 -->
-          <tr class="row-hover">
-            <td class="api-text table-dark">SteamID_placeholder</td>
-            <td class="api-text table-dark">Relationship_placeholder</td>
-            <td class="api-text table-dark">Friend Since_placeholder</td>
-          </tr>
-          <!-- Row 1 -->
-          <tr class="row-hover">
-            <td class="api-text table-dark">SteamID_placeholder</td>
-            <td class="api-text table-dark">Relationship_placeholder</td>
-            <td class="api-text table-dark">Friend Since_placeholder</td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Three Link Containers -->
+      <div class="page-container">
+        <div class="animated game-news-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Get the most recent game news</p>
+          <li class="page-btn">
+            <a href="/getnews" class="btn btn-primary nav-btn page-btn">Game News</a>
+          </li>
+        </div>
+        <div class="animated owned-games-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Display your owned games on Steam</p>
+          <li class="page-btn">
+            <a href="/getownedgames" class="btn btn-primary nav-btn page-btn">Owned Games</a>
+          </li>
+        </div>
+        <div class="animated friends-list-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Display your friends list on Steam</p>
+          <li class="page-btn">
+            <a href="/friendsplaceholder" class="btn btn-primary nav-btn page-btn">Friends List</a>
+          </li>
+        </div>
+      </div>
     </div>
+
+    <!-- <div class="dashboard-container">
+      <div class="admin-container">admin</div>
+      <div class="page-container">
+        <div class="animated fadeInLeft game-news-container">Game News</div>
+        <div class="owned-games-container">Owned Games</div>
+        <div class="friends-list-container">Friends List</div>
+      </div>
+    </div> -->
 
     <!-- BOOTSTRAP JS -->
     <script
@@ -119,7 +116,3 @@
     <script src="./javascripts/script.js"></script>
   </body>
 </html>
-
-<!-- 
-  NOTES: AWAITING Niko to come up with loop to pass to this file, will input the content utilizing loop similar to get owned games. 
-  Each iteration creates a new row of data -->

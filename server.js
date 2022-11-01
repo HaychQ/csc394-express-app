@@ -62,9 +62,14 @@ app.get("/register", checkAuthenticated, (req, res) => {
 app.get("/friendsplaceholder", (req, res) => {
   res.render("friendsplaceholder.ejs");
 });
-// Added to work on design, could be commented out if not needed
-app.get("/indexplaceholder", (req, res) => {
-  res.render("indexplaceholder.ejs");
+// Added to work on design, could be commented out if not needed - ADMIN USERS
+app.get("/indexAdminPlaceholder", (req, res) => {
+  res.render("indexAdminPlaceholder.ejs");
+});
+
+// - User Dashboard - NORMAL USERS(no admin btn or admin container)
+app.get("/indexUserPlaceholder", (req, res) => {
+  res.render("indexUserPlaceholder.ejs");
 });
 /*************************************************************/
 
