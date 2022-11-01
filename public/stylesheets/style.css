@@ -402,10 +402,6 @@ th.admin-row {
   /* border-left: 1px solid #373b3e; */
 }
 
-.admin-element {
-  /* border: 1px solid white; */
-}
-
 .admin-id {
   text-align: center;
 }
@@ -679,6 +675,24 @@ img.game-icon {
   animation: fadeInBottom 1.4s both;
 }
 
+@keyframes fadeInLeft {
+  /* 0% OF THE ANIMATION */
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(-250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateX(50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
 /* Goes from LEFT to RIGHT */
 @-webkit-keyframes fadeInLeft {
   /* 0% OF THE ANIMATION */
@@ -696,6 +710,25 @@ img.game-icon {
   100% {
     opacity: 1;
     -webkit-transform: translateX(0);
+  }
+}
+
+@keyframes fadeInBottom {
+  /* 0% OF THE ANIMATION */
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateY(-50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
   }
 }
 
@@ -719,6 +752,24 @@ img.game-icon {
   }
 }
 
+@keyframes fadeInRight {
+  /* 0% OF THE ANIMATION - Starts 250px from the RIGHT*/
+  0% {
+    opacity: 0;
+    -webkit-transform: translateX(250px);
+  }
+
+  /* Goes 50px PAST destination */
+  50% {
+    -webkit-transform: translateX(-50px);
+  }
+
+  /* 100% OF THE ANIMATION - COMPLETION */
+  100% {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+  }
+}
 /* 
 Goes from RIGHT to LEFT
 0px = endpoint, 250px = right/starting point 
@@ -781,6 +832,14 @@ Goes from RIGHT to LEFT
   -ms-animation: fadeIn 3s;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 /* WILL BE USED TO FADE IN OUR INTRO AND ABOUT SECTION */
 @-webkit-keyframes fadeIn {
   0% {
