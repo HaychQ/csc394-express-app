@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
         <h1>Admin Panel</h1>
-        <h2>Hello Admin User</h2>
+        <!-- <h2>Hello Admin User</h2> -->
         <button
           class="navbar-toggler"
           type="button"
@@ -71,7 +71,7 @@
             <th class="admin-header" scope="col">#</th>
             <th class="admin-header" scope="col">Email</th>
             <th class="admin-header" scope="col">Password</th>
-            <th class="admin-header" scope="col">Steam User ID</th>
+            <th class="admin-header" scope="col">User Steam ID</th>
             <th class="admin-header" scope="col">Steam API Key</th>
             <th class="admin-header" scope="col">Action</th>
           </tr>
@@ -87,10 +87,18 @@
             <td class="admin-apikey"><%= user.apikey %></td>
             <td class="admin-actions">
               <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
-              <a href="/editUser/<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"
+              <a
+                href="/editUser/<%= user.id %>"
+                type="button"
+                class="btn btn-outline btn-small action-btn"
+                title="Edit User Steam ID or Steam API Key"
                 ><i class="bi bi-pencil"></i> Edit User</a
               >
-              <a href="<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"
+              <a
+                href="<%= user.id %>"
+                type="button"
+                class="btn btn-outline btn-small action-btn"
+                title="Delete User Record From Database"
                 ><i class="bi bi-person-x"></i> Delete</a
               >
             </td>
