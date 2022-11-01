@@ -420,7 +420,7 @@ td.admin-actions {
   display: flex;
   column-gap: 6px;
   padding: 10px 10px 10px 10px;
-  width: 300px;
+  width: 220px;
 }
 
 .action-btn {
@@ -450,12 +450,6 @@ td.admin-actions {
 
 .custom-table {
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
-  /* box-shadow: 6px 6px 10px 1px rgba(1, 9, 255, 0.5); */
-  /* box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.5); */
-  /* box-shadow: 6px 6px 10px 1px rgba(206, 206, 206, 0.5); */
-  /* border: 2px solid white; */
-  /* padding: 50px; */
-  /* border-radius: 50%; */
 }
 
 /* Have to style in here because of Bootstrap */
@@ -487,6 +481,12 @@ td {
   box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
 }
 
+.row-hover-admin:hover {
+  transform: scale(1.02);
+  transition: 200ms ease-in-out;
+  box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
+}
+
 .table-header {
   font-size: 22px;
 
@@ -504,6 +504,13 @@ td {
 .center-table {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.center-table-admin {
+  /* max-width: 80vw; */
+  max-width: 1500px;
+  margin: 0 auto;
+  padding-top: 100px;
 }
 
 /* getOwnedGames */

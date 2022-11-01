@@ -25,7 +25,7 @@
       <div class="container-fluid">
         <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
         <h1>Admin Panel</h1>
-        <h2> Hello Admin User</h2>
+        <h2>Hello Admin User</h2>
         <button
           class="navbar-toggler"
           type="button"
@@ -59,8 +59,10 @@
     </nav>
 
     <!-- ADMIN PANEL CODE -->
-    <div class="container pt-5 pb-5">
-      <table id="myTable" class="table table-dark table-hover">
+    <!-- <div class="center-table"> -->
+    <div class="table-responsive-xxl fade-in center-table-admin">
+      <!-- <div class="table-responsive-xxl fade-in"> -->
+      <table class="table table-dark align-middle custom-table">
         <!-- <table class="table table-light table-hover"> -->
         <!-- <h1>Admin Panel</h1> -->
         <thead>
@@ -77,7 +79,7 @@
         <tbody>
           <!-- LOOPS THROUGH ALL USERS OBJECTS -->
           <% for(var user of data) { %>
-          <tr class="user-row">
+          <tr class="user-row row-hover-admin">
             <th scope="row" class="admin-row"><%= user.id %></th>
             <td class="admin-email"><%= user.email %></td>
             <td class="admin-password"><%= user.password %></td>
@@ -85,15 +87,19 @@
             <td class="admin-apikey"><%= user.apikey %></td>
             <td class="admin-actions">
               <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
-              <a href="/editUser/<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-pencil"></i>  Edit User</a>
-              <a href="<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-person-x"></i> Delete</a>
+              <a href="/editUser/<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"
+                ><i class="bi bi-pencil"></i> Edit User</a
+              >
+              <a href="<%= user.id %>" type="button" class="btn btn-outline btn-small action-btn"
+                ><i class="bi bi-person-x"></i> Delete</a
+              >
             </td>
           </tr>
           <% } %>
         </tbody>
       </table>
     </div>
-
+    <!-- </div> -->
     <!-- BOOTSTRAP JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
