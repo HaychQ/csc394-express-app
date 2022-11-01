@@ -14,7 +14,9 @@ const { json } = require("express");
 
 initializePassport(passport);
 
-// Middleware
+//SUPER USER ACCOUNT DETAILS:
+//Email: user@email.com
+//Password: password
 
 // Parses details from a form
 app.set("view engine", "ejs");
@@ -68,8 +70,8 @@ app.get("/indexAdminPlaceholder", (req, res) => {
 });
 
 // - User Dashboard - NORMAL USERS(no admin btn or admin container)
-app.get("/indexUserPlaceholder", (req, res) => {
-  res.render("indexUserPlaceholder.ejs");
+app.get("/indexPlaceholder", (req, res) => {
+  res.render("indexPlaceholder.ejs");
 });
 /*************************************************************/
 
