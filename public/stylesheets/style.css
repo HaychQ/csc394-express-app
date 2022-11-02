@@ -27,7 +27,7 @@ html {
   font-size: 62.5%;
 
   /* Hides scrollbars during Container Animations */
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* .navbar {
