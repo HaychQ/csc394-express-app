@@ -8,6 +8,18 @@
 </head>
 <body>
     <h1>Hello guys its me Niko</h1>
-    <h2><%= stringFriendData %></h2>
+    
+    <table>
+        <thead>
+          <th>Index</th>
+          <th>Steam Id</th>
+        </thead>
+        <% for(var i=0; i < friendsListIds.length; i++) { %>
+        <tr>
+          <td class="api-text table-dark"><%= i %></td>
+          <td class="api-text table-dark"><%= friendsListIds[i] %></td>
+        </tr>
+        <% } %>
+      </table>
 </body>
 </html>

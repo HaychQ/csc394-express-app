@@ -171,6 +171,8 @@ app.get("/getFriendsList", (req, res) => {
   // var friendList = []; // stores their steam ids
   // var friend_games = {};
 
+  const friendsListIds = [];
+
   request(urlgetFriends, function (err, response, body) {
     if (!err && response.statusCode < 400) {
       // console.log(body);
@@ -187,7 +189,7 @@ app.get("/getFriendsList", (req, res) => {
       const friendsList = toJSONbodyFriends.friendslist.friends;
       console.log(friendsList[5].steamid);
 
-      const friendsListIds = [];
+      
       const friendsListArr = [];
 
       // This is length of friends list
@@ -201,64 +203,22 @@ app.get("/getFriendsList", (req, res) => {
 
       for (var i=0; i < friendsLength; i++){
 
-        console.log(i);
+        // console.log(i);
         var currSteamID = toJSONbodyFriends.friendslist.friends[i].steamid
-        console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
-        console.log(currSteamID);
+        // console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
+        // console.log(currSteamID);
         // var urlgetFriendSummary = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${friendsList[i].steamid}`;
         PUSH(friendsListIds, currSteamID);
-        console.log(friendsListIds);
 
-        //request(urlgetFriendSummary, function(err, response, body) {
-        //  if (!err && response.statusCode < 400) {
-            // console.log(body);
-            // console.log(typeof body);
+        }
 
-
-            // if (i == 4) {
-
-            //   PUSH(friendsListArr,body);
-            //   console.log(friendsListArr.length);
-            //   console.log(friendsListArr);
-
-            //   const stringFriendData = JSON.stringify(jsonFriendData1);
-            //   res.render("getFriendsList.ejs", { stringFriendData });
-            // }
-
-            // else{
-            //   PUSH(friendsListArr, body);
-            //   console.log(i);
-            // }
-          
-            // friendsListArr = JSON.parse("[" + body + "]");
-
-            // const toJSONbodyFriendSummary = JSON.parse(body);
-            // console.log(toJSONbodyFriendSummary);
-            
-
-            // const FriendSummaryFullData = (toJSONbodyFriendSummary.response);
-            // console.log(FriendSummaryFullData.players[0]);
-            // console.log(FriendSummaryFullData);
-
-            // console.log(FriendSummaryFullData);
-            // friendsListArr.push(FriendSummaryFullData);
-            // console.log(friendsListArr);
-            // console.log(FriendSummaryFullData);
-
-            // stringFriendSummary = JSON.stringify(FriendSummaryFullData);
-            // console.log(stringFriendSummary);
-
-
-
-            // console.log(friendsListArr);
-
-          }
+          // console.log(friendsListIds);
           
         
         // console.log(urlgetFriendSummary);
       }
 
-      console.log(friendsListIds);
+      
 
       // if this console log is correct then you should be able to put the async.each here
       // figure out how to get the right api call since you need to pass the id to the call
@@ -281,13 +241,14 @@ app.get("/getFriendsList", (req, res) => {
       // call the get playersummaris steam api function
       // in order to get their personaname and their avatar in order to display it
 
+
       
+      //This console log displays all the Steam IDs
+      // console.log(friendsListIds);
 
-      const stringFriendData = JSON.stringify(jsonFriendData1);
-
-      res.render("getFriendsList.ejs", { stringFriendData });
-
-      //console.log(stringFriendData);
+      // const stringFriendData = JSON.stringify(jsonFriendData1);
+      // I am now passing the array to the web page and it will display in a table so that we can visibly see all the steam IDs being printed.
+      res.render("getFriendsList.ejs", { friendsListIds });
   });
 });
 //});
