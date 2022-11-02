@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 const request = require("request");
 const PORT = process.env.PORT || 3000;
-
+const fetch = require("node-fetch");
 const initializePassport = require("./passport-config");
 const { json } = require("express");
 
@@ -63,18 +63,24 @@ function PUSH(Array, string) {
   Array.push(string);
 }
 
-function friendApiCall(urlApi, cb) {
-  request(urlApi, function (err, response, body) {
-    if (err) {
-      console.log("error");
-      cb(err);
-    }
-    else if (!err && response.statusCode < 400) {
-      var friendSummary = json.parse(body);
-      PUSH(friendsListArr, friendSummary)
-    }
+async function friendApiCall(urlApi) {
+  console.log('I am in the friendApiCall outside');
+  const body = await fetch(urlApi);
+  console.log(body);
+  summary = JSON.parse(body);
+  return JSON.stringify(summary);
+}
 
-  });
+
+async function idParser(array, targetArray){
+  array.forEach(async(i) => {
+    const url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${array[i]}`;
+    const res = await friendApiCall(url);
+    console.log(res);
+    PUSH(targetArray, res);
+    console.log(targetArray);
+
+  })
 }
 
 /*************************************************************/
@@ -190,7 +196,7 @@ app.get("/getFriendsList", (req, res) => {
       console.log(friendsList[5].steamid);
 
       
-      const friendsListArr = [];
+      //const friendsListArr = [];
 
       // This is length of friends list
       var friendsLength = toJSONbodyFriends.friendslist.friends.length
@@ -217,8 +223,11 @@ app.get("/getFriendsList", (req, res) => {
         
         // console.log(urlgetFriendSummary);
       }
-
       
+      const friendsListArr = {}
+      idParser(friendsListIds, friendsListArr);
+      //const friendsListArr = {}
+      console.log(friendsListArr)
 
       // if this console log is correct then you should be able to put the async.each here
       // figure out how to get the right api call since you need to pass the id to the call
@@ -241,6 +250,7 @@ app.get("/getFriendsList", (req, res) => {
       // call the get playersummaris steam api function
       // in order to get their personaname and their avatar in order to display it
 
+      
 
       
       //This console log displays all the Steam IDs
