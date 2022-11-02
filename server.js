@@ -63,6 +63,20 @@ function PUSH(Array, string) {
   Array.push(string);
 }
 
+function friendApiCall(urlApi, cb) {
+  request(urlApi, function (err, response, body) {
+    if (err) {
+      console.log("error");
+      cb(err);
+    }
+    else if (!err && response.statusCode < 400) {
+      var friendSummary = json.parse(body);
+      PUSH(friendsListArr, friendSummary)
+    }
+
+  });
+}
+
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
 app.get("/friendsplaceholder", (req, res) => {
@@ -173,19 +187,30 @@ app.get("/getFriendsList", (req, res) => {
       const friendsList = toJSONbodyFriends.friendslist.friends;
       console.log(friendsList[5].steamid);
 
+      const friendsListIds = [];
       const friendsListArr = [];
 
       // This is length of friends list
-      // toJSONbodyFriends.friendslist.friends.length
+      var friendsLength = toJSONbodyFriends.friendslist.friends.length
+      console.log(friendsLength)
+      // replace this loop with an async.each call since it doesnt matter the order that it gets inserted in
+      // and since you made an api call function you can probably just replace this loop
+      
+      // use this loop in order to get an array of steamids then pass it to an async.each call
 
-      for (var i=0; i < 5; i++){
+
+      for (var i=0; i < friendsLength; i++){
 
         console.log(i);
-        
-        // console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
-        const urlgetFriendSummary = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${friendsList[i].steamid}`;
-        request(urlgetFriendSummary, function(err, response, body) {
-          if (!err && response.statusCode < 400) {
+        var currSteamID = toJSONbodyFriends.friendslist.friends[i].steamid
+        console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
+        console.log(currSteamID);
+        // var urlgetFriendSummary = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${friendsList[i].steamid}`;
+        PUSH(friendsListIds, currSteamID);
+        console.log(friendsListIds);
+
+        //request(urlgetFriendSummary, function(err, response, body) {
+        //  if (!err && response.statusCode < 400) {
             // console.log(body);
             // console.log(typeof body);
 
@@ -229,11 +254,18 @@ app.get("/getFriendsList", (req, res) => {
 
           }
           
-        })
+        
         // console.log(urlgetFriendSummary);
       }
 
-      console.log(friendsListArr);
+      console.log(friendsListIds);
+
+      // if this console log is correct then you should be able to put the async.each here
+      // figure out how to get the right api call since you need to pass the id to the call
+      // try using another loop and the try to make an async call on the id array
+      // could also use .map or something with promises
+
+      
 
       // console.log(friendsListArr);
 
@@ -256,9 +288,9 @@ app.get("/getFriendsList", (req, res) => {
       res.render("getFriendsList.ejs", { stringFriendData });
 
       //console.log(stringFriendData);
-    }
   });
 });
+//});
 
 app.get("/getnews", (req, res) => {
   //  var qParams = [];
