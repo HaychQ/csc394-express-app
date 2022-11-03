@@ -8,18 +8,30 @@
 </head>
 <body>
     <h1>Hello guys its me Niko</h1>
-    
-    <table>
+    <h2> <%= friends_summaries %> </h2>
+    <!-- <%= loc =  playerArr %> -->
+      <table>
         <thead>
           <th>Index</th>
           <th>Steam Id</th>
+          <th>Steam Username</th>
+          <th>Profile Url</th>
+          <th>Avatar</th>
         </thead>
-        <% for(var i=0; i < friendsListIds.length; i++) { %>
+        <% for(var i=0; i < loc.length; i++) { %>
         <tr>
-          <td class="api-text table-dark"><%= i %></td>
-          <td class="api-text table-dark"><%= friendsListIds[i] %></td>
+          <td class="api-text table-dark"><%= i + 1 %></td>
+          <td class="api-text table-dark"><%= loc[i].steamid %></td>
+          <td class="api-text table-dark"><%= loc[i].personaname %></td>
+          <td class="api-text table-dark"><%= loc[i].profileurl %></td>
+          <td class="api-text table-dark"><%= loc[i].avatarmedium %></td>
         </tr>
         <% } %>
       </table>
+    </table>
+
+
+    
+
 </body>
 </html>

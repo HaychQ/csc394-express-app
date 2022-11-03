@@ -278,6 +278,8 @@ app.get("/getFriendsList", async (req, res) => {
       });
     });
 
+    const playerArr = [];
+
   // iterate thru friend list
   var friends_length = response.friendslist.friends.length;
   for (var i = 0; i < friends_length; i++) {
@@ -294,6 +296,8 @@ app.get("/getFriendsList", async (req, res) => {
         });
       });
     const player = response2.response.players[0];
+    playerArr.push(player);
+    
 
     // add summary info to dict
     var player_summary = {};
@@ -303,8 +307,13 @@ app.get("/getFriendsList", async (req, res) => {
     friends_summaries.set(steamID, player_summary);
   }
 
-  console.log(friends_summaries);
+  // console.log(typeof playerArr);
+
+  // console.log(friends_summaries[0]);
+  ;
   console.log("There are " + friends_length + " friends shown above ^");
+
+  res.render("getFriendsList.ejs", {friends_summaries, playerArr});
 });
 
 app.get("/getnews", (req, res) => {
