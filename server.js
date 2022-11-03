@@ -264,8 +264,10 @@ app.get("/getFriendsList", (req, res) => {
 //});
 */
 
+
+
 app.get("/getFriendsList", async (req, res) => {
-  var friends_games = new Map();
+  var friends_summaries = new Map();
 
   // get list of friends 
   const friends = new Map(); // steamID:[games]
@@ -287,9 +289,9 @@ app.get("/getFriendsList", async (req, res) => {
   for (var i = 0; i < friends_length; i++){
     var steamID = response.friendslist.friends[i].steamid;
 
-    // get friends games 
-    const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=${steamID}&include_appinfo=true&format=json`;
-    const response2 = await fetch(urlgetGames, options)
+    // get friend summaries   
+    const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
+    const response2 = await fetch(urlgetSummary, options)
     .then(res => res.json())
     .catch(e => {
         console.error({
@@ -297,26 +299,22 @@ app.get("/getFriendsList", async (req, res) => {
           error: e,
       });
     });
-    
-    // iterate thru games
-    var games_length = response2.response.game_count;
-    if (games_length > 0) {
-      var games = [];
-      for (var j = 0; j < games_length; j++) {
-          var game = response2.response.games[j].appid;
-          games.push(game);
-      }
-    }
+    const player = response2.response.players[0];
 
-    // add player and games to structure 
-    friends_games.set(steamID, games);  
+    // add summary info to dict 
+    var player_summary = {};
+    player_summary["personaname"] = player.personaname;
+    player_summary["profileurl"] = player.profileurl;
+    player_summary["avatar"] = player.avatarmedium;
+    friends_summaries.set(steamID, player_summary);
 
   }
 
-  console.log(friends_games);
+  console.log(friends_summaries);
   console.log("There are " + friends_length + " friends shown above ^");
   
 });
+
 
 
 app.get("/getnews", (req, res) => {
