@@ -163,9 +163,9 @@ app.get("/getOwnedGames", (req, res) => {
   );
 });
 
+
 /*
- * Work in progres, get all your friend's owned games
- */
+ * OLD CODE
 app.get("/getFriendsList", (req, res) => {
   // query the database to get the logged in user
 
@@ -262,6 +262,62 @@ app.get("/getFriendsList", (req, res) => {
   });
 });
 //});
+*/
+
+app.get("/getFriendsList", async (req, res) => {
+  var friends_games = new Map();
+
+  // get list of friends 
+  const friends = new Map(); // steamID:[games]
+  const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487&relationship=friend&format=json`;  
+  const options = {
+    "method" : "GET",
+  };
+  const response = await fetch(urlgetFriends, options)
+    .then(res => res.json())
+    .catch(e => {
+        console.error({
+          "message" : "oh noes",
+          error: e,
+      });
+  });
+
+  // iterate thru friend list
+  var friends_length = response.friendslist.friends.length;
+  for (var i = 0; i < friends_length; i++){
+    var steamID = response.friendslist.friends[i].steamid;
+
+    // get friends games 
+    const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=${steamID}&include_appinfo=true&format=json`;
+    const response2 = await fetch(urlgetGames, options)
+    .then(res => res.json())
+    .catch(e => {
+        console.error({
+          "message" : "oh noes",
+          error: e,
+      });
+    });
+    
+    // iterate thru games
+    var games_length = response2.response.game_count;
+    if (games_length > 0) {
+      var games = [];
+      for (var j = 0; j < games_length; j++) {
+          var game = response2.response.games[j].appid;
+          games.push(game);
+      }
+    }
+
+    // add player and games to structure 
+    friends_games.set(steamID, games);  
+
+  }
+
+  console.log(friends_games);
+  console.log("There are " + friends_length + " friends shown above ^");
+  
+});
+
 
 app.get("/getnews", (req, res) => {
   //  var qParams = [];
