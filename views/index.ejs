@@ -37,15 +37,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="/getnews" class="btn btn-primary nav-btn">Game News</a>
             </li>
             <li class="nav-item">
               <a href="/getownedgames" class="btn btn-primary nav-btn">Owned Games</a>
-            </li>
-            <li class="nav-item">
+            </li> -->
+            <!-- <li class="nav-item">
               <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <form action="/logout?_method=DELETE" method="POST">
                 <button type="submit" class="btn btn-primary nav-btn">Log Out</button>
@@ -55,6 +55,38 @@
         </div>
       </div>
     </nav>
+
+    <div class="dashboard-container">
+      <div class="admin-container fade-in">
+        <h1>Admin items here</h1>
+        <a href="/admin" class="btn btn-primary nav-btn admin-btn">Admin P ortal</a>
+      </div>
+
+      <!-- Three Link Containers -->
+      <div class="page-container">
+        <div class="animated game-news-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Get the most recent game news</p>
+          <li class="page-btn">
+            <a href="/getnews" class="btn btn-primary nav-btn page-btn">Game News</a>
+          </li>
+        </div>
+        <div class="animated owned-games-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Display your owned games on Steam</p>
+          <li class="page-btn">
+            <a href="/getownedgames" class="btn btn-primary nav-btn page-btn">Owned Games</a>
+          </li>
+        </div>
+        <div class="animated friends-list-container">
+          <img src="/images/placeholder.jpg" class="page-img" />
+          <p class="page-text">Display your friends list on Steam</p>
+          <li class="page-btn">
+            <a href="/friendsplaceholder" class="btn btn-primary nav-btn page-btn">Friends List</a>
+          </li>
+        </div>
+      </div>
+    </div>
 
     <!-- BOOTSTRAP JS -->
     <script

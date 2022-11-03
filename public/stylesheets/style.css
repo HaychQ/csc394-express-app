@@ -592,8 +592,8 @@ img.game-icon {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   /* margin-left: 10vw; */
-  margin-left: 15vw;
-  margin-right: 15vw;
+  margin-left: 13vw;
+  margin-right: 10vw;
   margin-top: 4vw;
   position: relative;
   margin-bottom: 100px;
@@ -634,8 +634,10 @@ img.game-icon {
   flex-direction: column;
   /* opacity: 0; */
   font-size: 24px;
-  max-width: 400px;
+  max-width: 435px;
   max-height: 400px;
+
+  /* row-gap: 35px; */
 
   /* background-color: #373b3e; */
   background-color: #131d2a;

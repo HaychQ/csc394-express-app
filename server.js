@@ -278,7 +278,7 @@ app.get("/getFriendsList", async (req, res) => {
       });
     });
 
-    const playerArr = [];
+  const playerArr = [];
 
   // iterate thru friend list
   var friends_length = response.friendslist.friends.length;
@@ -297,7 +297,6 @@ app.get("/getFriendsList", async (req, res) => {
       });
     const player = response2.response.players[0];
     playerArr.push(player);
-    
 
     // add summary info to dict
     var player_summary = {};
@@ -310,10 +309,9 @@ app.get("/getFriendsList", async (req, res) => {
   // console.log(typeof playerArr);
 
   // console.log(friends_summaries[0]);
-  ;
   console.log("There are " + friends_length + " friends shown above ^");
 
-  res.render("getFriendsList.ejs", {friends_summaries, playerArr});
+  res.render("getFriendsList.ejs", { friends_summaries, playerArr });
 });
 
 app.get("/getnews", (req, res) => {
