@@ -69,8 +69,8 @@ app.get("/friendsplaceholder", (req, res) => {
   res.render("friendsplaceholder.ejs");
 });
 // Added to work on design, could be commented out if not needed - ADMIN USERS
-app.get("/indexAdminPlaceholder", (req, res) => {
-  res.render("indexAdminPlaceholder.ejs");
+app.get("/indexPlaceholderAdmin", (req, res) => {
+  res.render("indexPlaceholderAdmin.ejs");
 });
 
 // - User Dashboard - NORMAL USERS(no admin btn or admin container)
@@ -178,58 +178,41 @@ app.get("/getFriendsList", (req, res) => {
       // This is length of friends list
       // toJSONbodyFriends.friendslist.friends.length
 
-      for (var i=0; i < 5; i++){
-
+      for (var i = 0; i < 5; i++) {
         console.log(i);
-        
+
         // console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
         const urlgetFriendSummary = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${friendsList[i].steamid}`;
-        request(urlgetFriendSummary, function(err, response, body) {
+        request(urlgetFriendSummary, function (err, response, body) {
           if (!err && response.statusCode < 400) {
             // console.log(body);
             // console.log(typeof body);
-
-
             // if (i == 4) {
-
             //   PUSH(friendsListArr,body);
             //   console.log(friendsListArr.length);
             //   console.log(friendsListArr);
-
             //   const stringFriendData = JSON.stringify(jsonFriendData1);
             //   res.render("getFriendsList.ejs", { stringFriendData });
             // }
-
             // else{
             //   PUSH(friendsListArr, body);
             //   console.log(i);
             // }
-          
             // friendsListArr = JSON.parse("[" + body + "]");
-
             // const toJSONbodyFriendSummary = JSON.parse(body);
             // console.log(toJSONbodyFriendSummary);
-            
-
             // const FriendSummaryFullData = (toJSONbodyFriendSummary.response);
             // console.log(FriendSummaryFullData.players[0]);
             // console.log(FriendSummaryFullData);
-
             // console.log(FriendSummaryFullData);
             // friendsListArr.push(FriendSummaryFullData);
             // console.log(friendsListArr);
             // console.log(FriendSummaryFullData);
-
             // stringFriendSummary = JSON.stringify(FriendSummaryFullData);
             // console.log(stringFriendSummary);
-
-
-
             // console.log(friendsListArr);
-
           }
-          
-        })
+        });
         // console.log(urlgetFriendSummary);
       }
 
@@ -238,7 +221,6 @@ app.get("/getFriendsList", (req, res) => {
       // console.log(friendsListArr);
 
       // console.log(FriendSummaryFullData);
-      
 
       // const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
       // console.log(jsonFriendData1);
@@ -248,8 +230,6 @@ app.get("/getFriendsList", (req, res) => {
       // we have to loop through every friend get their steamid and then
       // call the get playersummaris steam api function
       // in order to get their personaname and their avatar in order to display it
-
-      
 
       const stringFriendData = JSON.stringify(jsonFriendData1);
 
