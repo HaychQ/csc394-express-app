@@ -314,6 +314,16 @@ app.get("/getFriendsList", async (req, res) => {
   res.render("getFriendsList.ejs", { friends_summaries, playerArr });
 });
 
+app.get("/getRandomGame", (req, res) => {
+
+  res.render("getRandomGame.ejs");
+})
+
+app.get("/getAchievements", (req, res) => {
+
+  res.render("getAchievements");
+})
+
 app.get("/getnews", (req, res) => {
   //  var qParams = [];
   //   for (var p in req.query) {
