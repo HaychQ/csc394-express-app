@@ -59,9 +59,14 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-function PUSH(Array, string) {
-  Array.push(string);
+function getRandomIndex(max){
+  return Math.floor(Math.random() * max);
+
 }
+
+
+
+/*
 
 async function friendApiCall(urlApi) {
   console.log("I am in the friendApiCall outside");
@@ -80,7 +85,7 @@ async function idParser(array, targetArray) {
     console.log(targetArray);
   });
 }
-
+*/
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
 app.get("/friendsplaceholder", (req, res) => {
@@ -315,9 +320,52 @@ app.get("/getFriendsList", async (req, res) => {
 });
 
 app.get("/getRandomGame", (req, res) => {
+  pool.connect((err, connection) => {
+    if (err) throw err;
+  });
+  
+  // console.log("this is the user id logged in:", [user.id]);
+  
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
+  
+      // const urlgetGames =
+      // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
+      // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
+  
+      const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
+  
+      request(urlgetGames, function (err, response, body) {
+        if (!err && response.statusCode < 400) {
+          // console.log(body);
+          // console.log(typeof body);
+  
+          const toJSONbody = JSON.parse(body);
+          // console.log(typeof toJSONbody);
+          //convert the body string into a json file + Select only the first results query:
+          const jsonGameDataGame = toJSONbody.response.games[getRandomIndex(toJSONbody.response.games.length)];
+          // console.log(jsonGameData0);
+          // console.log(typeof jsonGameData0);
+  
+          const stringGameData = JSON.stringify(jsonGameDataGame);
+          
+          console.log(stringGameData)
 
-  res.render("getRandomGame.ejs");
-})
+          res.render("getRandomGame.ejs");
+        }
+      });
+    }
+  );
+});
 
 app.get("/getAchievements", (req, res) => {
 
