@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit User Page</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
@@ -12,38 +12,61 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-</head>
-<body>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Admin</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Edit User</li>
-        </ol>
-      </nav>
 
+    <!-- OUR CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
+  </head>
+  <body>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item user-nav"><a href="/admin">Admin</a></li>
+        <li class="breadcrumb-item active user-nav" aria-current="page">Edit User</li>
+      </ol>
+    </nav>
+
+    <div class="user-container">
       <% for(var user of data) { %>
 
       <form class="row g-3 needs-validation" method="POST" action="/editUser/<%= user.id %>" novalidate>
-        
-            <div class="col-6">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" value = "<%= user.steamid %>" placeholder="Steam ID" name="steamid">
-                    <label for="floatingInput">Steam ID</label>
-                </div>
-            </div>
-            <div class="col-6">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" id="floatingInput" value = "<%= user.apikey %>" placeholder="API Key" name="apikey">
-                    <label for="floatingInput">API Key</label>
-                </div>
-            </div>
-    
-            <div class="col-6">
-                <button class="btn btn-primary" type="submit">Submit</button>
-            </div>
-        
-    </form>
-    <% } %>
-      
-</body>
+        <div class="col-6">
+          <!-- <div class="form-floating mb-3"> -->
+          <label class="user-form-label" for="user-steamid">SteamID</label>
+          <input
+            type="text"
+            class="form-control user-input-textbox"
+            id="user-steamid"
+            value="<%= user.steamid %>"
+            placeholder="Steam ID"
+            name="steamid"
+          />
+          <!-- <label for="floatingInput">Steam ID</label> -->
+          <!-- </div> -->
+        </div>
+        <div class="col-6">
+          <!-- <div class="form-floating mb-3"> -->
+          <!-- <label for="apikey" class="label-text"
+              >API Key -->
+
+          <label class="user-form-label" for="floatingInput">API Key</label>
+          <input
+            type="text"
+            class="form-control user-input-textbox"
+            id="floatingInput"
+            value="<%= user.apikey %>"
+            placeholder="API Key"
+            name="apikey"
+          />
+          <!-- </div> -->
+        </div>
+
+        <div class="col-6">
+          <a href="/admin" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
+        </div>
+        <div class="col-6">
+          <button class="btn btn-primary nav-btn user-btn" type="submit">Submit</button>
+        </div>
+      </form>
+      <% } %>
+    </div>
+  </body>
 </html>

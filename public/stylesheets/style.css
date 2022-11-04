@@ -414,9 +414,9 @@ th.admin-row {
 td.admin-actions {
   border-right: 1px solid #373b3e;
   display: flex;
+  justify-content: center;
   column-gap: 6px;
   padding: 10px 10px 10px 10px;
-  width: 220px;
 }
 
 .action-btn {
@@ -626,6 +626,64 @@ img.game-icon {
 
   font-family: "Roboto Slab", serif;
 }
+
+/* editUSER PAGE */
+
+.user-container {
+  width: 50vw;
+  margin: 0 auto;
+  margin-top: 10vh;
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  background-color: #131d2a;
+  border-radius: 12px;
+
+  box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3);
+  border: 1px solid rgb(211, 211, 211);
+  /* flex-direction: column; */
+}
+
+.user-container:hover {
+  transition: 300ms ease-in-out;
+  box-shadow: 0px 1px 15px 5px rgb(67, 147, 205);
+}
+
+.user-btn {
+  width: 100%;
+  justify-content: center;
+  align-self: center;
+}
+
+.user-cancel-btn {
+  width: 50%;
+  justify-content: end;
+  /* align-content: flex-end;
+  align-self: flex-end; */
+  justify-content: end;
+  color: #999;
+  border: 2px solid #999;
+}
+
+.label-text {
+  color: white;
+}
+
+.user-form-label {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.user-input-textbox {
+  /* margin-top: 10px; */
+  margin-bottom: 10px;
+}
+
+.user-nav {
+  font-size: 20px;
+}
+
+/****************************************************** */
 
 .game-news-container,
 .owned-games-container,
