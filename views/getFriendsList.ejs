@@ -25,6 +25,16 @@
           <td class="api-text table-dark"><%= loc[i].personaname %></td>
           <td class="api-text table-dark"><%= loc[i].profileurl %></td>
           <td class="api-text table-dark"><%= loc[i].avatarmedium %></td>
+
+          <td class="admin-actions">
+            <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
+            <a
+              href="/compareGames/<%= loc[i].steamid %>"
+              type="button"
+              title="Compare Games"
+              >Compare Games</a
+            >
+
         </tr>
         <% } %>
       </table>
