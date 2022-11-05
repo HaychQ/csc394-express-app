@@ -59,12 +59,9 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-function getRandomIndex(max){
+function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
-
 }
-
-
 
 /*
 
@@ -91,6 +88,14 @@ async function idParser(array, targetArray) {
 app.get("/friendsplaceholder", (req, res) => {
   res.render("friendsplaceholder.ejs");
 });
+
+app.get("/friendslistplaceholder", (req, res) => {
+  res.render("friendslistplaceholder.ejs");
+});
+
+// app.get("/friendsplaceholder", (req, res) => {
+//   res.render("friendsplaceholder.ejs");
+// });
 // Added to work on design, could be commented out if not needed - ADMIN USERS
 app.get("/indexPlaceholderAdmin", (req, res) => {
   res.render("indexPlaceholderAdmin.ejs");
@@ -266,7 +271,6 @@ app.get("/getFriendsList", (req, res) => {
 */
 
 app.get("/getFriendsList", async (req, res) => {
-
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -281,70 +285,67 @@ app.get("/getFriendsList", async (req, res) => {
 
       var friends_summaries = new Map();
 
-  // get list of friends
-  const friends = new Map(); // steamID:[games]
-  const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
-  const options = {
-    method: "GET",
-  };
-  const response = await fetch(urlgetFriends, options)
-    .then((res) => res.json())
-    .catch((e) => {
-      console.error({
-        message: "oh noes",
-        error: e,
-      });
-    });
-
-  const playerArr = [];
-
-  // iterate thru friend list
-  var friends_length = response.friendslist.friends.length;
-  for (var i = 0; i < friends_length; i++) {
-    var steamID = response.friendslist.friends[i].steamid;
-
-    // get friend summaries
-    const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
-    const response2 = await fetch(urlgetSummary, options)
-      .then((res) => res.json())
-      .catch((e) => {
-        console.error({
-          message: "oh noes",
-          error: e,
+      // get list of friends
+      const friends = new Map(); // steamID:[games]
+      const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
+      const options = {
+        method: "GET",
+      };
+      const response = await fetch(urlgetFriends, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
         });
-      });
-    const player = response2.response.players[0];
-    playerArr.push(player);
 
-    // add summary info to dict
-    var player_summary = {};
-    player_summary["personaname"] = player.personaname;
-    player_summary["profileurl"] = player.profileurl;
-    player_summary["avatar"] = player.avatarmedium;
-    friends_summaries.set(steamID, player_summary);
-  }
+      const playerArr = [];
 
-  
-  console.log(playerArr);
-  console.log(typeof playerArr);
+      // iterate thru friend list
+      var friends_length = response.friendslist.friends.length;
+      for (var i = 0; i < friends_length; i++) {
+        var steamID = response.friendslist.friends[i].steamid;
 
-  // console.log(friends_summaries[0]);
-  console.log("There are " + friends_length + " friends shown above ^");
+        // get friend summaries
+        const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
+        const response2 = await fetch(urlgetSummary, options)
+          .then((res) => res.json())
+          .catch((e) => {
+            console.error({
+              message: "oh noes",
+              error: e,
+            });
+          });
+        const player = response2.response.players[0];
+        playerArr.push(player);
 
-  res.render("getFriendsList.ejs", { friends_summaries, playerArr });
+        // add summary info to dict
+        var player_summary = {};
+        player_summary["personaname"] = player.personaname;
+        player_summary["profileurl"] = player.profileurl;
+        player_summary["avatar"] = player.avatarmedium;
+        friends_summaries.set(steamID, player_summary);
+      }
 
+      console.log(playerArr);
+      console.log(typeof playerArr);
 
-    })
-  
+      // console.log(friends_summaries[0]);
+      console.log("There are " + friends_length + " friends shown above ^");
+
+      res.render("getFriendsList.ejs", { friends_summaries, playerArr });
+    }
+  );
 });
 
 app.get("/getRandomGame", (req, res) => {
   pool.connect((err, connection) => {
     if (err) throw err;
   });
-  
+
   // console.log("this is the user id logged in:", [user.id]);
-  
+
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -356,28 +357,28 @@ app.get("/getRandomGame", (req, res) => {
       console.log(results.rows);
       console.log(results.rows[0].steamid);
       console.log(results.rows[0].apikey);
-  
+
       // const urlgetGames =
       // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
       // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
-  
+
       const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
-      
+
       request(urlgetGames, function (err, response, body) {
         if (!err && response.statusCode < 400) {
           // console.log(body);
           // console.log(typeof body);
-  
+
           const toJSONbody = JSON.parse(body);
           // console.log(typeof toJSONbody);
           //convert the body string into a json file + Select only the first results query:
           const jsonGameDataGame = toJSONbody.response.games[getRandomIndex(toJSONbody.response.games.length)];
           // console.log(jsonGameData0);
           // console.log(typeof jsonGameData0);
-  
+
           const stringGameData = JSON.stringify(jsonGameDataGame);
-          
-          console.log(stringGameData)
+
+          console.log(stringGameData);
 
           res.render("getRandomGame.ejs");
         }
@@ -387,8 +388,7 @@ app.get("/getRandomGame", (req, res) => {
 });
 
 app.get("/compareGames/:friendid", async (req, res) => {
-
-    pool.query(
+  pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
     [req.user.id],
@@ -416,19 +416,19 @@ app.get("/compareGames/:friendid", async (req, res) => {
           });
         });
 
-        for(var i = 0; i < responseMyGames.response.games.length; i++){
-          myGameArr.push(responseMyGames.response.games[i]);
-        }
+      for (var i = 0; i < responseMyGames.response.games.length; i++) {
+        myGameArr.push(responseMyGames.response.games[i]);
+      }
 
-        const friendsGameArray = [];
-        const urlGetFriendsGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${req.params.friendid}&include_appinfo=true&format=json`;
+      const friendsGameArray = [];
+      const urlGetFriendsGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${req.params.friendid}&include_appinfo=true&format=json`;
 
-        // console.log(response1.response.games[1]);
-        // console.log(myGameArr);
-        // console.log(typeof myGameArr);
-        // console.log(req.params.friendid);
+      // console.log(response1.response.games[1]);
+      // console.log(myGameArr);
+      // console.log(typeof myGameArr);
+      // console.log(req.params.friendid);
 
-        const responseFriendsGames = await fetch(urlGetFriendsGames, options)
+      const responseFriendsGames = await fetch(urlGetFriendsGames, options)
         .then((res) => res.json())
         .catch((e) => {
           console.error({
@@ -437,41 +437,33 @@ app.get("/compareGames/:friendid", async (req, res) => {
           });
         });
 
-        // var isEmpty = function(obj) {
-        //   return Object.keys(obj).length === 0;
-        // }
+      // var isEmpty = function(obj) {
+      //   return Object.keys(obj).length === 0;
+      // }
 
-        if (isEmpty(responseFriendsGames.response)){
-          console.log("account is private");
+      if (isEmpty(responseFriendsGames.response)) {
+        console.log("account is private");
+      } else {
+        for (var i = 0; i < responseFriendsGames.response.games.length; i++) {
+          friendsGameArray.push(responseFriendsGames.response.games[i]);
         }
+      }
 
-        else {
-          for(var i = 0; i < responseFriendsGames.response.games.length; i++){
-            friendsGameArray.push(responseFriendsGames.response.games[i]);
-          }
-        }
+      // for(var i = 0; i < responseFriendsGames.response.games.length; i++){
+      //   friendsGameArray.push(responseFriendsGames.response.games[i]);
+      // }
 
-        // for(var i = 0; i < responseFriendsGames.response.games.length; i++){
-        //   friendsGameArray.push(responseFriendsGames.response.games[i]);
-        // }
+      res.render("compareGames.ejs", { myGameArr, friendsGameArray });
 
-
-        
-
-        res.render("compareGames.ejs", { myGameArr, friendsGameArray } );
-
-        // console.log(myGameArr[1].appid);
-        console.log("we are here")
+      // console.log(myGameArr[1].appid);
+      console.log("we are here");
     }
   );
-
-  
-})
+});
 
 app.get("/getAchievements/:appid", (req, res) => {
-
   res.render("getAchievements.ejs");
-})
+});
 
 app.get("/getnews", (req, res) => {
   //  var qParams = [];

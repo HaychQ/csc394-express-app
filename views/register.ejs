@@ -15,11 +15,11 @@
     <div class="modal-body">
       <div class="contact-form">
         <!-- <form action="php/action.php" method="POST" class="create-account-form" id="createAccountForm"> -->
-          <ul>
-            <% if(typeof errors != 'undefined') { %> <% errors.forEach(error=> { %>
-              <li><%= error.message %> </li>
-              <% }) %> <% } %>
-          </ul>
+        <ul>
+          <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
+          <li><%= error.message %></li>
+          <% }) %> <% } %>
+        </ul>
         <form class="spacing" action="/register" method="POST">
           <div class="row">
             <!-- USERNAME -->
@@ -30,14 +30,7 @@
             <!-- PASSWORD -->
             <div class="col col-md-12">
               <label for="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                class="form-control modal-textbox"
-                
-              />
+              <input type="password" id="password" name="password" placeholder="Password" class="form-control modal-textbox" />
             </div>
             <!-- SteamId -->
             <div class="col col-md-12">

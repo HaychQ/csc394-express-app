@@ -1,47 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello guys its me Niko</h1>
-    <h2> <%= friends_summaries %> </h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap" rel="stylesheet" />
+
+    <!-- BOOTSTRAP CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx"
+      crossorigin="anonymous"
+    />
+
+    <!-- OUR CSS -->
+    <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
+    <title>Steam API Dashboard</title>
+  </head>
+  <body>
+    <!-- NAVIGATION MENU -->
+    <!-- <nav class="navbar navbar-expand-lg bg-light"> -->
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
+        <span class="group">Group 4 - Steam API</span>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- <li class="nav-item">
+              <a href="/getnews" class="btn btn-primary nav-btn">Game News</a>
+            </li>
+            <li class="nav-item">
+              <a href="/getownedgames" class="btn btn-primary nav-btn">Owned Games</a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
+            </li> -->
+            <li class="nav-item">
+              <a href="/" class="btn btn-primary nav-btn">Go Back To Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <form action="/logout?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-primary nav-btn">Log Out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <h2> <%= friends_summaries %> </h2> -->
     <!-- <%= loc =  playerArr %> -->
-      <table>
+    <div class="table-responsive-xxl center-table fade-in">
+      <table class="table align-middle table-dark custom-table friends-list-table">
         <thead>
-          <th>Index</th>
-          <th>Steam Id</th>
-          <th>Steam Username</th>
-          <th>Profile Url</th>
-          <th>Avatar</th>
+          <tr>
+          <th class="admin-header" scope="col">Index</th>
+          <th class="admin-header" scope="col">Steam Id</th>
+          <th class="admin-header" scope="col">Steam Username</th>
+          <th class="admin-header" scope="col">Profile Url</th>
+          <th class="admin-header" scope="col">Avatar</th>
+          <!-- <th scope="col" class="table-header table-dark">Index</th>
+          <th scope="col" class="table-header table-dark">Steam Id</th>
+          <th scope="col" class="table-header table-dark">Steam Username</th>
+          <th scope="col" class="table-header table-dark">Profile Url</th>
+          <th scope="col" class="table-header table-dark">Avatar</th> -->
+          <th class="admin-header" scope="col">Action</th>
+        </tr>
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
-        <tr>
+        <tr class="row-hover">
           <td class="api-text table-dark"><%= i + 1 %></td>
           <td class="api-text table-dark"><%= loc[i].steamid %></td>
           <td class="api-text table-dark"><%= loc[i].personaname %></td>
           <td class="api-text table-dark"><%= loc[i].profileurl %></td>
-          <td class="api-text table-dark"><%= loc[i].avatarmedium %></td>
-
-          <td class="admin-actions">
+          <td class=" table-dark">
+            <img src=<%= loc[i].avatarmedium %> class="game-icon">
+            </img>
+          </td>
+          <td class="admin-actions friends-list-actions">
             <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
             <a
               href="/compareGames/<%= loc[i].steamid %>"
               type="button"
               title="Compare Games"
-              >Compare Games</a
+              class="btn btn-outline btn-small action-btn friends-list-btn"
+              ><i class="bi bi-person-x"></i>Compare Games</a
             >
 
         </tr>
         <% } %>
       </table>
     </table>
+  </div>
 
+    <!-- BOOTSTRAP JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+      crossorigin="anonymous"
+    ></script>
 
-    
-
-</body>
+    <!-- OUR JS FILE -->
+    <script src="./javascripts/script.js"></script>
+  </body>
 </html>
+
+<!-- 
+  NOTES: AWAITING Niko to come up with loop to pass to this file, will input the content utilizing loop similar to get owned games. 
+  Each iteration creates a new row of data -->
