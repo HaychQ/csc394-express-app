@@ -172,31 +172,48 @@ app.get("/getOwnedGames", (req, res) => {
 });
 
 app.get("/getAchievements/:appid", async (req, res) => {
-  const appid = req.params.appid;
-  const game_achievements = {};
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    async (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
 
-  // get achievements 
-  const urlgetAchievements = `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=${appid}&key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487`;
-  const options = {
-    method: "GET",
-  };
-  const response = await fetch(urlgetAchievements, options)
-    .then((res) => res.json())
-    .catch((e) => {
-      console.error({
-        message: "oh noes",
-        error: e,
+      const appid = req.params.appid;
+      const game_achievements = {};
+
+      // get achievements 
+      const urlgetAchievements = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}`;
+      const options = {
+        method: "GET",
+      };
+      const achieve_response = await fetch(urlgetAchievements, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
+        });
+
+      // iterate thru achievements and store them
+      var game_name = achieve_response.playerstats.gameName;
+      var achievement_list = achieve_response.playerstats.achievements;
+      achievement_list.forEach(function (a) {
+        game_achievements[a.name] = a.achieved;
       });
+      
+      // console.log(game_achievements);
+      console.log(game_name);
+      console.log(achievement_list);
+
+      res.render("getAchievements.ejs", { game_name, achievement_list });
     });
-
-  // iterate thru achievements and store them
-  var achievement_list = response.playerstats.achievements;
-  achievement_list.forEach(function (a) {
-    game_achievements[a.name] = a.achieved;
-  });
-  console.log(game_achievements);
-
-  res.render("getAchievements.ejs", { game_achievements });
 });
 
 
