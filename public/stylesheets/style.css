@@ -371,12 +371,17 @@ html {
 .admin-header {
   text-align: center;
   font-size: 16px;
+  /* font-size: 12px; */
 
   /* Dark Mode */
   color: white;
 
   /* Light Mode */
   /* color: black; */
+}
+
+.table-element {
+  font-size: 16px;
 }
 
 .admin-row,
@@ -395,6 +400,12 @@ html {
   /* color: black; */
 }
 
+th.compare-name,
+td.compare-name {
+  width: 40%;
+  font-size: 16px;
+}
+
 th.admin-row {
   padding-left: 10px;
   padding-right: 10px;
@@ -411,8 +422,7 @@ th.admin-row {
   text-align: center;
 }
 
-td.admin-actions,
-td.friends-list-actions {
+td.admin-actions {
   border-right: 1px solid #373b3e;
   display: flex;
   justify-content: center;
@@ -420,14 +430,11 @@ td.friends-list-actions {
   padding: 10px 10px 10px 10px;
 }
 
-/* td.friends-list-actions {
-  width: fit-content;
-  width: auto;
-} */
+td.friends-list-actions {
+}
 
-.friends-list-btn {
-  /* font-size: 12px; */
-  display: inline-block;
+th.action-friends-list {
+  width: 40%;
 }
 
 .action-btn {
@@ -448,6 +455,10 @@ td.friends-list-actions {
   margin-bottom: 30px;
 }
 
+.margin-top {
+  margin-top: 50px;
+}
+
 /* getnews.ejs - GET GAME NEWS PAGE*/
 .page-footer {
   font-size: 36px;
@@ -460,7 +471,17 @@ td.friends-list-actions {
 }
 
 .friends-list-table {
-  width: 80%;
+  width: 1000px;
+}
+
+.compare-games-table-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.center-table-compare {
+  /* max-width: 800px; */
+  /* margin: 0 auto; */
+  margin: 0 auto;
 }
 
 /* Have to style in here because of Bootstrap */
@@ -518,10 +539,15 @@ td {
 }
 
 .center-table-admin {
-  /* max-width: 80vw; */
   max-width: 1500px;
-  margin: 0 auto;
   padding-top: 100px;
+  margin: 0 auto;
+}
+
+.center-table-friends {
+  max-width: 900px;
+  padding-top: 15px;
+  margin: 0 auto;
 }
 
 /* getOwnedGames */
@@ -554,7 +580,7 @@ img.game-icon {
 
 .fade-in {
   margin-top: 25px;
-  font-size: 21px;
+  font-size: 16px;
   text-align: center;
 
   -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */

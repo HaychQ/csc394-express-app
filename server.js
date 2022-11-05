@@ -381,6 +381,7 @@ app.get("/getRandomGame", (req, res) => {
           console.log(stringGameData);
 
           res.render("getRandomGame.ejs");
+          // res.render("getRandomGame.ejs", { stringGameData });
         }
       });
     }

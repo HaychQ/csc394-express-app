@@ -67,9 +67,10 @@
       </div>
     </nav>
 
+    <h1 class="page-header">Get Friends List</h1>
     <!-- <h2> <%= friends_summaries %> </h2> -->
     <!-- <%= loc =  playerArr %> -->
-    <div class="table-responsive-xxl center-table fade-in">
+    <div class="table-responsive-xxl center-table-friends fade-in">
       <table class="table align-middle table-dark custom-table friends-list-table">
         <thead>
           <tr>
@@ -83,7 +84,7 @@
           <th scope="col" class="table-header table-dark">Steam Username</th>
           <th scope="col" class="table-header table-dark">Profile Url</th>
           <th scope="col" class="table-header table-dark">Avatar</th> -->
-          <th class="admin-header" scope="col">Action</th>
+          <th class="admin-header action-friends-list" scope="col">Action</th>
         </tr>
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
@@ -96,13 +97,13 @@
             <img src=<%= loc[i].avatarmedium %> class="game-icon">
             </img>
           </td>
-          <td class="admin-actions friends-list-actions">
+          <td class="action-friends-list">
             <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
             <a
               href="/compareGames/<%= loc[i].steamid %>"
               type="button"
               title="Compare Games"
-              class="btn btn-outline btn-small action-btn friends-list-btn"
+              class="btn btn-outline btn-small action-btn friends-list-btn action-friends-list"
               ><i class="bi bi-person-x"></i>Compare Games</a
             >
 

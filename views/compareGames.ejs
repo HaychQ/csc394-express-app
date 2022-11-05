@@ -52,6 +52,9 @@
               <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
             </li> -->
             <li class="nav-item">
+              <a href="/getFriendsList" class="btn btn-primary nav-btn">Back to Friends List</a>
+            </li>
+            <li class="nav-item">
               <a href="/" class="btn btn-primary nav-btn">Back To Dashboard</a>
             </li>
             <li class="nav-item">
@@ -64,40 +67,49 @@
       </div>
     </nav>
 
-    <h1>Compare Games with Friend</h1>
+    <h1 class="page-header">Compare Games with Friend</h1>
+    <div class="compare-games-table-container container">
+
+
     <!-- <%= loc = myGameArr %> -->
-    <div class="table-responsive-xxl center-table fade-in">
+    <div class="table-responsive-md center-table-compare fade-in">
       <table class="table table-dark align-middle custom-table">
         <thead>
           <th class="admin-header" scope="col">Game ID</th>
-          <th class="admin-header" scope="col">Game Name</th>
+          <th class="admin-header compare-name" scope="col">Game Name</th>
           <th class="admin-header" scope="col">PlayTime</th>
           <th class="admin-header" scope="col">Game Icon</th>
         </thead>
         <% for(var i=0; i < myGameArr.length; i++) { %>
-        <tr class="user-row row-hover-admin">
-          <td><%= myGameArr[i].appid %></td>
-          <td><%= myGameArr[i].name %></td>
-          <td><%= myGameArr[i].playtime_forever %></td>
-          <td><%= myGameArr[i].img_icon_url %></td>
+        <tr class="row-hover-admin">
+          <td class="table-element"><%= myGameArr[i].appid %></td>
+          <td class="table-element compare-name"><%= myGameArr[i].name %></td>
+          <td  class="table-element"><%= myGameArr[i].playtime_forever %></td>
+          <td class="table-dark">
+            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${myGameArr[i].appid}/${myGameArr[i].img_icon_url}.jpg` %> class="game-icon">
+            </img>
+          </td>
         </tr>
         <% } %>
       </table>
     <!-- </table> -->
+    </div>
 
+    <div class="table-responsive-md center-table-compare fade-in">
     <!-- FRIENDS COMPARE -->
+    <!-- <table class="table table-dark align-middle custom-table margin-top"> -->
     <table class="table table-dark align-middle custom-table">
         <thead>
           <th class="admin-header" scope="col">Game ID</th>
-          <th class="admin-header" scope="col">Game Name</th>
+          <th class="admin-header compare-name" scope="col">Game Name</th>
           <th class="admin-header" scope="col">PlayTime</th>
           <th class="admin-header" scope="col">Game Icon</th>
         </thead>
         <% for(var i=0; i < friendsGameArray.length; i++) { %>
-        <tr>
-          <td><%= friendsGameArray[i].appid %></td>
-          <td><%= friendsGameArray[i].name %></td>
-          <td><%= friendsGameArray[i].playtime_forever %></td>
+        <tr class="row-hover-admin">
+          <td class="table-element"><%= friendsGameArray[i].appid %></td>
+          <td class="table-element compare-name"><%= friendsGameArray[i].name %></td>
+          <td class="table-element compare-playtime"><%= friendsGameArray[i].playtime_forever %></td>
           <!-- <td><%= friendsGameArray[i].img_icon_url %></td> -->
           <td class="table-dark">
             <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${friendsGameArray[i].appid}/${friendsGameArray[i].img_icon_url}.jpg` %> class="game-icon">
@@ -107,6 +119,9 @@
         <% } %>
       </table>
     <!-- </table> -->
+
+  </div>
+</div>
 
     <!-- BOOTSTRAP JS -->
     <script
