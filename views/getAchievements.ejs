@@ -27,10 +27,8 @@
   </head>
   <body>
     <!-- NAVIGATION MENU -->
-    <!-- <nav class="navbar navbar-expand-lg bg-light"> -->
     <nav class="navbar navbar-expand-lg">
       <div class="container-fluid">
-        <!-- <a class="navbar-brand" href="#">Group 4 - Steam API</a> -->
         <span class="group">Group 4 - Steam API</span>
         <button
           class="navbar-toggler"
@@ -45,12 +43,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <!-- <li class="nav-item">
-              <a href="/getownedgames" class="btn btn-primary nav-btn">Owned Games</a>
-            </li> -->
-            <!-- <li class="nav-item">
-              <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
-            </li> -->
             <li class="nav-item">
               <a href="/getFriendsList" class="btn btn-primary nav-btn">Back to Friends List</a>
             </li>
@@ -79,12 +71,11 @@
           <% for(var i=0; i < achievement_list.length; i++) { %>
           <tr class="row-hover-admin">
             <td class="table-element"><%= achievement_list[i].apiname %></td>
-            <!-- <td class="table-element"><%= achievement_list[i].achieved %></td> -->
             <td class="table-element">
               <% if(achievement_list[i].achieved == 1){ %>
-              <h1>Achieved</h1>
+              <h1 class="achievement-text">Achieved</h1>
               <% } else{ %>
-              <h1>In Progress</h1>
+              <h1 class="achievement-text">In Progress</h1>
               <% } %>
             </td>
           </tr>

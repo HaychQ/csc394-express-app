@@ -972,3 +972,7 @@ Goes from RIGHT to LEFT
 .achievements-container {
   max-width: 700px;
 }
+
+.achievement-text {
+  font-size: 16px;
+}
