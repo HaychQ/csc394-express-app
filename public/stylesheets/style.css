@@ -968,3 +968,7 @@ Goes from RIGHT to LEFT
 .error-btn {
   margin-top: 20px;
 }
+
+.achievements-container {
+  max-width: 700px;
+}

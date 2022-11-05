@@ -191,7 +191,7 @@ app.get("/getAchievements/:appid", async (req, res) => {
       const appid = req.params.appid;
       const game_achievements = {};
 
-      // get achievements 
+      // get achievements
       const urlgetAchievements = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}`;
       const options = {
         method: "GET",
@@ -211,15 +211,15 @@ app.get("/getAchievements/:appid", async (req, res) => {
       achievement_list.forEach(function (a) {
         game_achievements[a.name] = a.achieved;
       });
-      
+
       // console.log(game_achievements);
       console.log(game_name);
       console.log(achievement_list);
 
       res.render("getAchievements.ejs", { game_name, achievement_list });
-    });
+    }
+  );
 });
-
 
 app.get("/getFriendsList", async (req, res) => {
   pool.query(
