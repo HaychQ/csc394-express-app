@@ -950,3 +950,21 @@ Goes from RIGHT to LEFT
     opacity: 1;
   }
 }
+
+.error-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid #0d6efd; */
+  width: 100vw;
+  height: 90vh;
+}
+
+.error-text {
+  font-size: 48px;
+}
+
+.error-btn {
+  margin-top: 20px;
+}

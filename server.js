@@ -105,6 +105,10 @@ app.get("/indexPlaceholderAdmin", (req, res) => {
 app.get("/indexPlaceholder", (req, res) => {
   res.render("indexPlaceholder.ejs");
 });
+
+app.get("/errorPage", (req, res) => {
+  res.render("errorPage.ejs");
+});
 /*************************************************************/
 
 app.get("/getOwnedGames", (req, res) => {
