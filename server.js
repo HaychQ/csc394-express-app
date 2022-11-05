@@ -175,104 +175,51 @@ app.get("/getOwnedGames", (req, res) => {
   );
 });
 
-/*
- * OLD CODE
-app.get("/getFriendsList", (req, res) => {
-  // query the database to get the logged in user
-
-  // use logged in userID to get friend list
-
-  // const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
-
-  const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamid=76561198050293487&relationship=friend&format=json`;
-  // var friendList = []; // stores their steam ids
-  // var friend_games = {};
-
-  const friendsListIds = [];
-
-  request(urlgetFriends, function (err, response, body) {
-    if (!err && response.statusCode < 400) {
-      // console.log(body);
-      // console.log(typeof body);
-
-      const toJSONbodyFriends = JSON.parse(body);
-
-      //convert the body string into a json file + Select only the first results query:
-
-      const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
-      console.log(jsonFriendData1);
-
-      console.log(toJSONbodyFriends.friendslist.friends.length);
-      const friendsList = toJSONbodyFriends.friendslist.friends;
-      console.log(friendsList[5].steamid);
-
-      
-      //const friendsListArr = [];
-
-      // This is length of friends list
-      var friendsLength = toJSONbodyFriends.friendslist.friends.length
-      console.log(friendsLength)
-      // replace this loop with an async.each call since it doesnt matter the order that it gets inserted in
-      // and since you made an api call function you can probably just replace this loop
-      
-      // use this loop in order to get an array of steamids then pass it to an async.each call
-
-
-      for (var i=0; i < friendsLength; i++){
-
-        // console.log(i);
-        var currSteamID = toJSONbodyFriends.friendslist.friends[i].steamid
-        // console.log(toJSONbodyFriends.friendslist.friends[i].steamid);
-        // console.log(currSteamID);
-        // var urlgetFriendSummary = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${friendsList[i].steamid}`;
-        PUSH(friendsListIds, currSteamID);
-
-        }
-
-          // console.log(friendsListIds);
-          
-        
-        // console.log(urlgetFriendSummary);
+app.get("/getAchievements/:appid", async (req, res) => {
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    async (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
       }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
+
+      const appid = req.params.appid;
+      const game_achievements = {};
+
+      // get achievements 
+      const urlgetAchievements = `https://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=${appid}&key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}`;
+      const options = {
+        method: "GET",
+      };
+      const achieve_response = await fetch(urlgetAchievements, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
+        });
+
+      // iterate thru achievements and store them
+      var game_name = achieve_response.playerstats.gameName;
+      var achievement_list = achieve_response.playerstats.achievements;
+      achievement_list.forEach(function (a) {
+        game_achievements[a.name] = a.achieved;
+      });
       
-      const friendsListArr = {}
-      idParser(friendsListIds, friendsListArr);
-      //const friendsListArr = {}
-      console.log(friendsListArr)
+      // console.log(game_achievements);
+      console.log(game_name);
+      console.log(achievement_list);
 
-      // if this console log is correct then you should be able to put the async.each here
-      // figure out how to get the right api call since you need to pass the id to the call
-      // try using another loop and the try to make an async call on the id array
-      // could also use .map or something with promises
-
-      
-
-      // console.log(friendsListArr);
-
-      // console.log(FriendSummaryFullData);
-
-      // const jsonFriendData1 = toJSONbodyFriends.friendslist.friends[0].steamid;
-      // console.log(jsonFriendData1);
-
-      // currently it returns the first friends steam id in the page
-
-      // we have to loop through every friend get their steamid and then
-      // call the get playersummaris steam api function
-      // in order to get their personaname and their avatar in order to display it
-
-      
-
-      
-      //This console log displays all the Steam IDs
-      // console.log(friendsListIds);
-
-      // const stringFriendData = JSON.stringify(jsonFriendData1);
-      // I am now passing the array to the web page and it will display in a table so that we can visibly see all the steam IDs being printed.
-      res.render("getFriendsList.ejs", { friendsListIds });
-  });
+      res.render("getAchievements.ejs", { game_name, achievement_list });
+    });
 });
-//});
-*/
+
 
 app.get("/getFriendsList", async (req, res) => {
   pool.query(
@@ -464,10 +411,6 @@ app.get("/compareGames/:friendid", async (req, res) => {
       console.log("we are here");
     }
   );
-});
-
-app.get("/getAchievements/:appid", (req, res) => {
-  res.render("getAchievements.ejs");
 });
 
 app.get("/getnews", (req, res) => {
