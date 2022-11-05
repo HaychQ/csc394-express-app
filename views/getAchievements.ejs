@@ -79,7 +79,14 @@
           <% for(var i=0; i < achievement_list.length; i++) { %>
           <tr class="row-hover-admin">
             <td class="table-element"><%= achievement_list[i].apiname %></td>
-            <td class="table-element"><%= achievement_list[i].achieved %></td>
+            <!-- <td class="table-element"><%= achievement_list[i].achieved %></td> -->
+            <td class="table-element">
+              <% if(achievement_list[i].achieved == 1){ %>
+              <h1>Achieved</h1>
+              <% } else{ %>
+              <h1>In Progress</h1>
+              <% } %>
+            </td>
           </tr>
           <% } %>
         </table>
