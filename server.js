@@ -213,7 +213,9 @@ app.get("/getAchievements/:appid", async (req, res) => {
       });
 
       // console.log(game_achievements);
+      //Only game name
       console.log(game_name);
+      //{ apiname: 'HelensPride', achieved: 1, unlocktime: 1441252536 }
       console.log(achievement_list);
 
       res.render("getAchievements.ejs", { game_name, achievement_list });

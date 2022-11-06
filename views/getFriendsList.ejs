@@ -45,15 +45,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <!-- <li class="nav-item">
-              <a href="/getnews" class="btn btn-primary nav-btn">Game News</a>
-            </li>
-            <li class="nav-item">
-              <a href="/getownedgames" class="btn btn-primary nav-btn">Owned Games</a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin" class="btn btn-primary nav-btn">Admin Portal</a>
-            </li> -->
             <li class="nav-item">
               <a href="/" class="btn btn-primary nav-btn">Go Back To Dashboard</a>
             </li>
@@ -79,11 +70,6 @@
           <th class="admin-header" scope="col">Steam Username</th>
           <th class="admin-header" scope="col">Profile Url</th>
           <th class="admin-header" scope="col">Avatar</th>
-          <!-- <th scope="col" class="table-header table-dark">Index</th>
-          <th scope="col" class="table-header table-dark">Steam Id</th>
-          <th scope="col" class="table-header table-dark">Steam Username</th>
-          <th scope="col" class="table-header table-dark">Profile Url</th>
-          <th scope="col" class="table-header table-dark">Avatar</th> -->
           <th class="admin-header action-friends-list" scope="col">Action</th>
         </tr>
         </thead>
@@ -98,7 +84,6 @@
             </img>
           </td>
           <td class="action-friends-list">
-            <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
             <a
               href="/compareGames/<%= loc[i].steamid %>"
               type="button"
@@ -125,6 +110,3 @@
   </body>
 </html>
 
-<!-- 
-  NOTES: AWAITING Niko to come up with loop to pass to this file, will input the content utilizing loop similar to get owned games. 
-  Each iteration creates a new row of data -->

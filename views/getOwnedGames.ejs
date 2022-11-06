@@ -74,13 +74,17 @@
           <th class="table-header table-dark">Game Name</th>
           <th class="table-header table-dark">Game Id</th>
           <th class="table-header table-dark">Game Icon</th>
+          <th class="table-header table-dark">Achievements</th>
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
         <tr>
           <td class="api-text table-dark"><%= loc[i].name %></td>
           <td class="api-text table-dark"><%= loc[i].appid %></td>
-          <td class="admin-actions">
-            <!-- <a href="#" type="button" class="btn btn-outline btn-small action-btn"><i class="bi bi-eye"></i> View</a> -->
+          <td class="table-dark">
+            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${loc[i].appid}/${loc[i].img_icon_url}.jpg` %> class="game-icon">
+            </img>
+          </td>
+          <td class="table-dark admin-actions">
             <a
               href="/getAchievements/<%= loc[i].appid %>"
               type="button"
@@ -88,9 +92,6 @@
               title="Got to Game Achievements"
               ><i class="bi bi-pencil"></i> Achievements</a
             >
-          <td class="table-dark">
-            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${loc[i].appid}/${loc[i].img_icon_url}.jpg` %> class="game-icon">
-            </img>
           </td>
         </tr>
         <% } %>

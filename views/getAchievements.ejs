@@ -60,13 +60,13 @@
     </nav>
 
     <h1 class="page-header">View My Achievements For: <%= game_name %></h1>
-    <!-- <div class="compare-games-table-container container"> -->
     <div class="container achievements-container">
       <div class="table-responsive-md center-table-compare fade-in">
         <table class="table table-dark align-middle custom-table">
           <thead>
             <th class="admin-header" scope="col">Achievement Name</th>
             <th class="admin-header compare-name" scope="col">Achievement Status</th>
+            <th class="admin-header" scope="col">Achievement Date</th>
           </thead>
           <% for(var i=0; i < achievement_list.length; i++) { %>
           <tr class="row-hover-admin">
@@ -78,10 +78,16 @@
               <h1 class="achievement-text">In Progress</h1>
               <% } %>
             </td>
+
+            <!-- <td>
+              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(new
+              Date(achievement_list[i].unlocktime)) %>
+            </td> -->
+
+            <td><%= %></td>
           </tr>
           <% } %>
         </table>
-        <!-- </table> -->
       </div>
     </div>
 
@@ -96,13 +102,3 @@
     <script src="./javascripts/script.js"></script>
   </body>
 </html>
-
-<!-- <div class="intro-section">
-  <h1 class="intro-heading">Provide a Steam ID & API Key to Begin</h1>
-  <form action="php/action.php" method="POST" class="user-input-form" id="userInputForm">
-  <form class="user-input-form" id="userInputForm">
-    <input class="user-textbox" type="text" name="steamid" placeholder="Steam ID*" id="userSteamId" required />
-    <input class="user-textbox" type="text" name="apikey" placeholder="API Key*" id="userApiKey" required />
-    <input class="btn-submit" type="submit" id="btn_UserInput" />
-  </form>
-</div> -->
