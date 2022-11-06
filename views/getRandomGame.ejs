@@ -28,16 +28,18 @@
   <body>
     <h1>Random Game Page</h1>
 
-    <!-- <%= loc = JSON.parse(stringGameData) %> -->
     <!-- <div class="page-container"> -->
     <!-- <div class="animated game-news-container"> -->
     <div class="random-game-container">
-      <!-- <span><%= stringGameData %></span> -->
-      <span><img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${loc.appid}/${loc.img_icon_url}.jpg` %> class="game-icon random-game-img">
+      <!-- <span><%= SteamStoreGameData %></span> -->
+      <span><img src=<%= `${SteamStoreGameData.header_image}` %> class="game-icon random-game-img">
       </img>
     </span>
-      <span class="random-game-name"><%= loc.name %></span>
-      <span class="random-game-playtime">Current Playtime: <%= loc.playtime_forever %> Mins.</span>
+      <span class="random-game-name"><%= SteamStoreGameData.name %></span>
+      <span class="random-game-playtime">Current Playtime: <%= randomGameReturn.playtime_forever %> Mins.</span>
+      <% for(var i=0; i < SteamStoreGameData.genres.length; i++) { %>
+      <span class="random-game-genre"><%= SteamStoreGameData.genres[i].description %></span>
+      <% } %>
     </div>
   <!-- </div> -->
 <!-- </div> -->

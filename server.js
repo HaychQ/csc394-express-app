@@ -317,79 +317,71 @@ app.get("/getRandomGame", (req, res) => {
 
       const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
 
-      request(urlgetGames, function (err, response, body) {
-        if (!err && response.statusCode < 400) {
-          // console.log(body);
-          // console.log(typeof body);
+      // request(urlgetGames, function (err, response, body) {
+      //   if (!err && response.statusCode < 400) {
+      //     // console.log(body);
+      //     // console.log(typeof body);
 
-          const toJSONbody = JSON.parse(body);
-          // console.log(typeof toJSONbody);
-          //convert the body string into a json file + Select only the first results query:
-          const jsonGameDataGame = toJSONbody.response.games[getRandomIndex(toJSONbody.response.games.length)];
-          // console.log(jsonGameData0);
-          // console.log(typeof jsonGameData0);
+      //     const toJSONbody = JSON.parse(body);
+      //     // console.log(typeof toJSONbody);
+      //     //convert the body string into a json file + Select only the first results query:
+      //     const jsonGameDataGame = toJSONbody.response.games[getRandomIndex(toJSONbody.response.games.length)];
+      //     // console.log(jsonGameData0);
+      //     // console.log(typeof jsonGameData0);
 
-          const stringGameData = JSON.stringify(jsonGameDataGame);
+      //     const stringGameData = JSON.stringify(jsonGameDataGame);
 
-          console.log("StringGameData: ", stringGameData);
-          // console.log(stringGameData);
+      //     console.log("StringGameData: ", stringGameData);
+      //     // console.log(stringGameData);
 
-          // res.render("getRandomGame.ejs");
-          res.render("getRandomGame.ejs", { stringGameData });
-        }
-      });
-
-      // const options = {
-      //   method: "GET",
-      // };
-      // const Randomresponse = await fetch(urlgetGames, options)
-      //   .then((res) => res.json())
-      //   .catch((e) => {
-      //     console.error({
-      //       message: "oh noes",
-      //       error: e,
-      //     });
-      //   });
-
-      // console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
-
-      // const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]
-
-      // console.log(randomGameReturn.appid);
-
-
-      // urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`
-
-      // const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
-      // .then((res) => res.json())
-      // .catch((e) => {
-      //   console.error({
-      //     message: "oh noes",
-      //     error: e,
-      //   });
+      //     // res.render("getRandomGame.ejs");
+      //     res.render("getRandomGame.ejs", { stringGameData });
+      //   }
       // });
+
+      const options = {
+        method: "GET",
+      };
+      const Randomresponse = await fetch(urlgetGames, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
+        });
+
+      console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
+
+      const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]
+
+      console.log(randomGameReturn.appid);
+
+
+      urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`
+
+      const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
+      .then((res) => res.json())
+      .catch((e) => {
+        console.error({
+          message: "oh noes",
+          error: e,
+        });
+      });
       
-      // var responseString = `'${randomGameReturn.appid}'`;
-      // console.log(responseString);
+      var responseString = randomGameReturn.appid;
+      console.log(responseString);
 
 
-      // console.log(StoreRandomresponse);
-      // console.log(StoreRandomresponse.length);
+      console.log(StoreRandomresponse[responseString]);
+      console.log(StoreRandomresponse[responseString].data.name);
+      console.log(StoreRandomresponse[responseString].data.header_image);
+      console.log(StoreRandomresponse[responseString].data.genres);
+      console.log(StoreRandomresponse[responseString].data.genres[0].description);
 
+      const SteamStoreGameData = StoreRandomresponse[responseString].data
 
-
-
-
-
-
-
-
-
-      
-
-
-
-
+      res.render("getRandomGame.ejs", {SteamStoreGameData, randomGameReturn});
 
 
     }
