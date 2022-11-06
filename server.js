@@ -331,10 +331,11 @@ app.get("/getRandomGame", (req, res) => {
 
           const stringGameData = JSON.stringify(jsonGameDataGame);
 
-          console.log(stringGameData);
+          console.log("StringGameData: ", stringGameData);
+          // console.log(stringGameData);
 
-          res.render("getRandomGame.ejs");
-          // res.render("getRandomGame.ejs", { stringGameData });
+          // res.render("getRandomGame.ejs");
+          res.render("getRandomGame.ejs", { stringGameData });
         }
       });
     }

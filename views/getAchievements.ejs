@@ -84,7 +84,12 @@
               Date(achievement_list[i].unlocktime)) %>
             </td> -->
 
-            <td><%= %></td>
+            <td>
+              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(new
+              Date(achievement_list[i].unlocktime)) %>
+            </td>
+
+            <td></td>
           </tr>
           <% } %>
         </table>
