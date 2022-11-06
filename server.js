@@ -303,7 +303,7 @@ app.get("/getRandomGame", (req, res) => {
     `SELECT * FROM usertable
     WHERE id = $1`,
     [req.user.id],
-    (err, results) => {
+    async (err, results) => {
       if (!err) {
         // console.log(results.rows);
       }
@@ -338,6 +338,60 @@ app.get("/getRandomGame", (req, res) => {
           res.render("getRandomGame.ejs", { stringGameData });
         }
       });
+
+      // const options = {
+      //   method: "GET",
+      // };
+      // const Randomresponse = await fetch(urlgetGames, options)
+      //   .then((res) => res.json())
+      //   .catch((e) => {
+      //     console.error({
+      //       message: "oh noes",
+      //       error: e,
+      //     });
+      //   });
+
+      // console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
+
+      // const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]
+
+      // console.log(randomGameReturn.appid);
+
+
+      // urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`
+
+      // const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
+      // .then((res) => res.json())
+      // .catch((e) => {
+      //   console.error({
+      //     message: "oh noes",
+      //     error: e,
+      //   });
+      // });
+      
+      // var responseString = `'${randomGameReturn.appid}'`;
+      // console.log(responseString);
+
+
+      // console.log(StoreRandomresponse);
+      // console.log(StoreRandomresponse.length);
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
     }
   );
 });
