@@ -56,13 +56,9 @@ html {
   color: rgb(177, 177, 177);
 }
 
-/* Shrink Create/Login Buttons */
-/* .nav-btn {
-  font-size: 1.2rem;
-  gap: 3rem;
-  column-gap: 3rem;
-  row-gap: 3rem;
-} */
+.dashboard-header {
+  text-align: center;
+}
 
 .navbar-collapse {
   flex-grow: 0;
@@ -686,16 +682,6 @@ img.game-icon {
 }
 
 /****************************************************** */
-/* .page-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin-left: 13vw;
-  margin-right: 10vw;
-  margin-top: 4vw;
-  position: relative;
-  margin-bottom: 100px;
-} */
-
 .page-container {
   display: flex;
   justify-content: center;
@@ -713,19 +699,23 @@ img.game-icon {
   margin: 0 auto;
   margin-top: 5%;
   margin-bottom: 5%;
-
-  width: 80%;
-  height: 50%;
+  width: 350px;
+  height: 250px;
 }
 
 .page-text {
   text-align: center;
+  padding-top: 50%;
+  color: rgb(255, 255, 255);
 }
 
 .page-btn {
+  display: block;
   list-style: none;
   margin: 0 auto;
   padding: 5px;
+
+  text-decoration: none;
 
   font-size: 16px;
   font-weight: 700;
@@ -733,7 +723,7 @@ img.game-icon {
   color: #0d6efd;
   /* border: 2px solid #0d6efd; */
   background-color: rgb(0, 0, 0, 0);
-
+  border: none;
   font-family: "Roboto Slab", serif;
 }
 
@@ -742,19 +732,27 @@ img.game-icon {
 .friends-list-container {
   display: flex;
   flex-direction: column;
-  /* opacity: 0; */
   font-size: 24px;
-  min-width: 350px;
-  max-height: 400px;
-
-  /* row-gap: 35px; */
-
+  min-width: 300px;
+  min-height: 350px;
   background-color: #131d2a;
-
   border-radius: 12px;
   border: 2px solid #373b3e;
   box-shadow: 0px 1px 15px 5px rgb(0, 0, 0, 0.3);
   border: 1px solid rgb(211, 211, 211);
+}
+
+.game-news-container {
+  background-image: url("../images/placeholder.jpg");
+  background-size: contain;
+}
+.owned-games-container {
+  background-image: url("../images/placeholder.jpg");
+  background-size: contain;
+}
+.friends-list-container {
+  background-image: url("../images/placeholder.jpg");
+  background-size: contain;
 }
 
 .game-news-container:hover,

@@ -21,7 +21,7 @@
     <!-- NAVIGATION MENU -->
     <nav class="navbar navbar-expand-lg navbar-dashboard">
       <div class="container-fluid">
-        <span>Group 4 - Steam API</span>
+        <span class="dashboard-header">Steamy App - Gaming Just Got Steamy</span>
         <button
           class="navbar-toggler"
           type="button"
@@ -57,27 +57,21 @@
 
       <!-- Three Link Containers -->
       <div class="page-container">
-        <div class="animated game-news-container">
-          <img src="/images/placeholder.jpg" class="page-img" />
+        <!-- Game News -->
+        <a href="/getnews" class="page-btn game-news-container animated">
           <p class="page-text">See Recent Game News</p>
-          <li class="page-btn">
-            <a href="/getnews" class="btn btn-primary nav-btn page-btn">Game News</a>
-          </li>
-        </div>
-        <div class="animated owned-games-container">
-          <img src="/images/placeholder.jpg" class="page-img" />
+        </a>
+
+        <!-- Owned Games -->
+
+        <a href="/getownedgames" class="page-btn owned-games-container animated">
           <p class="page-text">My Owned Games</p>
-          <li class="page-btn">
-            <a href="/getownedgames" class="btn btn-primary nav-btn page-btn">Owned Games</a>
-          </li>
-        </div>
-        <div class="animated friends-list-container">
-          <img src="/images/placeholder.jpg" class="page-img" />
-          <p class="page-text">My Friends List</p>
-          <li class="page-btn">
-            <a href="/getFriendsList" class="btn btn-primary nav-btn page-btn">Friends List</a>
-          </li>
-        </div>
+        </a>
+
+        <!-- Friends List -->
+        <a href="/getFriendsList" class="page-btn owned-games-container animated">
+          <p class="page-text">Friends List</p>
+        </a>
       </div>
     </div>
 
