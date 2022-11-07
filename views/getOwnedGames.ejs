@@ -66,24 +66,24 @@
       </div>
     </nav>
 
-    <h1 class="page-header">Get Owned Games</h1>
+    <h1 class="page-header">Owned Games</h1>
     <!-- <%= loc = JSON.parse(stringGameData) %> -->
     <div class="table-responsive-xxl center-table  fade-in">
       <table class="table table-hover align-middle custom-table">
         <thead>
-          <th class="table-header table-dark">Game Name</th>
+          <!-- <th class="table-header table-dark">Game Name</th>
           <th class="table-header table-dark">Game Id</th>
           <th class="table-header table-dark">Game Icon</th>
-          <th class="table-header table-dark">Achievements</th>
+          <th class="table-header table-dark">Achievements</th> -->
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
         <tr>
-          <td class="api-text table-dark"><%= loc[i].name %></td>
-          <td class="api-text table-dark"><%= loc[i].appid %></td>
           <td class="table-dark">
             <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${loc[i].appid}/${loc[i].img_icon_url}.jpg` %> class="game-icon">
             </img>
           </td>
+          <td class="api-text table-dark"><%= loc[i].name %></td>
+          <!-- <td class="api-text table-dark"><%= loc[i].appid %></td> -->
           <td class="table-dark admin-actions">
             <a
               href="/getAchievements/<%= loc[i].appid %>"

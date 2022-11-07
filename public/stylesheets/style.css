@@ -430,8 +430,8 @@ td.admin-actions {
   padding: 10px 10px 10px 10px;
 }
 
-td.friends-list-actions {
-}
+/* td.friends-list-actions {
+} */
 
 th.action-friends-list {
   width: 40%;
@@ -987,22 +987,59 @@ Goes from RIGHT to LEFT
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 250px;
-  border: 2px solid #0d6efd;
+  width: 460px;
   align-items: center;
+  margin-top: 25px;
+  border-radius: 12px;
+
+  box-shadow: 6px 6px 10px 1px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgb(211, 211, 211);
+  background-color: #131d2a;
 }
 
 .random-game-name {
   font-size: 32px;
+  text-align: center;
+
+  /* width: 90%; */
+  border-bottom: 1px solid rgb(211, 211, 211);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .random-game-playtime {
   font-size: 24px;
 }
 
+.random-game-genre {
+  font-size: 24px;
+}
+
+.random-game-playtime-container {
+  border-bottom: 1px solid rgb(211, 211, 211);
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.random-game-genre-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3px;
+  width: 100%;
+}
+
+.random-game-text-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 90%;
+  padding: 5px 0px 10px 0px;
+}
+
 .random-game-img {
-  width: 250px;
-  height: 150px;
-  /* width: 100%;
-  height: 100%; */
+  /* Original Full Width - 460 x 215 */
+  width: 100%;
+  height: 100%;
+  border-top-right-radius: 12px;
+  border-top-left-radius: 12px;
 }
