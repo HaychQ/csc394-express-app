@@ -309,24 +309,6 @@ html {
   cursor: pointer;
 }
 
-/**********************************************************/
-/* MEDIA QUERIES */
-/* Collapse */
-@media (max-width: 991.98px) {
-  /* Resize for collapse */
-  .search-box {
-    width: 22rem;
-  }
-
-  .login-btn {
-    margin-bottom: 1rem;
-  }
-
-  .navbar-nav {
-    align-items: flex-start;
-  }
-}
-
 /***************************************************************************************/
 /***************************************************************************************/
 /***************************************************************************************/
@@ -420,12 +402,15 @@ th.admin-row {
 
 td.admin-actions {
   border-right: 1px solid #373b3e;
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   column-gap: 6px;
   padding: 10px 10px 10px 10px;
 }
 
+td.owned-games-actions {
+  /* display: none; */
+}
 /* td.friends-list-actions {
 } */
 
@@ -653,12 +638,21 @@ img.game-icon {
   align-self: center;
 }
 
+/* .user-cancel-btn {
+  width: 50%;
+  align-self: end;
+  justify-content: end;
+  color: #999;
+  border: 2px solid #999;
+} */
+
 .user-cancel-btn {
+  margin-left: 50%;
   width: 50%;
   justify-content: end;
-  /* align-content: flex-end;
-  align-self: flex-end; */
-  justify-content: end;
+  align-content: flex-end;
+  align-self: end;
+
   color: #999;
   border: 2px solid #999;
 }
@@ -685,8 +679,12 @@ img.game-icon {
 .page-container {
   display: flex;
   justify-content: center;
-  margin: 0 auto;
-  margin-top: 4vw;
+
+  /* OVERLAPPING EFFECT - Replace with 0 auto to revert back to normal*/
+  /* margin: 0 auto; */
+  margin: -75px auto;
+
+  /* margin-top: 4vw; */
   /* gap: 80px; */
   width: 90vw;
   /* column-gap: 50px; */
@@ -1064,4 +1062,31 @@ Goes from RIGHT to LEFT
 
 a:hover {
   color: white;
+}
+
+/**********************************************************/
+/* MEDIA QUERIES */
+
+@media (max-width: 1080px) {
+  .game-news-container,
+  .owned-games-container,
+  .friends-list-container {
+    min-width: 220px;
+    min-height: 350px;
+  }
+}
+/* Collapse */
+@media (max-width: 991.98px) {
+  /* Resize for collapse */
+  .search-box {
+    width: 22rem;
+  }
+
+  .login-btn {
+    margin-bottom: 1rem;
+  }
+
+  .navbar-nav {
+    align-items: flex-start;
+  }
 }
