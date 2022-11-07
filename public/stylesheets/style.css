@@ -739,24 +739,47 @@ img.game-icon {
 }
 
 .game-news-container {
-  background-image: url("../images/placeholder.jpg");
+  background-image: url("../images/getGameNews.png");
+  background: linear-gradient(rgba(251, 0, 0, 0), rgb(181, 1, 1) 100%);
+  background-repeat: no-repeat;
   background-size: contain;
+  /* background-size: auto; */
 }
 
 /* .owned-games-container { */
 .owned-games-container {
-  background-image: url("../images/placeholder.jpg");
+  /* background-image: url("../images/placeholder.jpg"); */
+  background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 139) 100%);
+  background-repeat: no-repeat;
   background-size: contain;
 }
 
 .friends-list-container {
   background-image: url("../images/placeholder.jpg");
+  background: linear-gradient(rgba(0, 0, 0, 0), rgb(29, 179, 0, 1) 100%);
+  background-repeat: no-repeat;
   background-size: contain;
 }
 
 .admin-container {
-  background-image: url("../images/placeholder.jpg");
+  background-image: url("../images/SteamGameShuffle.png");
+  background-repeat: no-repeat;
   background-size: contain;
+}
+
+.friends-list-container:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgb(40, 239, 0) 100%);
+  transition: 200ms ease-in-out;
+}
+
+.owned-games-container:hover {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgb(0, 0, 230) 100%);
+  transition: 200ms ease-in-out;
+}
+
+.game-news-container:hover {
+  background: linear-gradient(rgba(251, 0, 0, 0), rgb(255, 1, 1) 100%);
+  transition: 200ms ease-in-out;
 }
 
 .game-news-container:hover,
@@ -994,6 +1017,13 @@ Goes from RIGHT to LEFT
   font-size: 16px;
 }
 
+.achievement-achieved {
+  color: rgb(40, 239, 0);
+}
+
+.achievement-progress {
+  color: rgb(255, 1, 1);
+}
 /* getRandomGame */
 
 .random-game-container {
