@@ -685,11 +685,8 @@ img.game-icon {
   margin: -75px auto;
 
   /* margin-top: 4vw; */
-  /* gap: 80px; */
   width: 90vw;
-  /* column-gap: 50px; */
   justify-content: space-around;
-  /* position: relative; */
   margin-bottom: 100px;
 }
 

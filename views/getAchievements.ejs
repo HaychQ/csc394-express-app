@@ -63,10 +63,10 @@
     <div class="container achievements-container">
       <div class="table-responsive-md center-table-compare fade-in">
         <table class="table table-dark align-middle custom-table">
-          <thead>
+          <thead class="table-dark">
             <th class="admin-header" scope="col">Achievement Name</th>
             <th class="admin-header compare-name" scope="col">Achievement Status</th>
-            <th class="admin-header" scope="col">Achievement Date</th>
+            <th class="admin-header admin-achievement" scope="col">Achievement Date</th>
           </thead>
           <% for(var i=0; i < achievement_list.length; i++) { %>
           <tr class="row-hover-admin">
@@ -88,8 +88,6 @@
               <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(new
               Date(achievement_list[i].unlocktime)) %>
             </td>
-
-            <td></td>
           </tr>
           <% } %>
         </table>
