@@ -112,10 +112,6 @@ app.get("/errorPage", (req, res) => {
 /*************************************************************/
 
 app.get("/getOwnedGames", (req, res) => {
-  pool.connect((err, connection) => {
-    if (err) throw err;
-  });
-
   // console.log("this is the user id logged in:", [user.id]);
 
   pool.query(
@@ -214,9 +210,9 @@ app.get("/getAchievements/:appid", async (req, res) => {
 
       // console.log(game_achievements);
       //Only game name
-      console.log(game_name);
+      // console.log(game_name);
       //{ apiname: 'HelensPride', achieved: 1, unlocktime: 1441252536 }
-      console.log(achievement_list);
+      // console.log(achievement_list);
 
       res.render("getAchievements.ejs", { game_name, achievement_list });
     }
@@ -281,8 +277,8 @@ app.get("/getFriendsList", async (req, res) => {
         friends_summaries.set(steamID, player_summary);
       }
 
-      console.log(playerArr);
-      console.log(typeof playerArr);
+      // console.log(playerArr);
+      // console.log(typeof playerArr);
 
       // console.log(friends_summaries[0]);
       console.log("There are " + friends_length + " friends shown above ^");
@@ -293,10 +289,6 @@ app.get("/getFriendsList", async (req, res) => {
 });
 
 app.get("/getRandomGame", (req, res) => {
-  pool.connect((err, connection) => {
-    if (err) throw err;
-  });
-
   // console.log("this is the user id logged in:", [user.id]);
 
   pool.query(
@@ -351,11 +343,11 @@ app.get("/getRandomGame", (req, res) => {
           });
         });
 
-      console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
+      // console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
 
       const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]
 
-      console.log(randomGameReturn.appid);
+      // console.log(randomGameReturn.appid);
 
 
       urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`
@@ -370,14 +362,14 @@ app.get("/getRandomGame", (req, res) => {
       });
       
       var responseString = randomGameReturn.appid;
-      console.log(responseString);
+      // console.log(responseString);
 
 
-      console.log(StoreRandomresponse[responseString]);
-      console.log(StoreRandomresponse[responseString].data.name);
-      console.log(StoreRandomresponse[responseString].data.header_image);
-      console.log(StoreRandomresponse[responseString].data.genres);
-      console.log(StoreRandomresponse[responseString].data.genres[0].description);
+      // console.log(StoreRandomresponse[responseString]);
+      // console.log(StoreRandomresponse[responseString].data.name);
+      // console.log(StoreRandomresponse[responseString].data.header_image);
+      // console.log(StoreRandomresponse[responseString].data.genres);
+      // console.log(StoreRandomresponse[responseString].data.genres[0].description);
 
       const SteamStoreGameData = StoreRandomresponse[responseString].data
 
@@ -497,10 +489,6 @@ app.get("/getnews", (req, res) => {
 
 //DB HERE
 app.get("/admin", (req, res) => {
-  pool.connect((err, connection) => {
-    if (err) throw err;
-    // console.log(req.user.email)
-  });
 
   pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
     if (!err) {
