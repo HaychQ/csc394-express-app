@@ -12,6 +12,10 @@ const fetch = require("node-fetch");
 const initializePassport = require("./passport-config");
 const { json } = require("express");
 
+
+
+module.exports = app;
+
 initializePassport(passport);
 
 //SUPER USER ACCOUNT DETAILS:
