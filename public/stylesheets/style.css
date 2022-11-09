@@ -431,6 +431,11 @@ th.action-friends-list {
   color: white;
   background-color: #0d6efd;
 }
+
+.private-btn {
+  color: white;
+  background-color: #bc0f0f;
+}
 /***********************************************/
 
 .text-size {
