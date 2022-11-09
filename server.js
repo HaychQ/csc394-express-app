@@ -12,8 +12,6 @@ const fetch = require("node-fetch");
 const initializePassport = require("./passport-config");
 const { json } = require("express");
 
-
-
 module.exports = app;
 
 initializePassport(passport);
@@ -89,13 +87,13 @@ async function idParser(array, targetArray) {
 */
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
-app.get("/friendsplaceholder", (req, res) => {
-  res.render("friendsplaceholder.ejs");
-});
+// app.get("/friendsplaceholder", (req, res) => {
+//   res.render("friendsplaceholder.ejs");
+// });
 
-app.get("/friendslistplaceholder", (req, res) => {
-  res.render("friendslistplaceholder.ejs");
-});
+// app.get("/friendslistplaceholder", (req, res) => {
+//   res.render("friendslistplaceholder.ejs");
+// });
 
 // app.get("/friendsplaceholder", (req, res) => {
 //   res.render("friendsplaceholder.ejs");
@@ -349,25 +347,23 @@ app.get("/getRandomGame", (req, res) => {
 
       // console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
 
-      const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]
+      const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)];
 
       // console.log(randomGameReturn.appid);
 
-
-      urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`
+      urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`;
 
       const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
-      .then((res) => res.json())
-      .catch((e) => {
-        console.error({
-          message: "oh noes",
-          error: e,
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
         });
-      });
-      
+
       var responseString = randomGameReturn.appid;
       // console.log(responseString);
-
 
       // console.log(StoreRandomresponse[responseString]);
       // console.log(StoreRandomresponse[responseString].data.name);
@@ -375,11 +371,9 @@ app.get("/getRandomGame", (req, res) => {
       // console.log(StoreRandomresponse[responseString].data.genres);
       // console.log(StoreRandomresponse[responseString].data.genres[0].description);
 
-      const SteamStoreGameData = StoreRandomresponse[responseString].data
+      const SteamStoreGameData = StoreRandomresponse[responseString].data;
 
-      res.render("getRandomGame.ejs", {SteamStoreGameData, randomGameReturn});
-
-
+      res.render("getRandomGame.ejs", { SteamStoreGameData, randomGameReturn });
     }
   );
 });
@@ -493,7 +487,6 @@ app.get("/getnews", (req, res) => {
 
 //DB HERE
 app.get("/admin", (req, res) => {
-
   pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
     if (!err) {
       // console.log("inside if, results.rows[0]: ", results.rows);
