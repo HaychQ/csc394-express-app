@@ -275,7 +275,7 @@ app.get("/getRandomGame", (req, res) => {
 
       var responseString = randomGameReturn.appid;
 
-      const SteamStoreGameData = StoreRandomresponse[responseString].data;
+      // const SteamStoreGameData = StoreRandomresponse[responseString].data;
 
       // console.log(StoreRandomresponse[responseString]);
       // console.log(StoreRandomresponse[responseString].data.name);
