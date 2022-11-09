@@ -88,6 +88,10 @@ app.get("/indexPlaceholder", (req, res) => {
 app.get("/errorPage", (req, res) => {
   res.render("errorPage.ejs");
 });
+
+app.get("/emailFriend", (req, res) => {
+  res.render("emailFriend.ejs");
+});
 /*************************************************************/
 
 app.get("/getOwnedGames", (req, res) => {

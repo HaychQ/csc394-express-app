@@ -19,54 +19,32 @@
   <body>
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
-        <li class="breadcrumb-item user-nav"><a href="/admin">Admin</a></li>
-        <li class="breadcrumb-item active user-nav" aria-current="page">Edit User</li>
+        <li class="breadcrumb-item user-nav"><a href="/getFriendsList">Friends List</a></li>
+        <li class="breadcrumb-item active user-nav" aria-current="page">Add Email</li>
       </ol>
     </nav>
 
     <div class="user-container">
-      <% for(var user of data) { %>
-
-      <form class="row g-3 needs-validation" method="POST" action="/editUser/<%= user.id %>" novalidate>
-        <div class="col-6">
-          <!-- <div class="form-floating mb-3"> -->
-          <label class="user-form-label" for="user-steamid">SteamID</label>
-          <input
-            type="text"
-            class="form-control user-input-textbox"
-            id="user-steamid"
-            value="<%= user.steamid %>"
-            placeholder="Steam ID"
-            name="steamid"
-          />
-          <!-- <label for="floatingInput">Steam ID</label> -->
-          <!-- </div> -->
-        </div>
-        <div class="col-6">
-          <!-- <div class="form-floating mb-3"> -->
-          <!-- <label for="apikey" class="label-text"
-              >API Key -->
-
-          <label class="user-form-label" for="floatingInput">API Key</label>
+      <form class="row g-3 needs-validation" method="POST" action="/emailFriend" novalidate>
+        <div class="col-12">
+          <label class="user-form-label" for="floatingInput">Friend's Email</label>
           <input
             type="text"
             class="form-control user-input-textbox"
             id="floatingInput"
-            value="<%= user.apikey %>"
+            value="Enter Email"
             placeholder="API Key"
             name="apikey"
           />
-          <!-- </div> -->
         </div>
 
         <div class="col-6">
-          <a href="/admin" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
+          <a href="/getFriendsList" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
         </div>
         <div class="col-6">
           <button class="btn btn-primary nav-btn user-btn" type="submit">Submit</button>
         </div>
       </form>
-      <% } %>
     </div>
   </body>
 </html>
