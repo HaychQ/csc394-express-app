@@ -78,7 +78,14 @@
           <td class="api-text table-dark"><%= i + 1 %></td>
           <!-- <td class="api-text table-dark"><%= loc[i].steamid %></td> -->
           <td class="api-text table-dark"><%= loc[i].personaname %></td>
-          <td class="api-text table-dark"><%= loc[i].profileurl %></td>
+          <!-- <td class="api-text table-dark"><%= loc[i].profileurl %></td> -->
+          <td class="api-text table-dark">
+            <form>
+              <!-- <label for="email">Enter your email: </label> -->
+              <input type="email" name="email" id="email" placeholder="Friend's Email">
+              <input type="submit" value="submit!" class="btn primary-btn friends-list-submit-btn">
+            </form>
+          </td>
           <td class=" table-dark">
             <img src=<%= loc[i].avatarmedium %> class="game-icon">
             </img>

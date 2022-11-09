@@ -422,6 +422,11 @@ th.action-friends-list {
   max-width: 875px;
 }
 
+.friends-list-submit-btn {
+  background-color: #0d6efd;
+  color: white;
+}
+
 .action-btn {
   color: white;
   background-color: #0d6efd;
