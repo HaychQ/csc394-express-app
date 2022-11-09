@@ -65,26 +65,6 @@ function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
-/*
-
-async function friendApiCall(urlApi) {
-  console.log("I am in the friendApiCall outside");
-  const body = await fetch(urlApi);
-  console.log(body);
-  summary = JSON.parse(body);
-  return JSON.stringify(summary);
-}
-
-async function idParser(array, targetArray) {
-  array.forEach(async (i) => {
-    const url = `http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${array[i]}`;
-    const res = await friendApiCall(url);
-    console.log(res);
-    PUSH(targetArray, res);
-    console.log(targetArray);
-  });
-}
-*/
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
 // app.get("/friendsplaceholder", (req, res) => {
@@ -95,9 +75,6 @@ async function idParser(array, targetArray) {
 //   res.render("friendslistplaceholder.ejs");
 // });
 
-// app.get("/friendsplaceholder", (req, res) => {
-//   res.render("friendsplaceholder.ejs");
-// });
 // Added to work on design, could be commented out if not needed - ADMIN USERS
 app.get("/indexPlaceholderAdmin", (req, res) => {
   res.render("indexPlaceholderAdmin.ejs");
@@ -128,10 +105,6 @@ app.get("/getOwnedGames", (req, res) => {
       console.log(results.rows[0].steamid);
       console.log(results.rows[0].apikey);
 
-      // const urlgetGames =
-      // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
-      // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
-
       const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
 
       request(urlgetGames, function (err, response, body) {
@@ -144,29 +117,10 @@ app.get("/getOwnedGames", (req, res) => {
 
           //convert the body string into a json file + Select only the first results query:
           const jsonGameData0 = toJSONbody.response.games;
-          // console.log(jsonGameData0);
-          // console.log(typeof jsonGameData0);
 
           const stringGameData = JSON.stringify(jsonGameData0);
-          // console.log(typeof stringGameData);
-
-          // console.log(stringGameData);
 
           res.render("getOwnedGames.ejs", { stringGameData });
-
-          // const jsonOwnedGames = toJSONbody.response.games;
-          // console.log(typeof jsonOwnedGames);
-          // const jsonGameName = jsonOwnedGames[0].name
-          // console.log(typeof jsonGameName);
-          // console.log(jsonGameName);
-
-          // const stringOwned = JSON.stringify(jsonOwnedGames);
-          // console.log(typeof stringOwned);
-
-          // res.json("getOwnedGames.ejs", { jsonGameName });
-          // res.status(201).json( {jsonOwnedGames} );
-
-          // res.render("getOwnedGames.ejs");
         }
       });
     }
@@ -210,12 +164,6 @@ app.get("/getAchievements/:appid", async (req, res) => {
         game_achievements[a.name] = a.achieved;
       });
 
-      // console.log(game_achievements);
-      //Only game name
-      // console.log(game_name);
-      //{ apiname: 'HelensPride', achieved: 1, unlocktime: 1441252536 }
-      // console.log(achievement_list);
-
       res.render("getAchievements.ejs", { game_name, achievement_list });
     }
   );
@@ -228,7 +176,6 @@ app.get("/getFriendsList", async (req, res) => {
     [req.user.id],
     async (err, results) => {
       if (!err) {
-        // console.log(results.rows);
       }
       console.log(results.rows);
       console.log(results.rows[0].steamid);
@@ -279,10 +226,6 @@ app.get("/getFriendsList", async (req, res) => {
         friends_summaries.set(steamID, player_summary);
       }
 
-      // console.log(playerArr);
-      // console.log(typeof playerArr);
-
-      // console.log(friends_summaries[0]);
       console.log("There are " + friends_length + " friends shown above ^");
 
       res.render("getFriendsList.ejs", { friends_summaries, playerArr });
@@ -291,8 +234,6 @@ app.get("/getFriendsList", async (req, res) => {
 });
 
 app.get("/getRandomGame", (req, res) => {
-  // console.log("this is the user id logged in:", [user.id]);
-
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -305,33 +246,7 @@ app.get("/getRandomGame", (req, res) => {
       console.log(results.rows[0].steamid);
       console.log(results.rows[0].apikey);
 
-      // const urlgetGames =
-      // `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=`+ results.rows[0].apikey +
-      // `&steamid=` + results.rows[0].steamid + `&include_appinfo=true&format=json'`;
-
       const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
-
-      // request(urlgetGames, function (err, response, body) {
-      //   if (!err && response.statusCode < 400) {
-      //     // console.log(body);
-      //     // console.log(typeof body);
-
-      //     const toJSONbody = JSON.parse(body);
-      //     // console.log(typeof toJSONbody);
-      //     //convert the body string into a json file + Select only the first results query:
-      //     const jsonGameDataGame = toJSONbody.response.games[getRandomIndex(toJSONbody.response.games.length)];
-      //     // console.log(jsonGameData0);
-      //     // console.log(typeof jsonGameData0);
-
-      //     const stringGameData = JSON.stringify(jsonGameDataGame);
-
-      //     console.log("StringGameData: ", stringGameData);
-      //     // console.log(stringGameData);
-
-      //     // res.render("getRandomGame.ejs");
-      //     res.render("getRandomGame.ejs", { stringGameData });
-      //   }
-      // });
 
       const options = {
         method: "GET",
@@ -345,11 +260,7 @@ app.get("/getRandomGame", (req, res) => {
           });
         });
 
-      // console.log(Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)]);
-
       const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)];
-
-      // console.log(randomGameReturn.appid);
 
       urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`;
 
@@ -363,7 +274,8 @@ app.get("/getRandomGame", (req, res) => {
         });
 
       var responseString = randomGameReturn.appid;
-      // console.log(responseString);
+
+      const SteamStoreGameData = StoreRandomresponse[responseString].data;
 
       // console.log(StoreRandomresponse[responseString]);
       // console.log(StoreRandomresponse[responseString].data.name);
@@ -414,11 +326,6 @@ app.get("/compareGames/:friendid", async (req, res) => {
       const friendsGameArray = [];
       const urlGetFriendsGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${req.params.friendid}&include_appinfo=true&format=json`;
 
-      // console.log(response1.response.games[1]);
-      // console.log(myGameArr);
-      // console.log(typeof myGameArr);
-      // console.log(req.params.friendid);
-
       const responseFriendsGames = await fetch(urlGetFriendsGames, options)
         .then((res) => res.json())
         .catch((e) => {
@@ -428,10 +335,6 @@ app.get("/compareGames/:friendid", async (req, res) => {
           });
         });
 
-      // var isEmpty = function(obj) {
-      //   return Object.keys(obj).length === 0;
-      // }
-
       if (isEmpty(responseFriendsGames.response)) {
         console.log("account is private");
       } else {
@@ -440,35 +343,19 @@ app.get("/compareGames/:friendid", async (req, res) => {
         }
       }
 
-      // for(var i = 0; i < responseFriendsGames.response.games.length; i++){
-      //   friendsGameArray.push(responseFriendsGames.response.games[i]);
-      // }
-
       res.render("compareGames.ejs", { myGameArr, friendsGameArray });
-
-      // console.log(myGameArr[1].appid);
       console.log("we are here");
     }
   );
 });
 
 app.get("/getnews", (req, res) => {
-  //  var qParams = [];
-  //   for (var p in req.query) {
-  //     qParams.push({ 'name':p, 'value': req.query[p]})
-  //   }
   const urlgetnews = "http://api.steampowered.com/ISteamNews/GetNewsForApp/v0002/?appid=440&count=3&maxlength=300&format=json";
   request(urlgetnews, function (err, response, body) {
     if (!err && response.statusCode < 400) {
-      // console.log(body);
-      // console.log(typeof body);
-
       const toJSONbody = JSON.parse(body);
-      // console.log(typeof toJSONbody);
 
       const jsonappnews = toJSONbody.appnews;
-
-      // console.log(jsonappnews.newsitems[0].title);
 
       const jsonTitle = jsonappnews.newsitems[0].title;
       const jsonappid = jsonappnews.newsitems[0].appid;
@@ -480,35 +367,18 @@ app.get("/getnews", (req, res) => {
   });
 });
 
-// app.("/logout", (req, res, next) => {
-//   req.logOut();
-//   res.redirect("/login");
-//   });
-
 //DB HERE
 app.get("/admin", (req, res) => {
   pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
     if (!err) {
-      // console.log("inside if, results.rows[0]: ", results.rows);
-      // res.render("admin.ejs", { data: results.rows[0] });
-
       //Checking to see if the user who is trying to acesss admin panel is superuser.
       if (req.user.isadmin == true) {
         res.render("admin.ejs", { data: results.rows, adminuser: req.user.email });
-        // console.log(results.rows);
       }
-
-      // res.render("admin.ejs", { data: results.rows } );
-      // console.log(results.rows);
-
-      // res.render("admin.ejs", { results });
     } else {
       console.log("You do not have access to this page.");
       console.log("error: ", err);
-      // res.render("/");
     }
-
-    // console.log("the data from the user table: \n", results.rows);
   });
 });
 
@@ -524,7 +394,6 @@ app.get("/editUser/:id", (req, res) => {
       else {
         console.log(results.rows);
       }
-      // console.log(results);
       res.render("editUser.ejs", { data: results.rows });
     }
   );
@@ -551,10 +420,6 @@ app.post("/editUser/:id", (req, res) => {
 });
 
 app.get("/delete/:id", async (req, res) => {
-  // pool.connect((err, connection) => {
-  //   if (err) throw err;
-  // });
-
   pool.query(
     `DELETE FROM usertable
     WHERE id = $1`,
