@@ -194,10 +194,7 @@ app.get("/getFriendsList", async (req, res) => {
       console.log(results.rows[0].steamid);
       console.log(results.rows[0].apikey);
 
-      var friends_summaries = new Map();
-
       // get list of friends
-      const friends = new Map(); // steamID:[games]
       const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
       const options = {
         method: "GET",
@@ -211,10 +208,10 @@ app.get("/getFriendsList", async (req, res) => {
           });
         });
 
-      const playerArr = [];
+      var playerArr = [];
+      const callArray = [];
 
       // iterate thru friend list
-      var count = 1;
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
@@ -226,7 +223,10 @@ app.get("/getFriendsList", async (req, res) => {
           friend_since: 1624655271
         } 
         */
+        callArray.push(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`)
+      }
 
+        /*
         // get friend summaries
         const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
         const response2 = await fetch(urlgetSummary, options)
@@ -250,12 +250,53 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["communityvisibilitystate"] = player.communityvisibilitystate;
 
         friends_summaries.set(steamID, player_summary);
+      }
+      */
+
+      async function fetchResponses() {
+        const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
         
-        console.log(count + "/" + friends_length);
-        count++;
+        // console.log(JSON.stringify(results, null, 2));
+        // console.log(results[26].response.players);
+        // player = results.response.players[0];
+        // console.log(typeof resultsFriends);
+        // console.log(resultsFriends);
+
+        // console.log(resultsFriends);
+
+        // console.log(resultsFriends.length);
+        // playerArr.push(resultsFriends);
+        // console.log(playerArr);
+        return resultsFriends;
       }
 
-      res.render("getFriendsList.ejs", { friends_summaries, playerArr });
+      
+
+      playerArr = await fetchResponses();
+
+      console.log(playerArr);
+
+      
+
+
+      /*
+      for (var i = 0; i < friendsList.length; i++) {
+        player = friendsList.response;
+        console.log(player);
+        /*
+        playerArr.push(player);
+        var player_summary = {};
+        player_summary["personaname"] = player.personaname;
+        player_summary["profileurl"] = player.profileurl;
+        player_summary["avatar"] = player.avatarmedium;
+        friends_summaries.set(steamID, player_summary);
+        
+      }
+      */
+
+      console.log("There are " + friends_length + " friends shown above ^");
+
+      res.render("getFriendsList.ejs", { playerArr });
     }
   );
 });
@@ -651,26 +692,6 @@ function checkNotAuthenticated(req, res, next) {
 
 function isEmpty(obj) {
   return !obj || Object.keys(obj).length === 0;
-}
-
-// Added function for get news
-function bindGetNewsButton() {
-  document.getElementById("getNewsForApp").addEventListener("click", function (event) {
-    var homeURL = "http://localhost:3000/getnews/?";
-    var userInput = document.getElementById("getNewsInput").value;
-    var newURL = homeURL + userInput;
-    var req = new XMLHttpRequest();
-    req.open("GET", newURL, true);
-    req.addEventListener("load", function () {
-      if (req.status >= 200 && req.status < 400) {
-        var response = JSON.parse(req.responseText);
-        console.log(response.appnews.newsitems[0].contents);
-      } else {
-        console.log("Error in network request: " + request.statusText);
-      }
-    });
-    req.send(null);
-  });
 }
 
 app.listen(PORT, () => {
