@@ -161,21 +161,18 @@ app.get("/getAchievements/:appid", async (req, res) => {
           });
         });
 
-      //13-digits long
-      const test_date = new Date(1642664853302);
-      console.log("TEST DATE: ", test_date);
-
-      //10-digits long
-      const date_from_steam = new Date(1487656760);
-      console.log("DATE_FROM_STEAM: ", date_from_steam);
-
-      //Multiplied by 1000
-      const steam_date_times1000 = new Date(1487656760000);
-      console.log("DATE_FROM_STEAM * 1000: ", steam_date_times1000.toLocaleDateString("en-US"));
-
       // iterate thru achievements and store them
       var game_name = achieve_response.playerstats.gameName;
       var achievement_list = achieve_response.playerstats.achievements;
+     
+      // if(achieve_response.playerstats.achievements == undefined){
+      //   console.log("there are no achievements");
+      // }
+
+      // else {
+        
+      // }
+
       achievement_list.forEach(function (a) {
         game_achievements[a.name] = a.achieved;
       });
@@ -217,6 +214,7 @@ app.get("/getFriendsList", async (req, res) => {
       const playerArr = [];
 
       // iterate thru friend list
+      var count = 1;
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
@@ -240,9 +238,10 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["profileurl"] = player.profileurl;
         player_summary["avatar"] = player.avatarmedium;
         friends_summaries.set(steamID, player_summary);
+        
+        console.log(count + "/" + friends_length);
+        count++;
       }
-
-      console.log("There are " + friends_length + " friends shown above ^");
 
       res.render("getFriendsList.ejs", { friends_summaries, playerArr });
     }
@@ -315,17 +314,23 @@ app.get("/compareGames/:friendid", async (req, res) => {
       if (!err) {
         // console.log(results.rows);
       }
-      console.log(results.rows);
-      console.log(results.rows[0].steamid);
-      console.log(results.rows[0].apikey);
-
-      const urlGetMyGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
-      const myGameArr = [];
-
       const options = {
         method: "GET",
       };
+      
 
+      // define maps and arrays to be used 
+      const myGameArr = [];
+      const friendsGameArr = [];
+      const sharedGamesArr = [];
+      const myGameMap = new Map();
+      const friendsGameMap = new Map();
+      const sharedGamesMap = new Map();
+
+
+
+      // fetch logged in user's games, store them
+      const urlGetMyGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
       const responseMyGames = await fetch(urlGetMyGames, options)
         .then((res) => res.json())
         .catch((e) => {
@@ -334,14 +339,15 @@ app.get("/compareGames/:friendid", async (req, res) => {
             error: e,
           });
         });
-
       for (var i = 0; i < responseMyGames.response.games.length; i++) {
-        myGameArr.push(responseMyGames.response.games[i]);
+        var game = responseMyGames.response.games[i];
+        myGameMap.set(game.appid, game);
+        myGameArr.push(game.appid);
       }
+        
 
-      const friendsGameArray = [];
+      // fetch friend's games, seperate shared games, store them
       const urlGetFriendsGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${req.params.friendid}&include_appinfo=true&format=json`;
-
       const responseFriendsGames = await fetch(urlGetFriendsGames, options)
         .then((res) => res.json())
         .catch((e) => {
@@ -350,23 +356,77 @@ app.get("/compareGames/:friendid", async (req, res) => {
             error: e,
           });
         });
-
-      if (isEmpty(responseFriendsGames.response)) {
-        console.log("account is private");
-      } else {
+      if (isEmpty(responseFriendsGames.response)) console.log("This is a private user");
+      else {
         for (var i = 0; i < responseFriendsGames.response.games.length; i++) {
-          friendsGameArray.push(responseFriendsGames.response.games[i]);
+          var game = responseFriendsGames.response.games[i];
+          friendsGameMap.set(game.appid, game);
+          friendsGameArr.push(game.appid);
+
+          // if game is owned by both
+          if (myGameMap.has(game.appid)) {
+              sharedGamesMap.set(game.appid, game);
+              sharedGamesArr.push(game.appid);
+          }
+
         }
       }
 
-      res.render("compareGames.ejs", { myGameArr, friendsGameArray });
-      console.log("we are here");
+
+      // sort the appid arrays 
+      myGameArr.sort();
+      friendsGameArr.sort();
+      sharedGamesArr.sort();
+
+/*
+  *
+  * This is the code for returning 2 lists instead of the 3 currently returning 
+  *
+
+      // build sorted lists of games with shared games first 
+      const userGames = [];
+      const friendGames = [];
+      for (var i = 0; i < sharedGamesArr.length; i++) {
+          var appid = sharedGamesArr[i];
+          userGames.push(sharedGamesMap.get(appid));
+          friendGames.push(sharedGamesMap.get(appid));
+      }
+      for (var i = 0; i < myGameArr.length; i++) {
+        var appid = myGameArr[i];
+        if (!sharedGamesMap.has(appid)) userGames.push(myGameMap.get(appid));
+      }
+      for (var i = 0; i < friendsGameArr.length; i++) {
+        var appid = friendsGameArr[i];
+        if (!sharedGamesMap.has(appid)) friendGames.push(friendsGameMap.get(appid));
+      }
+
+*/
+
+
+      // build sorted lists of games with shared games first 
+      const sharedGames = [];
+      for (var i = 0; i < sharedGamesArr.length; i++) {
+          var appid = sharedGamesArr[i];
+          sharedGames.push(sharedGamesMap.get(appid));
+      }
+      const userGames = [];
+      for (var i = 0; i < myGameArr.length; i++) {
+        var appid = myGameArr[i];
+        if (!sharedGamesMap.has(appid)) userGames.push(myGameMap.get(appid));
+      }
+      const friendGames = [];
+      for (var i = 0; i < friendsGameArr.length; i++) {
+        var appid = friendsGameArr[i];
+        if (!sharedGamesMap.has(appid)) friendGames.push(friendsGameMap.get(appid));
+      }
+
+      res.render("compareGames.ejs", { sharedGames, userGames, friendGames });
     }
   );
 });
 
 app.get("/getFeaturedGames", async (req, res) => {
-  const urlgetFeaturedGames = `https://store.steampowered.com/api/featured/`;
+  const urlgetFeaturedGames = `https://store.steampowered.com/api/featured/`
   featuredGamesArray = [];
 
   const options = {
@@ -374,19 +434,22 @@ app.get("/getFeaturedGames", async (req, res) => {
   };
 
   const responseFeaturedGames = await fetch(urlgetFeaturedGames, options)
-    .then((res) => res.json())
-    .catch((e) => {
-      console.error({
-        message: "Whoops",
-        error: e,
-      });
+  .then((res) => res.json())
+  .catch((e) => {
+    console.error({
+      message: "Whoops",
+      error: e,
     });
+  });
 
-  for (var i = 0; i < responseFeaturedGames.featured_win.length; i++) {
+  for (var i = 0; i < responseFeaturedGames.featured_win.length; i++){
     featuredGamesArray.push(responseFeaturedGames.featured_win[i]);
   }
 
-  res.render("getFeaturedGames.ejs", { featuredGamesArray });
+
+
+res.render("getFeaturedGames.ejs", {featuredGamesArray} );
+  
 });
 
 app.get("/getnews", (req, res) => {
