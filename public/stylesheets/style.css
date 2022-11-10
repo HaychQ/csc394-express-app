@@ -1102,6 +1102,14 @@ a:hover {
   color: white;
 }
 
+.email-textbox {
+  font-size: 16px;
+}
+
+textarea.email-textbox {
+  font-size: 16px;
+}
+
 /**********************************************************/
 /* MEDIA QUERIES */
 
