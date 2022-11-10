@@ -176,6 +176,15 @@ app.get("/getAchievements/:appid", async (req, res) => {
       // iterate thru achievements and store them
       var game_name = achieve_response.playerstats.gameName;
       var achievement_list = achieve_response.playerstats.achievements;
+     
+      // if(achieve_response.playerstats.achievements == undefined){
+      //   console.log("there are no achievements");
+      // }
+
+      // else {
+        
+      // }
+
       achievement_list.forEach(function (a) {
         //function a:  { apiname: 'Virtuoso', achieved: 0, unlocktime: 0 }
         // console.log("function a: ", a);
@@ -370,6 +379,33 @@ app.get("/compareGames/:friendid", async (req, res) => {
       console.log("we are here");
     }
   );
+});
+
+app.get("/getFeaturedGames", async (req, res) => {
+  const urlgetFeaturedGames = `https://store.steampowered.com/api/featured/`
+  featuredGamesArray = [];
+
+  const options = {
+    method: "GET",
+  };
+
+  const responseFeaturedGames = await fetch(urlgetFeaturedGames, options)
+  .then((res) => res.json())
+  .catch((e) => {
+    console.error({
+      message: "Whoops",
+      error: e,
+    });
+  });
+
+  for (var i = 0; i < responseFeaturedGames.featured_win.length; i++){
+    featuredGamesArray.push(responseFeaturedGames.featured_win[i]);
+  }
+
+
+
+res.render("getFeaturedGames.ejs", {featuredGamesArray} );
+  
 });
 
 app.get("/getnews", (req, res) => {
