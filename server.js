@@ -215,12 +215,16 @@ app.get("/getFriendsList", async (req, res) => {
         });
 
       const playerArr = [];
+      const callArray = [];
 
       // iterate thru friend list
       var friends_length = response.friendslist.friends.length;
-      for (var i = 0; i < friends_length; i++) {
+      for (var i = 0; i < 20; i++) {
         var steamID = response.friendslist.friends[i].steamid;
+        callArray.push(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`)
+      }
 
+        /*
         // get friend summaries
         const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
         const response2 = await fetch(urlgetSummary, options)
@@ -241,6 +245,39 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["avatar"] = player.avatarmedium;
         friends_summaries.set(steamID, player_summary);
       }
+
+      */
+
+      async function fetchResponses() {
+        const results = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.json())));
+        console.log(JSON.stringify(results, null, 2));
+        player = results.response.players[0];
+        playerArr.push(player);
+        var player_summary = {};
+        player_summary["personaname"] = player.personaname;
+        player_summary["profileurl"] = player.profileurl;
+        player_summary["avatar"] = player.avatarmedium;
+        friends_summaries.set(steamID, player_summary);
+        return results;
+      }
+
+      const friendsList = await fetchResponses();
+
+      console.log(friends_summaries);
+      /*
+      for (var i = 0; i < friendsList.length; i++) {
+        player = friendsList.response;
+        console.log(player);
+        /*
+        playerArr.push(player);
+        var player_summary = {};
+        player_summary["personaname"] = player.personaname;
+        player_summary["profileurl"] = player.profileurl;
+        player_summary["avatar"] = player.avatarmedium;
+        friends_summaries.set(steamID, player_summary);
+        
+      }
+      */
 
       console.log("There are " + friends_length + " friends shown above ^");
 
