@@ -328,7 +328,6 @@ app.get("/compareGames/:friendid", async (req, res) => {
       const sharedGamesMap = new Map();
 
 
-
       // fetch logged in user's games, store them
       const urlGetMyGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
       const responseMyGames = await fetch(urlGetMyGames, options)
@@ -378,6 +377,7 @@ app.get("/compareGames/:friendid", async (req, res) => {
       friendsGameArr.sort();
       sharedGamesArr.sort();
 
+
 /*
   *
   * This is the code for returning 2 lists instead of the 3 currently returning 
@@ -404,10 +404,12 @@ app.get("/compareGames/:friendid", async (req, res) => {
 
 
       // build sorted lists of games with shared games first 
-      const sharedGames = [];
+      const sharedGames1 = [];
+      const sharedGames2 = [];
       for (var i = 0; i < sharedGamesArr.length; i++) {
           var appid = sharedGamesArr[i];
-          sharedGames.push(sharedGamesMap.get(appid));
+          sharedGames1.push(myGameMap.get(appid));
+          sharedGames2.push(friendsGameMap.get(appid));
       }
       const userGames = [];
       for (var i = 0; i < myGameArr.length; i++) {
@@ -420,7 +422,7 @@ app.get("/compareGames/:friendid", async (req, res) => {
         if (!sharedGamesMap.has(appid)) friendGames.push(friendsGameMap.get(appid));
       }
 
-      res.render("compareGames.ejs", { sharedGames, userGames, friendGames });
+      res.render("compareGames.ejs", { sharedGames1, sharedGames2, userGames, friendGames });
     }
   );
 });
