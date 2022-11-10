@@ -65,7 +65,7 @@
     <div class="compare-games-table-container container">
 
 
-    <!-- <%= loc = myGameArr %> -->
+    <!-- <%= loc = userGames %> -->
     <div class="table-responsive-md center-table-compare fade-in">
       <table class="table table-dark align-middle custom-table">
         <thead>
@@ -74,13 +74,24 @@
           <th class="admin-header" scope="col">PlayTime</th>
           <th class="admin-header" scope="col">Game Icon</th>
         </thead>
-        <% for(var i=0; i < myGameArr.length; i++) { %>
+        <% for(var i=0; i < sharedGames.length; i++) { %>          
+          <tr class="row-hover-admin" style="color:green">
+            <td class="table-element"><%= sharedGames[i].appid %></td>
+            <td class="table-element compare-name"><%= sharedGames[i].name %></td>
+            <td  class="table-element"><%= sharedGames[i].playtime_forever %></td>
+            <td class="table-dark">
+              <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${sharedGames[i].appid}/${sharedGames[i].img_icon_url}.jpg` %> class="game-icon">
+              </img>
+            </td>
+          </tr>
+          <% } %>  
+        <% for(var i=0; i < userGames.length; i++) { %>
         <tr class="row-hover-admin">
-          <td class="table-element"><%= myGameArr[i].appid %></td>
-          <td class="table-element compare-name"><%= myGameArr[i].name %></td>
-          <td  class="table-element"><%= myGameArr[i].playtime_forever %></td>
+          <td class="table-element"><%= userGames[i].appid %></td>
+          <td class="table-element compare-name"><%= userGames[i].name %></td>
+          <td  class="table-element"><%= userGames[i].playtime_forever %></td>
           <td class="table-dark">
-            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${myGameArr[i].appid}/${myGameArr[i].img_icon_url}.jpg` %> class="game-icon">
+            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${userGames[i].appid}/${userGames[i].img_icon_url}.jpg` %> class="game-icon">
             </img>
           </td>
         </tr>
@@ -98,14 +109,25 @@
           <th class="admin-header" scope="col">PlayTime</th>
           <th class="admin-header" scope="col">Game Icon</th>
         </thead>
-        <% for(var i=0; i < friendsGameArray.length; i++) { %>
+        <% for(var i=0; i < sharedGames.length; i++) { %>          
+          <tr class="row-hover-admin" style="color:green">
+            <td class="table-element"><%= sharedGames[i].appid %></td>
+            <td class="table-element compare-name"><%= sharedGames[i].name %></td>
+            <td  class="table-element"><%= sharedGames[i].playtime_forever %></td>
+            <td class="table-dark">
+              <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${sharedGames[i].appid}/${sharedGames[i].img_icon_url}.jpg` %> class="game-icon">
+              </img>
+            </td>
+          </tr>
+          <% } %>  
+        <% for(var i=0; i < friendGames.length; i++) { %>
         <tr class="row-hover-admin">
-          <td class="table-element"><%= friendsGameArray[i].appid %></td>
-          <td class="table-element compare-name"><%= friendsGameArray[i].name %></td>
-          <td class="table-element compare-playtime"><%= friendsGameArray[i].playtime_forever %></td>
-          <!-- <td><%= friendsGameArray[i].img_icon_url %></td> -->
+          <td class="table-element"><%= friendGames[i].appid %></td>
+          <td class="table-element compare-name"><%= friendGames[i].name %></td>
+          <td class="table-element compare-playtime"><%= friendGames[i].playtime_forever %></td>
+          <!-- <td><%= friendGames[i].img_icon_url %></td> -->
           <td class="table-dark">
-            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${friendsGameArray[i].appid}/${friendsGameArray[i].img_icon_url}.jpg` %> class="game-icon">
+            <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${friendGames[i].appid}/${friendGames[i].img_icon_url}.jpg` %> class="game-icon">
             </img>
           </td>
         </tr>
