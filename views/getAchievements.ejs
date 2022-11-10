@@ -78,18 +78,9 @@
               <h1 class="achievement-text achievement-progress">In Progress</h1>
               <% } %>
             </td>
-
-            <!-- var ms = 298999,
-            min = Math.floor((ms/1000/60) << 0),
-            sec = Math.floor((ms/1000) % 60); -->
-            <!-- <td>
-              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(new
-              Date(achievement_list[i].unlocktime)) %>
-            </td> -->
-
             <td>
-              <%= new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: '2-digit'}).format(new
-              Date(achievement_list[i].unlocktime)) %>
+              <% if(achievement_list[i].achieved == 1){ %> <%= new Intl.DateTimeFormat('en-US').format(new
+              Date(achievement_list[i].unlocktime * 1000)) %> <% } else{ %> N/A <% } %>
             </td>
           </tr>
           <% } %>

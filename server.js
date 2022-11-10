@@ -161,10 +161,29 @@ app.get("/getAchievements/:appid", async (req, res) => {
           });
         });
 
+      //13-digits long
+      const test_date = new Date(1642664853302);
+      console.log("TEST DATE: ", test_date);
+
+      //10-digits long
+      const date_from_steam = new Date(1487656760);
+      console.log("DATE_FROM_STEAM: ", date_from_steam);
+
+      //Multiplied by 1000
+      const steam_date_times1000 = new Date(1487656760000);
+      console.log("DATE_FROM_STEAM * 1000: ", steam_date_times1000.toLocaleDateString("en-US"));
+
       // iterate thru achievements and store them
       var game_name = achieve_response.playerstats.gameName;
       var achievement_list = achieve_response.playerstats.achievements;
       achievement_list.forEach(function (a) {
+        //function a:  { apiname: 'Virtuoso', achieved: 0, unlocktime: 0 }
+        // console.log("function a: ", a);
+        //a.unlocktime:  1510465999
+        // console.log("a.unlocktime: ", a.unlocktime);
+        // const achievement_date = new Date(a.unlocktime);
+        // console.log("a.unlocktime: ", a.unlocktime);
+        // console.log("achievement_date: ", achievement_date);
         game_achievements[a.name] = a.achieved;
       });
 
