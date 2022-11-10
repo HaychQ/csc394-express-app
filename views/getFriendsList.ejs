@@ -66,43 +66,73 @@
         <thead>
           <tr>
           <th class="admin-header" scope="col">Index</th>
+          <th class="admin-header" scope="col">Avatar</th>
           <!-- <th class="admin-header" scope="col">Steam Id</th> -->
           <th class="admin-header" scope="col">Steam Username</th>
-          <th class="admin-header" scope="col">Profile Url</th>
-          <th class="admin-header" scope="col">Avatar</th>
+          <th class="admin-header" scope="col">Privacy</th>
           <th class="admin-header action-friends-list" scope="col">Action</th>
+          
+          <!-- TEMPORARY - DELETE AFTER -->
+          <th class="admin-header" scope="col">Profile Url</th>
         </tr>
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
         <tr class="row-hover">
           <td class="api-text table-dark"><%= i + 1 %></td>
           <!-- <td class="api-text table-dark"><%= loc[i].steamid %></td> -->
-          <td class="api-text table-dark"><%= loc[i].personaname %></td>
-          <!-- <td class="api-text table-dark"><%= loc[i].profileurl %></td> -->
-
-          <td class="api-text table-dark">
-            <!-- Email Textbox/Submit Btn layout -->
-            <!-- <form>
-              <input type="email" name="email" id="email" placeholder="Friend's Email">
-              <input type="submit" value="submit!" class="btn primary-btn friends-list-submit-btn">
-            </form> -->
-
-            <a href="/emailFriend" class="btn btn-outline btn-small private-btn friends-list-btn action-friends-list">Add Email for Private Account</a>
-          </td>
-
           <td class=" table-dark">
             <img src=<%= loc[i].avatarmedium %> class="game-icon">
             </img>
           </td>
+          <td class="api-text table-dark"><%= loc[i].personaname %></td>
+   
+          <!-- TEMPORARY -->
+          <td class="api-text table-dark">
+            <!-- <h1><%= loc[i].communityvisibilitystate %> </h1> -->
+           
+            <% if(loc[i].communityvisibilitystate == 1 || loc[i].communityvisibilitystate == 2){ %>
+              <!-- PRIVATE ACCOUNT - Display Button -->
+              <h1 class="api-text table-dark">Private</h1>
+              <% } else{ %>
+                <!-- Status 3 - Public display Profile URL -->
+              <h1 class="api-text table-dark">Public</h1>
+            <% } %>
+          </td>
+
           <td class="action-friends-list">
-            <a
-              href="/compareGames/<%= loc[i].steamid %>"
+              <% if(loc[i].communityvisibilitystate == 1 || loc[i].communityvisibilitystate == 2){ %>
+                <!-- PRIVATE ACCOUNT - Display Button -->
+
+                <button
+              href=""
               type="button"
               title="Compare Games"
-              class="btn btn-outline btn-small action-btn friends-list-btn action-friends-list"
-              ><i class="bi bi-person-x"></i>Compare Games</a
+              class="btn btn-outline btn-small action-btn friends-list-btn action-friends-list disabled-btn"
+              ><i class="bi bi-person-x"></i>Compare Games</button
             >
+                <% } else{ %>
+                  <!-- Status 3 - Public display Profile URL -->
+                  <a
+                  href="/compareGames/<%= loc[i].steamid %>"
+                  type="button"
+                  title="Compare Games"
+                  class="btn btn-outline btn-small action-btn friends-list-btn action-friends-list"
+                  ><i class="bi bi-person-x"></i>Compare Games</a
+                >
+              <% } %>
+            </td>
 
+            <!-- Make compare game disabled or active depending if their acc is public or private -->
+
+            <td class="api-text table-dark">
+              <% if(loc[i].communityvisibilitystate == 1 || loc[i].communityvisibilitystate == 2){ %>
+                <!-- PRIVATE ACCOUNT - Display Button -->
+                <h1 class="api-text table-dark"><a href="http://54.75.88.164/register" class="btn btn-outline btn-small private-btn friends-list-btn action-friends-list">Send Invite To Join</a></h1>
+                <% } else{ %>
+                  <!-- Status 3 - Public display Profile URL -->
+                <h1 class="api-text table-dark"><%= loc[i].profileurl %></h1>
+              <% } %>
+            </td>
         </tr>
         <% } %>
       </table>

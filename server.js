@@ -220,6 +220,14 @@ app.get("/getFriendsList", async (req, res) => {
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
+        /*
+        console.log("INSIDE FRIENDS LIST - response.friendslist.friends[i]: ", response.friendslist.friends[i]);
+        INSIDE FRIENDS LIST - response.friendslist.friends[i]:  {
+          steamid: '76561197978201233',
+          relationship: 'friend',
+          friend_since: 1624655271
+        } 
+        */
 
         // get friend summaries
         const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
@@ -234,11 +242,15 @@ app.get("/getFriendsList", async (req, res) => {
         const player = response2.response.players[0];
         playerArr.push(player);
 
+        // console.log("Player = ", player);
+
         // add summary info to dict
         var player_summary = {};
         player_summary["personaname"] = player.personaname;
         player_summary["profileurl"] = player.profileurl;
         player_summary["avatar"] = player.avatarmedium;
+        player_summary["communityvisibilitystate"] = player.communityvisibilitystate;
+
         friends_summaries.set(steamID, player_summary);
       }
 

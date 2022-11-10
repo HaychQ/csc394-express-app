@@ -436,6 +436,20 @@ th.action-friends-list {
   color: white;
   background-color: #bc0f0f;
 }
+
+.disabled-btn {
+  color: white;
+  background-color: #777;
+  cursor: none;
+}
+
+.disabled-btn:hover,
+.disabled-btn:active,
+.disabled-btn:link,
+.disabled-btn:visited {
+  background-color: #777;
+  border: 1px solid #777;
+}
 /***********************************************/
 
 .text-size {
