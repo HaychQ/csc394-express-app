@@ -95,9 +95,92 @@ app.get("/getFriendsList/emailFriend/:friendid", (req, res) => {
 
 
 // Brian's Email Implementation Goes here:
-app.post("/getFriendsList/emailFriend/:friendid", (req, res) => {
+app.get("/getFriendsList/inviteFriend/:steamid/:email", async (req, res) => {
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    async (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }      
+      const options = {
+        method: "GET",
+      };      
+
+      // given data 
+      //console.log("Checkpoint #1");
+      const given_steamid = req.params.steamid;
+      const given_email = req.params.email;
+
+      // gather user's summary  
+      //console.log("Checkpoint #2");
+      const urlgetSummary1 = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${results.rows[0].steamid}`;
+      const response1 = await fetch(urlgetSummary1, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
+        });
+      const user = response1.response.players[0];  
+
+      // gather friend's summary 
+      //console.log("Checkpoint #3");
+      const urlgetSummary2 = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${given_steamid}`;
+      const response2 = await fetch(urlgetSummary2, options)
+        .then((res) => res.json())
+        .catch((e) => {
+          console.error({
+            message: "oh noes",
+            error: e,
+          });
+        });
+      const friend = response2.response.players[0];  
+
+      // create transporter
+      //console.log("Checkpoint #4");
+      const transporter = nodemailer.createTransport({
+          service: "hotmail",
+          port: 587,
+          secure: false, // true for 465, false for other ports
+          auth: {
+          user: "steamAPIproject@hotmail.com",
+          pass: "Steam123"
+          },
+      });
+
+      // set email information
+      //console.log("Checkpoint #5");
+      const info = {
+          from: "Steamy <steamAPIproject@hotmail.com>",
+          to: given_email,
+          subject: "You have been invited to join Steamy!",
+          html: "<div style='font-size:25px;'><div style='width:100%; height:25%;'><img style='width:100px; height:100px; float:left;' src='" + friend.avatarfull + "'><img style='width:100px; height:100px; float:left;' src='" + user.avatarfull + "'></div><br>Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>"+ friend.personaname + "</span>, <br><br>Your Steam friend <span style='font-size:24px; font-weight:bold;'>" + user.personaname + "</span> has invited you to join Steamy! <br><br>An app that ties together the functionality of every Steam API.</div>"
+
+      };
+
+      // send email 
+      //console.log("Checkpoint #6");
+      const email = transporter.sendMail(info, function (err, info) {
+          if (err) {
+              console.log(err);
+              return;
+          }
+          console.log("Sent: " + info.response);
+      });
+       
   
+      //console.log("Checkpoint #7");
+      
+
+    }
+  );
 });
+
+
+
 /*************************************************************/
 
 app.get("/getOwnedGames", (req, res) => {
