@@ -70,7 +70,7 @@
         <span class="random-game-name"><%= SteamStoreGameData.name %></span>
         <div class="random-game-playtime-container">
           <h1>Playtime: </h1>
-          <span class="random-game-playtime"><%= randomGameReturn.playtime_forever %> Mins.</span>
+          <span class="random-game-playtime"><%= parseInt(randomGameReturn.playtime_forever / "60") + " Hrs." %></span>
         </div>
         <div class="random-game-genre-container">
         <h1>Genre:</h1>
