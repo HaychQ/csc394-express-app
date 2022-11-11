@@ -69,31 +69,35 @@
     <div class="table-responsive-md center-table-compare fade-in">
       <table class="table table-dark align-middle custom-table">
         <thead>
-          <th class="admin-header" scope="col">Game ID</th>
+          <th class="admin-header" scope="col">Game Icon</th>
+          <!-- <th class="admin-header" scope="col">Game ID</th> -->
           <th class="admin-header compare-name" scope="col">Game Name</th>
           <th class="admin-header" scope="col">PlayTime</th>
-          <th class="admin-header" scope="col">Game Icon</th>
         </thead>
         <% for(var i=0; i < sharedGames1.length; i++) { %>          
           <tr class="row-hover-admin" style="color:green">
-            <td class="table-element"><%= sharedGames1[i].appid %></td>
-            <td class="table-element compare-name"><%= sharedGames1[i].name %></td>
-            <td  class="table-element"><%= sharedGames1[i].playtime_forever %></td>
             <td class="table-dark">
               <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${sharedGames1[i].appid}/${sharedGames1[i].img_icon_url}.jpg` %> class="game-icon">
               </img>
             </td>
+            <!-- <td class="table-element"><%= sharedGames1[i].appid %></td> -->
+            <td class="table-element compare-name"><%= sharedGames1[i].name %></td>
+
+            <!-- <td  class="table-element"><%= sharedGames1[i].playtime_forever %></td> -->
+            <td class="table-element"><%=  parseInt(sharedGames1[i].playtime_forever / '60') + ' Hrs.' %></td>
           </tr>
           <% } %>  
         <% for(var i=0; i < userGames.length; i++) { %>
         <tr class="row-hover-admin">
-          <td class="table-element"><%= userGames[i].appid %></td>
-          <td class="table-element compare-name"><%= userGames[i].name %></td>
-          <td  class="table-element"><%= userGames[i].playtime_forever %></td>
           <td class="table-dark">
             <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${userGames[i].appid}/${userGames[i].img_icon_url}.jpg` %> class="game-icon">
             </img>
           </td>
+          <!-- <td class="table-element"><%= userGames[i].appid %></td> -->
+          <td class="table-element compare-name"><%= userGames[i].name %></td>
+
+          <!-- <td  class="table-element"><%= userGames[i].playtime_forever %></td> -->
+          <td class="table-element"><%=  parseInt(userGames[i].playtime_forever / '60') + ' Hrs.' %></td>  
         </tr>
         <% } %>
       </table>
@@ -104,32 +108,35 @@
     <!-- FRIENDS COMPARE -->
     <table class="table table-dark align-middle custom-table">
         <thead>
-          <th class="admin-header" scope="col">Game ID</th>
+          <th class="admin-header" scope="col">Game Icon</th>
+          <!-- <th class="admin-header" scope="col">Game ID</th> -->
           <th class="admin-header compare-name" scope="col">Game Name</th>
           <th class="admin-header" scope="col">PlayTime</th>
-          <th class="admin-header" scope="col">Game Icon</th>
         </thead>
         <% for(var i=0; i < sharedGames2.length; i++) { %>          
           <tr class="row-hover-admin" style="color:green">
-            <td class="table-element"><%= sharedGames2[i].appid %></td>
-            <td class="table-element compare-name"><%= sharedGames2[i].name %></td>
-            <td  class="table-element"><%= sharedGames2[i].playtime_forever %></td>
             <td class="table-dark">
               <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${sharedGames2[i].appid}/${sharedGames2[i].img_icon_url}.jpg` %> class="game-icon">
               </img>
             </td>
+            <!-- <td class="table-element"><%= sharedGames2[i].appid %></td> -->
+            <td class="table-element compare-name"><%= sharedGames2[i].name %></td>
+
+            <!-- <td  class="table-element"><%= sharedGames2[i].playtime_forever %></td> -->
+            <td class="table-element"><%=  parseInt(sharedGames2[i].playtime_forever / '60') + ' Hrs.' %></td> 
           </tr>
           <% } %>  
         <% for(var i=0; i < friendGames.length; i++) { %>
         <tr class="row-hover-admin">
-          <td class="table-element"><%= friendGames[i].appid %></td>
-          <td class="table-element compare-name"><%= friendGames[i].name %></td>
-          <td class="table-element compare-playtime"><%= friendGames[i].playtime_forever %></td>
-          <!-- <td><%= friendGames[i].img_icon_url %></td> -->
           <td class="table-dark">
             <img src=<%= `http://media.steampowered.com/steamcommunity/public/images/apps/${friendGames[i].appid}/${friendGames[i].img_icon_url}.jpg` %> class="game-icon">
             </img>
           </td>
+          <!-- <td class="table-element"><%= friendGames[i].appid %></td> -->
+          <td class="table-element compare-name"><%= friendGames[i].name %></td>
+
+          <!-- <td class="table-element compare-playtime"><%= friendGames[i].playtime_forever %></td> -->
+          <td class="table-element"><%=  parseInt(friendGames[i].playtime_forever / '60') + ' Hrs.' %></td> 
         </tr>
         <% } %>
       </table>
