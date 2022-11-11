@@ -89,8 +89,14 @@ app.get("/errorPage", (req, res) => {
   res.render("errorPage.ejs");
 });
 
-app.get("/emailFriend", (req, res) => {
+app.get("/getFriendsList/emailFriend/:friendid", (req, res) => {
   res.render("emailFriend.ejs");
+});
+
+
+// Brian's Email Implementation Goes here:
+app.post("/getFriendsList/emailFriend/:friendid", (req, res) => {
+  
 });
 /*************************************************************/
 
