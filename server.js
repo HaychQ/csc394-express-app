@@ -148,10 +148,7 @@ app.post("/sendEmail/:friendid", async (req, res) => {
           });
         });
       const friend = response2.response.players[0];
-      // console.log(friend);  
 
-      var to = req.body.to;
-      var message = req.body.message;
 
       // create transporter
       //console.log("Checkpoint #4");
@@ -167,12 +164,25 @@ app.post("/sendEmail/:friendid", async (req, res) => {
 
       // set email information
       //console.log("Checkpoint #5");
+      var to = req.body.to;
+      var message = req.body.message;
       const mailOptions = {
           from: "Steamy <steamAPIproject@hotmail.com>",
           to: to,
           subject: "You have been invited to join Steamy!",
-          message: message,
-          html: "<div style='font-size:25px;'><div style='width:100%; height:25%;'><img style='width:100px; height:100px; float:left;' src='" + friend.avatarfull + "'><img style='width:100px; height:100px; float:left;' src='" + user.avatarfull + "'></div><br>Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>"+ friend.personaname + "</span>, <br><br>Your Steam friend <span style='font-size:24px; font-weight:bold;'>" + user.personaname + "</span> has invited you to join Steamy! <br><br>An app that ties together the functionality of every Steam API. <br><br> Here is the message they left you: <br><br>" + message + "</div>"
+          html: `<div style='font-size:25px;'> \
+                    <div style='width:100%; height:25%;'> \
+                      <img style='width:100px; height:100px; float:left;' src='` + friend.avatarfull + `'> \
+                      <img style='width:100px; height:100px; float:left;' src='` + user.avatarfull + `'> \
+                    </div><br> \
+                    Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>` + friend.personaname + `</span>, <br><br> \
+                    Your Steam friend <span style='font-size:24px; font-weight:bold;'>` + user.personaname + `</span> has invited you to join Steamy! <br><br> \
+                    An app that ties together the functionality of every Steam API. <br><br> \
+                    Here is the message they said to you: <br><br> \
+                    <div style='width:15em; height:55em; border:2px solid #489BDD; background-color: #1B2838; color:white; font-size:22px;'> \
+                        <br><br><br>` + message + `<br><br><br> \
+                        </div><br> \
+                    Click <a href='http://localhost:3000/register'>here</a> to register and start using Steamy!</div>`
       };
 
       // send email 
@@ -193,45 +203,6 @@ app.post("/sendEmail/:friendid", async (req, res) => {
 });
 
 
-
-/*************************************************************/
-
-app.get("/getOwnedGames", (req, res) => {
-  // console.log("this is the user id logged in:", [user.id]);
-
-  pool.query(
-    `SELECT * FROM usertable
-    WHERE id = $1`,
-    [req.user.id],
-    (err, results) => {
-      if (!err) {
-        // console.log(results.rows);
-      }
-      console.log(results.rows);
-      console.log(results.rows[0].steamid);
-      console.log(results.rows[0].apikey);
-
-      const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
-
-      request(urlgetGames, function (err, response, body) {
-        if (!err && response.statusCode < 400) {
-          // console.log(body);
-          // console.log(typeof body);
-
-          const toJSONbody = JSON.parse(body);
-          // console.log(typeof toJSONbody);
-
-          //convert the body string into a json file + Select only the first results query:
-          const jsonGameData0 = toJSONbody.response.games;
-
-          const stringGameData = JSON.stringify(jsonGameData0);
-
-          res.render("getOwnedGames.ejs", { stringGameData });
-        }
-      });
-    }
-  );
-});
 
 app.get("/getAchievements/:appid", async (req, res) => {
   pool.query(
