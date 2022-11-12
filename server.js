@@ -99,7 +99,7 @@ app.get("/getFriendsList/emailFriend/:friendid", (req, res) => {
 
 
 // Brian's Email Implementation Goes here:
-app.get("/getFriendsList/inviteFriend/:steamid/:email", async (req, res) => {
+app.post("/getFriendsList/inviteFriend", async (req, res) => {
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -112,10 +112,11 @@ app.get("/getFriendsList/inviteFriend/:steamid/:email", async (req, res) => {
         method: "GET",
       };      
 
+
       // given data 
       //console.log("Checkpoint #1");
       const given_steamid = req.params.steamid;
-      const given_email = req.params.email;
+      const given_email = req.body.email;
 
       // gather user's summary  
       //console.log("Checkpoint #2");
