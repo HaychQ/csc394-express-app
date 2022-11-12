@@ -13,8 +13,9 @@ const initializePassport = require("./passport-config");
 const { json } = require("express");
 const { promises } = require("nyc/lib/fs-promises");
 const pLimit = require("p-limit");
-const http = require("http");
-const nodemailer = require("nodemailer");
+
+
+
 
 module.exports = app;
 
@@ -97,6 +98,8 @@ app.get("/errorPage", (req, res) => {
 app.get("/getFriendsList/emailFriend/:friendid", (req, res) => {
   friend_id = req.params.friendid;
   res.render("emailFriend.ejs", { friend_id });
+  friend_id = req.params.friendid;
+  res.render("emailFriend.ejs", {friend_id});
 });
 
 // Brian's Email Implementation Goes here:
@@ -158,51 +161,78 @@ app.post("/sendEmail/:friendid", async (req, res) => {
 
       // set email information
       //console.log("Checkpoint #5");
-      var to = req.body.to;
-      var message = req.body.message;
-      const mailOptions = {
+      const info = {
         from: "Steamy <steamAPIproject@hotmail.com>",
-        to: to,
+        to: given_email,
         subject: "You have been invited to join Steamy!",
         html:
-          `<div style='font-size:25px;'> \
-                    <div style='width:100%; height:25%;'> \
-                      <img style='width:100px; height:100px; float:left;' src='` +
+          "<div style='font-size:25px;'><div style='width:100%; height:25%;'><img style='width:100px; height:100px; float:left;' src='" +
           friend.avatarfull +
-          `'> \
-                      <img style='width:100px; height:100px; float:left;' src='` +
+          "'><img style='width:100px; height:100px; float:left;' src='" +
           user.avatarfull +
-          `'> \
-                    </div><br> \
-                    Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>` +
+          "'></div><br>Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>" +
           friend.personaname +
-          `</span>, <br><br> \
-                    Your Steam friend <span style='font-size:24px; font-weight:bold;'>` +
+          "</span>, <br><br>Your Steam friend <span style='font-size:24px; font-weight:bold;'>" +
           user.personaname +
-          `</span> has invited you to join Steamy! <br><br> \
-                    An app that ties together the functionality of every Steam API. <br><br> \
-                    Here is the message they said to you: <br><br> \
-                    <div style='width:15em; height:55em; border:2px solid #489BDD; background-color: #1B2838; color:white; font-size:22px;'> \
-                        <br><br><br>` +
-          message +
-          `<br><br><br> \
-                        </div><br> \
-                    Click <a href='http://54.75.88.164/register'>here</a> to register and start using Steamy!</div>`,
+          "</span> has invited you to join Steamy! <br><br>An app that ties together the functionality of every Steam API.</div>",
       };
 
       // send email
       //console.log("Checkpoint #6");
-      transporter.sendMail(mailOptions, function (err, info) {
+      const email = transporter.sendMail(info, function (err, info) {
         if (err) {
           console.log(err);
           return;
         }
-        console.log("Email Sent: " + info.response);
+        console.log("Sent: " + info.response);
       });
 
-      res.redirect("/");
-
       //console.log("Checkpoint #7");
+    }
+  );
+});
+
+    });
+});
+
+//     });
+// });
+
+/*************************************************************/
+
+app.get("/getOwnedGames", (req, res) => {
+  // console.log("this is the user id logged in:", [user.id]);
+
+  pool.query(
+    `SELECT * FROM usertable
+    WHERE id = $1`,
+    [req.user.id],
+    (err, results) => {
+      if (!err) {
+        // console.log(results.rows);
+      }
+      console.log(results.rows);
+      console.log(results.rows[0].steamid);
+      console.log(results.rows[0].apikey);
+
+      const urlgetGames = `https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&include_appinfo=true&format=json`;
+
+      request(urlgetGames, function (err, response, body) {
+        if (!err && response.statusCode < 400) {
+          // console.log(body);
+          // console.log(typeof body);
+
+          const toJSONbody = JSON.parse(body);
+          // console.log(typeof toJSONbody);
+
+          //convert the body string into a json file + Select only the first results query:
+          const jsonGameData0 = toJSONbody.response.games;
+
+          const stringGameData = JSON.stringify(jsonGameData0);
+
+          res.render("getOwnedGames.ejs", { stringGameData });
+        }
+      });
     }
   );
 });
@@ -287,14 +317,28 @@ app.get("/getFriendsList", async (req, res) => {
           });
         });
 
-      const playerArr = [];
+      var playerArr = [];
+      const callArray = [];
 
       // iterate thru friend list
       var count = 1;
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
+        /*
+        console.log("INSIDE FRIENDS LIST - response.friendslist.friends[i]: ", response.friendslist.friends[i]);
+        INSIDE FRIENDS LIST - response.friendslist.friends[i]:  {
+          steamid: '76561197978201233',
+          relationship: 'friend',
+          friend_since: 1624655271
+        } 
+        */
+        callArray.push(
+          `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`
+        );
+      }
 
+      /*
         // get friend summaries
         const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=414B0C3BB8AC9CFE5B3746408083AAE5&steamids=${steamID}`;
         const response2 = await fetch(urlgetSummary, options)
@@ -314,12 +358,92 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["profileurl"] = player.profileurl;
         player_summary["avatar"] = player.avatarmedium;
         friends_summaries.set(steamID, player_summary);
+      }
+      */
 
-        // console.log(count + "/" + friends_length);
-        count++;
+      // ----- Initial Implementation of Promise Function ---
+
+      // async function fetchResponses() {
+      //   const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
+      //   // const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.text()).then((text) => console.log(text))));
+
+      //   // console.log(JSON.stringify(results, null, 2));
+      //   // console.log(results[26].response.players);
+      //   // player = results.response.players[0];
+      //   // console.log(typeof resultsFriends);
+      //   // console.log(resultsFriends);
+
+      //   // console.log(resultsFriends);
+
+      //   // console.log(resultsFriends.length);
+      //   // playerArr.push(resultsFriends);
+      //   // console.log(playerArr);
+      //   return resultsFriends;
+      // }
+
+      // ----- Hasan's Implementation of pLimit ----- //
+
+      const limit = pLimit(3);
+
+      // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => r.response.players[0]))});
+      // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => console.log(r.response.players[0])))});
+
+      async function fetchResponses() {
+        let promises = callArray.map((url) => {
+          limit(() =>
+            fetch(url)
+              .then((r) => r.json())
+              .then((r) => r.response.players[0])
+          );
+        });
+        // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => console.log(r.response.players[0])))});
+
+        const resultsFriends = await Promise.all(promises);
+
+        console.log(resultsFriends);
+
+        return resultsFriends;
       }
 
-      res.render("getFriendsList.ejs", { friends_summaries, playerArr });
+      playerArr = await fetchResponses();
+
+      console.log(playerArr);
+
+      /*
+      for (var i = 0; i < friendsList.length; i++) {
+        player = friendsList.response;
+        console.log(player);
+        /*
+        playerArr.push(player);
+        var player_summary = {};
+        player_summary["personaname"] = player.personaname;
+        player_summary["profileurl"] = player.profileurl;
+        player_summary["avatar"] = player.avatarmedium;
+        friends_summaries.set(steamID, player_summary);
+        
+      }
+      */
+
+      //// This is Niko's Pasted Code ////
+
+      // const limit = pLimit(5);
+
+      // async function fetchResponses() {
+      //   const promises = callArray.map((url) => limit(() => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
+
+      //   //console.log(resultsFriends);
+
+      //   return promises;
+      // }
+
+      // var promises = await fetchResponses();
+      // playerArr = await Promise.all(promises);
+
+      // console.log(playerArr);
+
+      // console.log("There are " + friends_length + " friends shown above ^");
+
+      // res.render("getFriendsList.ejs", { playerArr });
     }
   );
 });
