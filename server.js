@@ -291,7 +291,6 @@ app.get("/getFriendsList", async (req, res) => {
     [req.user.id],
     async (err, results) => {
       if (!err) {
-        // console.log(results.rows);
       }
       console.log(results.rows);
       console.log(results.rows[0].steamid);
@@ -317,6 +316,7 @@ app.get("/getFriendsList", async (req, res) => {
       const playerArr = [];
 
       // iterate thru friend list
+      var count = 1;
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
@@ -340,18 +340,16 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["profileurl"] = player.profileurl;
         player_summary["avatar"] = player.avatarmedium;
         friends_summaries.set(steamID, player_summary);
+        
+        console.log(count + "/" + friends_length);
+        count++;
       }
-
-      // console.log(playerArr);
-      // console.log(typeof playerArr);
-
-      // console.log(friends_summaries[0]);
-      console.log("There are " + friends_length + " friends shown above ^");
 
       res.render("getFriendsList.ejs", { friends_summaries, playerArr });
     }
   );
 });
+
 
 app.get("/getRandomGame", (req, res) => {
   pool.query(
