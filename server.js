@@ -196,7 +196,7 @@ app.post("/sendEmail/:friendid", async (req, res) => {
           console.log("Email Sent: " + info.response);
       });
        
-      res.redirect("/");
+      res.redirect("back");
   
       //console.log("Checkpoint #7");
 
