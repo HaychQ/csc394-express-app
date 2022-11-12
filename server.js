@@ -172,7 +172,7 @@ app.post("/sendEmail/:friendid", async (req, res) => {
           to: to,
           subject: "You have been invited to join Steamy!",
           message: message,
-          html: "<div style='font-size:25px;'><div style='width:100%; height:25%;'><img style='width:100px; height:100px; float:left;' src='" + friend.avatarfull + "'><img style='width:100px; height:100px; float:left;' src='" + user.avatarfull + "'></div><br>Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>"+ friend.personaname + "</span>, <br><br>Your Steam friend <span style='font-size:24px; font-weight:bold;'>" + user.personaname + "</span> has invited you to join Steamy! <br><br>An app that ties together the functionality of every Steam API.</div>"
+          html: "<div style='font-size:25px;'><div style='width:100%; height:25%;'><img style='width:100px; height:100px; float:left;' src='" + friend.avatarfull + "'><img style='width:100px; height:100px; float:left;' src='" + user.avatarfull + "'></div><br>Hello <span style='font-size:24px; font-weight:bold; font-family:'Impact';>"+ friend.personaname + "</span>, <br><br>Your Steam friend <span style='font-size:24px; font-weight:bold;'>" + user.personaname + "</span> has invited you to join Steamy! <br><br>An app that ties together the functionality of every Steam API. <br><br> Here is the message they left you: <br><br>" + message + "</div>"
       };
 
       // send email 
@@ -341,7 +341,7 @@ app.get("/getFriendsList", async (req, res) => {
         player_summary["avatar"] = player.avatarmedium;
         friends_summaries.set(steamID, player_summary);
         
-        console.log(count + "/" + friends_length);
+        // console.log(count + "/" + friends_length);
         count++;
       }
 
