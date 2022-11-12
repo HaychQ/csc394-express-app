@@ -60,39 +60,22 @@
 
     <h1 class="page-header">Get Featured Games</h1>
     <!-- <%= featuredGamesArray %> -->
+    <% for (var i=0; i < featuredGamesArray.length; i++){ %>
+      <div class="random-game-container fade-in">
+        <span><img src=<%= `${featuredGamesArray[i].header_image}` %> class="game-icon random-game-img">
+        </img>
+        </span>
+      <div class="random-game-text-container">
+        <span class="random-game-name"><%= featuredGamesArray[i].name %></span>
+        <div class="random-game-genre-container">
+          <span class="random-game-genre"><%= featuredGamesArray[i].final_price %></span>
+          </div>
+        </div>
+      </div>
 
-    <div class="table-responsive-xxl center-table-friends fade-in">
-      <table class="table align-middle table-dark custom-table friends-list-table">
-        <thead>
-          <tr>
-          <th class="admin-header" scope="col">Name</th>
-          <!-- <th class="admin-header" scope="col">Steam Id</th> -->
-          <th class="admin-header" scope="col">Image</th>
-          <th class="admin-header" scope="col">Current Price</th>
-          <th class="admin-header action-friends-list" scope="col">Action</th>
-        </tr>
-        </thead>
-        <% for(var i=0; i < featuredGamesArray.length; i++) { %>
-        <tr class="row-hover">
-          <td class="api-text table-dark"><%= featuredGamesArray[i].name %></td>
-          <td class=" table-dark">
-            <img src=<%= featuredGamesArray[i].small_capsule_image %>>
-            </img>
-          </td>
-          <td class="api-text table-dark"><%= featuredGamesArray[i].final_price %></td>
-          <td class="action-friends-list">
-            <a
-              href="/getNews/<%= featuredGamesArray[i].id %>"
-              type="button"
-              title="Get News"
-              class="btn btn-outline btn-small action-btn friends-list-btn action-friends-list"
-              ><i class="bi bi-person-x"></i>Get News</a
-            >
-        </tr>
-        <% } %>
-      </table>
-    </table>
-  </div>
+    <% } %>
+
+
 
     <!-- BOOTSTRAP JS -->
     <script

@@ -25,7 +25,7 @@
     </nav>
 
     <div class="user-container">
-      <form class="row g-3 needs-validation" method="POST" action="/invitsendE/<%= friend_id %>" novalidate>
+      <form class="row g-3 needs-validation" method="POST" action="/sendEmail/<%= friend_id %>" novalidate>
         <div class="col-12">
           <label class="user-form-label" for="floatingInput">Friend's Email</label>
           <input type="email" class="form-control user-input-textbox" id="to" placeholder="Enter Email" name="to" />
@@ -36,10 +36,13 @@
         <textarea id="message" name="message" rows="4" cols="15"> </textarea>
 
         <div class="col-6">
-          <a href="/getFriendsList" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
+          <a href="../" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
         </div>
         <div class="col-6">
           <button class="btn btn-primary nav-btn user-btn" type="submit" value="Send">Submit</button>
+        </div>
+        <div class="col-6">
+          <input type="button" value="Go back!" onclick="history.back()">
         </div>
       </form>
     </div>
