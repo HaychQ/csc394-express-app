@@ -21,6 +21,7 @@
     "flash": "^1.1.0",
     "method-override": "^3.0.0",
     "node-fetch": "^2.6.7",
+    "nodemailer": "^6.8.0",
     "nyc": "^15.1.0",
     "p-limit": "^3.1.0",
     "passport": "^0.6.0",
