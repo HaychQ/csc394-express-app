@@ -11,6 +11,10 @@ const PORT = process.env.PORT || 3000;
 const fetch = require("node-fetch");
 const initializePassport = require("./passport-config");
 const { json } = require("express");
+const { promises } = require("nyc/lib/fs-promises");
+const pLimit = require('p-limit');
+
+
 
 module.exports = app;
 
@@ -297,6 +301,7 @@ app.get("/getFriendsList", async (req, res) => {
           });
         });
 
+      
       var playerArr = [];
       const callArray = [];
 
@@ -342,31 +347,47 @@ app.get("/getFriendsList", async (req, res) => {
       }
       */
 
-      async function fetchResponses() {
-        const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
+      // ----- Initial Implementation of Promise Function ---
+
+           // async function fetchResponses() {
+      //   const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
+      //   // const resultsFriends = await Promise.all(callArray.map((url) => fetch(url).then((r) => r.text()).then((text) => console.log(text))));
         
-        // console.log(JSON.stringify(results, null, 2));
-        // console.log(results[26].response.players);
-        // player = results.response.players[0];
-        // console.log(typeof resultsFriends);
-        // console.log(resultsFriends);
+      //   // console.log(JSON.stringify(results, null, 2));
+      //   // console.log(results[26].response.players);
+      //   // player = results.response.players[0];
+      //   // console.log(typeof resultsFriends);
+      //   // console.log(resultsFriends);
 
-        // console.log(resultsFriends);
+      //   // console.log(resultsFriends);
 
-        // console.log(resultsFriends.length);
-        // playerArr.push(resultsFriends);
-        // console.log(playerArr);
+      //   // console.log(resultsFriends.length);
+      //   // playerArr.push(resultsFriends);
+      //   // console.log(playerArr);
+      //   return resultsFriends;
+      // }
+
+      // ----- Hasan's Implementation of pLimit ----- //
+
+      const limit = pLimit(3);
+
+      // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => r.response.players[0]))});
+      // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => console.log(r.response.players[0])))});
+
+      async function fetchResponses() {
+        let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => r.response.players[0]))});
+        // let promises = callArray.map((url) => { limit(() => fetch(url).then((r) => r.json()).then((r) => console.log(r.response.players[0])))});
+
+        const resultsFriends = await Promise.all(promises);
+
+        console.log(resultsFriends);
+
         return resultsFriends;
       }
-
-      
 
       playerArr = await fetchResponses();
 
       console.log(playerArr);
-
-      
-
 
       /*
       for (var i = 0; i < friendsList.length; i++) {
@@ -383,9 +404,31 @@ app.get("/getFriendsList", async (req, res) => {
       }
       */
 
-      console.log("There are " + friends_length + " friends shown above ^");
+      //// This is Niko's Pasted Code ////
 
-      res.render("getFriendsList.ejs", { playerArr });
+      // const limit = pLimit(5);
+
+      // async function fetchResponses() {
+      //   const promises = callArray.map((url) => limit(() => fetch(url).then((r) => r.json()).then((r) => r.response.players[0])));
+
+      //   //console.log(resultsFriends);
+
+      //   return promises;
+      // } 
+      
+
+    
+      // var promises = await fetchResponses();
+      // playerArr = await Promise.all(promises);
+
+
+      // console.log(playerArr);
+
+
+
+      // console.log("There are " + friends_length + " friends shown above ^");
+
+      // res.render("getFriendsList.ejs", { playerArr });
     }
   );
 });
