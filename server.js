@@ -182,7 +182,7 @@ app.post("/sendEmail/:friendid", async (req, res) => {
                     <div style='width:15em; height:55em; border:2px solid #489BDD; background-color: #1B2838; color:white; font-size:22px;'> \
                         <br><br><br>` + message + `<br><br><br> \
                         </div><br> \
-                    Click <a href='http://localhost:3000/register'>here</a> to register and start using Steamy!</div>`
+                    Click <a href='http://54.75.88.164/register'>here</a> to register and start using Steamy!</div>`
       };
 
       // send email 
