@@ -14,9 +14,6 @@ const { json } = require("express");
 const { promises } = require("nyc/lib/fs-promises");
 const pLimit = require("p-limit");
 
-
-
-
 module.exports = app;
 
 initializePassport(passport);
@@ -99,7 +96,7 @@ app.get("/getFriendsList/emailFriend/:friendid", (req, res) => {
   friend_id = req.params.friendid;
   res.render("emailFriend.ejs", { friend_id });
   friend_id = req.params.friendid;
-  res.render("emailFriend.ejs", {friend_id});
+  res.render("emailFriend.ejs", { friend_id });
 });
 
 // Brian's Email Implementation Goes here:
@@ -191,12 +188,6 @@ app.post("/sendEmail/:friendid", async (req, res) => {
     }
   );
 });
-
-    });
-});
-
-//     });
-// });
 
 /*************************************************************/
 
