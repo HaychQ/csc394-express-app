@@ -61,6 +61,18 @@
       </div>
     </nav>
 
+    <% if (message1.length > 0) { %>
+      <div class = "alert alert-success alert-text" role="alert">
+        <%= message1 %>
+      </div>
+   <% } %>
+
+   <% if (message2.length > 0) { %>
+    <div class = "alert alert-success alert-text" role="alert">
+      <%= message2 %>
+    </div>
+ <% } %>
+
     <!-- ADMIN PANEL CODE -->
     <!-- <div class="center-table"> -->
     <div class="table-responsive-xxl fade-in center-table-admin">

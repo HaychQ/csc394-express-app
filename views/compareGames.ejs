@@ -61,6 +61,12 @@
       </div>
     </nav>
 
+    <% if (message.length > 0) { %>
+      <div class = "alert alert-success alert-text" role="alert">
+        <%= message %>
+      </div>
+   <% } %>
+
     <h1 class="page-header">Compare Games with Friend</h1>
     <div class="compare-games-table-container container">
 

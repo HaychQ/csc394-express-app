@@ -15,7 +15,9 @@ const { promises } = require("nyc/lib/fs-promises");
 const pLimit = require("p-limit");
 const nodemailer = require("nodemailer");
 // const alert = require('alert');
-const popup = require('node-popup');
+// const popup = require('node-popup');
+
+
 
 
 
@@ -58,11 +60,11 @@ app.use(passport.session());
 app.use(flash());
 
 app.get("/", checkNotAuthenticated, (req, res) => {
-  res.render("index.ejs");
+  res.render("index.ejs", { message: req.flash('notAdmin') });
 });
 
 app.get("/login", checkAuthenticated, (req, res) => {
-  res.render("login.ejs");
+  res.render("login.ejs", { message: req.flash('registered') });
 });
 
 app.get("/register", checkAuthenticated, (req, res) => {
@@ -93,8 +95,8 @@ app.get("/indexPlaceholderAdmin", (req, res) => {
 });
 
 // - User Dashboard - NORMAL USERS(no admin btn or admin container)
-app.get("/indexPlaceholder", (req, res) => {
-  res.render("indexPlaceholder.ejs");
+app.get("/userIndex", (req, res) => {
+  res.render("userIndex.ejs");
 });
 
 app.get("/errorPage", (req, res) => {
@@ -335,7 +337,7 @@ app.get("/getFriendsList", async (req, res) => {
         var steamID = response.friendslist.friends[i].steamid;
 
         // get friend summaries
-        const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=F6DB64D7E827FA916F5F5AF44CD29AF5&steamids=${steamID}`;
+        const urlgetSummary = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${results.rows[0].apikey}&steamids=${steamID}`;
         const response2 = await fetch(urlgetSummary, options)
           .then((res) => res.json())
           .catch((e) => {
@@ -475,6 +477,8 @@ app.get("/compareGames/:friendid", async (req, res) => {
         // popup.alert({
         //   content: 'Hey! This user set their display games to Private!'
         // });
+        req.flash('success', 'This Friend has their game display as Private!');
+        const messagePopup = "This user has their Game Display as Private!";
         console.log("This is a private user")
       } 
       else {
@@ -537,7 +541,7 @@ app.get("/compareGames/:friendid", async (req, res) => {
         if (!sharedGamesMap.has(appid)) friendGames.push(friendsGameMap.get(appid));
       }
 
-      res.render("compareGames.ejs", { sharedGames1, sharedGames2, userGames, friendGames });
+      res.render("compareGames.ejs", { sharedGames1, sharedGames2, userGames, friendGames, message: req.flash('success') });
     }
   );
 });
@@ -592,12 +596,15 @@ app.get("/admin", (req, res) => {
     if (!err) {
       //Checking to see if the user who is trying to acesss admin panel is superuser.
       if (req.user.isadmin == true) {
-        res.render("admin.ejs", { data: results.rows, adminuser: req.user.email });
+        res.render("admin.ejs", { data: results.rows, adminuser: req.user.email, message1: req.flash('delete'), message2: req.flash('edit') });
       }
-    } else {
-      console.log("You do not have access to this page.");
-      console.log("error: ", err);
-    }
+      else {
+        req.flash('notAdmin', "Sorry, you don't have access to that page!");
+        res.redirect('/');
+        console.log("You do not have access to this page.");
+        console.log("error: ", err);
+      }
+    } 
   });
 });
 
@@ -631,6 +638,7 @@ app.post("/editUser/:id", (req, res) => {
     (err, results) => {
       if (err) console.log(err.stack);
       else {
+        req.flash('edit', 'User info has been edited');
         res.redirect("/admin");
         // console.log(results.rows);
       }
@@ -646,6 +654,7 @@ app.get("/delete/:id", async (req, res) => {
     (err, results) => {
       console.log("we are here");
       if (!err) {
+        req.flash('delete', 'User has been deleted');
         res.redirect("/admin");
       } else {
         //console.log(err);
@@ -674,6 +683,11 @@ app.post("/register", async (req, res) => {
   if (password.length < 6) {
     errors.push({ message: "Password should be at least 6 characters" });
     console.log("checking to see if password is less than 6");
+  }
+
+  if (isNaN(steamid)) {
+    errors.push({ message: "SteamID input should only consist of integers."})
+    console.log("Checking to see if Steam ID is only numbers")
   }
 
   if (errors.length > 0) {
@@ -709,7 +723,7 @@ app.post("/register", async (req, res) => {
                 throw err;
               }
               console.log(results.rows);
-              req.flash("success_msg", "You are now registered. Please log in.");
+              req.flash('registered', 'You are now registered, please log in.')
               res.redirect("/login");
             }
           );

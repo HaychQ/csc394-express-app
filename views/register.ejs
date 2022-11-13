@@ -12,14 +12,21 @@
     <div class="modal-header">
       <span class="modal-title">CREATE ACCOUNT</span>
     </div>
+
+
+
     <div class="modal-body">
       <div class="contact-form">
         <!-- <form action="php/action.php" method="POST" class="create-account-form" id="createAccountForm"> -->
-        <ul>
-          <% if(typeof errors != 'undefined') { %> <% errors.forEach(error => { %>
-          <li><%= error.message %></li>
-          <% }) %> <% } %>
-        </ul>
+          <ul>
+            <% if (typeof errors != 'undefined') { %>
+              <div class="alert alert-success alert-form" role="alert">
+                <% errors.forEach(error => { %>
+                  <li class="alert-form"><%= error.message %></li>
+                <% }) %>
+              </div>
+           <% } %>
+            </ul>
         <form class="spacing" action="/register" method="POST">
           <div class="row">
             <!-- USERNAME -->
