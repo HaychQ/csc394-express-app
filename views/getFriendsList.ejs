@@ -73,6 +73,8 @@
           
           <!-- TEMPORARY - DELETE AFTER -->
           <th class="admin-header" scope="col">Profile Url</th>
+          <th class="admin-header" scope="col">Invite Friend</th>
+
         </tr>
         </thead>
         <% for(var i=0; i < loc.length; i++) { %>
@@ -124,13 +126,10 @@
             <!-- Make compare game disabled or active depending if their acc is public or private -->
 
             <td class="api-text table-dark">
-              <% if(loc[i].communityvisibilitystate == 1 || loc[i].communityvisibilitystate == 2){ %>
-                <!-- PRIVATE ACCOUNT - Display Button -->
-                <h1 class="api-text table-dark"><a href="/getFriendsList/inviteFriend/<%= loc[i].steamid %>" class="btn btn-outline btn-small private-btn friends-list-btn action-friends-list">Send Invite To Join</a></h1>
-                <% } else{ %>
-                  <!-- Status 3 - Public display Profile URL -->
-                <h1 class="api-text table-dark"><%= loc[i].profileurl %></h1>
-              <% } %>
+              <h1 class="api-text table-dark"><%= loc[i].profileurl %></h1>
+            </td>
+            <td class="api-text table-dark">
+              <h1 class="api-text table-dark"><a href="/getFriendsList/inviteFriend/<%= loc[i].steamid %>" class="btn btn-outline btn-small private-btn friends-list-btn action-friends-list">Send Invite To Join</a></h1>
             </td>
         </tr>
         <% } %>

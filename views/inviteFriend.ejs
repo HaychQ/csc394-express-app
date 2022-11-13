@@ -35,14 +35,14 @@
 
         <textarea id="message" name="message" rows="4" cols="15"> </textarea>
 
-        <div class="col-6">
+        <!-- <div class="col-6">
           <a href="../" class="btn btn-primary nav-btn user-cancel-btn">Cancel</a>
+        </div> -->
+        <div class="col-6">
+          <input type="button" value="Go back!" class="btn btn-primary nav-btn user-cancel-btn" onclick="history.back()" />
         </div>
         <div class="col-6">
           <button class="btn btn-primary nav-btn user-btn" type="submit" value="Send">Submit</button>
-        </div>
-        <div class="col-6">
-          <input type="button" value="Go back!" onclick="history.back()">
         </div>
       </form>
     </div>

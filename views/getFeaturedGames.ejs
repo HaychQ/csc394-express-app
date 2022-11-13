@@ -69,7 +69,18 @@
         <span class="random-game-name"><%= featuredGamesArray[i].name %></span>
         <div class="random-game-genre-container">
           <span class="random-game-genre"><%= featuredGamesArray[i].final_price %></span>
-          </div>
+          <!-- <span class="random-game-playtime"><%= new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}, featuredGamesArray[i].final_price) %></span> -->
+
+          <span class="random-game-playtime"><%= (featuredGamesArray[i].final_price).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD'}) %></span>
+
+
+          <!-- (2500).toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }) -->
+        </div>
         </div>
       </div>
 
