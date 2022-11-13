@@ -73,6 +73,10 @@ function getRandomIndex(max) {
   return Math.floor(Math.random() * max);
 }
 
+function insertDecimal(num) {
+  return (num / 100).toFixed(2);
+}
+
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
 // app.get("/friendsplaceholder", (req, res) => {
@@ -541,6 +545,7 @@ app.get("/compareGames/:friendid", async (req, res) => {
 app.get("/getFeaturedGames", async (req, res) => {
   const urlgetFeaturedGames = `https://store.steampowered.com/api/featured/`;
   featuredGamesArray = [];
+  featuredGamesArrayPrice = []
 
   const options = {
     method: "GET",
@@ -557,9 +562,10 @@ app.get("/getFeaturedGames", async (req, res) => {
 
   for (var i = 0; i < responseFeaturedGames.featured_win.length; i++) {
     featuredGamesArray.push(responseFeaturedGames.featured_win[i]);
+    featuredGamesArrayPrice.push(insertDecimal(responseFeaturedGames.featured_win[i].final_price));
   }
 
-  res.render("getFeaturedGames.ejs", { featuredGamesArray });
+  res.render("getFeaturedGames.ejs", { featuredGamesArray, featuredGamesArrayPrice });
 });
 
 app.get("/getnews", (req, res) => {
