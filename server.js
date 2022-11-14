@@ -59,6 +59,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
+function getRandomIndex(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function insertDecimal(num) {
+  return (num / 100).toFixed(2);
+}
+
+// const loader = document.querySelector("#preloader");
+
+// function displayPreloader() {
+//   loader.classList.add("display");
+//   setTimeout(() => {
+//     loader.classList.remove("display");
+//   }, 5000);
+// }
+
+// //hiding preloader
+// function hidePreloader(){
+//   loader.classList.remove("display");
+// }
+
+app.get("/loading", (req, res) => {
+  res.render("loading.ejs");
+});
+
 app.get("/", checkNotAuthenticated, (req, res) => {
   res.render("index.ejs", { message: req.flash('notAdmin') });
 });
@@ -71,13 +97,6 @@ app.get("/register", checkAuthenticated, (req, res) => {
   res.render("register.ejs");
 });
 
-function getRandomIndex(max) {
-  return Math.floor(Math.random() * max);
-}
-
-function insertDecimal(num) {
-  return (num / 100).toFixed(2);
-}
 
 /*************************************************************/
 // DESIGNING LAYOUT - WILL DELETE AFTER - shouldn't interfere with other parts of code
@@ -222,6 +241,9 @@ app.get("/getOwnedGames", (req, res) => {
       if (!err) {
         // console.log(results.rows);
       }
+      else{
+        console.log("Can't render that page!");
+      }
       console.log(results.rows);
       console.log(results.rows[0].steamid);
       console.log(results.rows[0].apikey);
@@ -242,6 +264,11 @@ app.get("/getOwnedGames", (req, res) => {
           const stringGameData = JSON.stringify(jsonGameData0);
 
           res.render("getOwnedGames.ejs", { stringGameData });
+        }
+        else{
+          console.log("Can't render that page!!!");
+          var message = "Invalid Steam API or ID Key";
+          res.render("errorPage.ejs", { message });
         }
       });
     }
@@ -300,6 +327,7 @@ app.get("/getAchievements/:appid", async (req, res) => {
 });
 
 app.get("/getFriendsList", async (req, res) => {
+  var invalidCredentials = false;
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -315,6 +343,7 @@ app.get("/getFriendsList", async (req, res) => {
       var friends_summaries = new Map();
 
       // get list of friends
+      // displayPreloader();
       const friends = new Map(); // steamID:[games]
       const urlgetFriends = `https://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=${results.rows[0].apikey}&steamid=${results.rows[0].steamid}&relationship=friend&format=json`;
       const options = {
@@ -324,14 +353,16 @@ app.get("/getFriendsList", async (req, res) => {
         .then((res) => res.json())
         .catch((e) => {
           console.error({
-            message: "oh noes",
+            message: "Steam credentials are invalid.",
             error: e,
           });
+          invalidCredentials = true;
         });
 
       const playerArr = [];
 
-      // iterate thru friend list
+      if (!invalidCredentials == true){
+              // iterate thru friend list
       var friends_length = response.friendslist.friends.length;
       for (var i = 0; i < friends_length; i++) {
         var steamID = response.friendslist.friends[i].steamid;
@@ -361,14 +392,22 @@ app.get("/getFriendsList", async (req, res) => {
       // console.log(typeof playerArr);
 
       // console.log(friends_summaries[0]);
+      // hidePreloader();
       console.log("There are " + friends_length + " friends shown above ^");
 
       res.render("getFriendsList.ejs", { friends_summaries, playerArr });
+      }
+      else{
+        console.log("Can't render that page!!!");
+        var message = "Invalid Steam API or ID Key";
+        res.render("errorPage.ejs", { message });
+      }
     }
   );
 });
 
 app.get("/getRandomGame", (req, res) => {
+  var invalidCredentials = false;
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -390,37 +429,45 @@ app.get("/getRandomGame", (req, res) => {
         .then((res) => res.json())
         .catch((e) => {
           console.error({
-            message: "oh noes",
+            message: "Invalid Steam Credentials",
             error: e,
           });
+          invalidCredentials = true;
         });
 
-      const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)];
+        if (!invalidCredentials == true) {
+          const randomGameReturn = Randomresponse.response.games[getRandomIndex(Randomresponse.response.games.length)];
 
-      urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`;
-
-      const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
-        .then((res) => res.json())
-        .catch((e) => {
-          console.error({
-            message: "oh noes",
-            error: e,
-          });
-        });
-
-      var responseString = randomGameReturn.appid;
-
-      // const SteamStoreGameData = StoreRandomresponse[responseString].data;
-
-      // console.log(StoreRandomresponse[responseString]);
-      // console.log(StoreRandomresponse[responseString].data.name);
-      // console.log(StoreRandomresponse[responseString].data.header_image);
-      // console.log(StoreRandomresponse[responseString].data.genres);
-      // console.log(StoreRandomresponse[responseString].data.genres[0].description);
-
-      const SteamStoreGameData = StoreRandomresponse[responseString].data;
-
-      res.render("getRandomGame.ejs", { SteamStoreGameData, randomGameReturn });
+          urlgetRandomGameData = `https://store.steampowered.com/api/appdetails?appids=${randomGameReturn.appid}`;
+    
+          const StoreRandomresponse = await fetch(urlgetRandomGameData, options)
+            .then((res) => res.json())
+            .catch((e) => {
+              console.error({
+                message: "oh noes",
+                error: e,
+              });
+            });
+    
+          var responseString = randomGameReturn.appid;
+    
+          // const SteamStoreGameData = StoreRandomresponse[responseString].data;
+    
+          // console.log(StoreRandomresponse[responseString]);
+          // console.log(StoreRandomresponse[responseString].data.name);
+          // console.log(StoreRandomresponse[responseString].data.header_image);
+          // console.log(StoreRandomresponse[responseString].data.genres);
+          // console.log(StoreRandomresponse[responseString].data.genres[0].description);
+    
+          const SteamStoreGameData = StoreRandomresponse[responseString].data;
+    
+          res.render("getRandomGame.ejs", { SteamStoreGameData, randomGameReturn });
+        }
+        else {
+          console.log("Can't render that page!!!");
+          var message = "Invalid Steam API or ID Key";
+          res.render("errorPage.ejs", { message });
+        }
     }
   );
 });

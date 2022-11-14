@@ -1016,6 +1016,11 @@ Goes from RIGHT to LEFT
 }
 
 .error-text {
+  color: #bc0f0f;
+  font-size: 60px;
+}
+
+.error-message {
   font-size: 48px;
 }
 
@@ -1167,4 +1172,18 @@ textarea.email-textbox {
 .alert-form{
   font-size: 12px;
   list-style: none;
+}
+
+#preloader{
+  background: #000 url("../images/loader.gif") no-repeat center center;
+  background-size: 20%;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  visibility: hidden;
+}
+
+#preloader.display {
+  visibility: visible;
 }
