@@ -789,6 +789,11 @@ img.game-icon {
   background-image: url("../images/SteamGameShuffle.png");
   background-repeat: no-repeat;
   background-size: contain;
+  /* max-width: 90vw; */
+}
+
+.admin-image {
+  /* max-width: 90vw; */
 }
 
 .friends-list-container:hover {
@@ -1120,7 +1125,23 @@ textarea.email-textbox {
     min-width: 220px;
     min-height: 350px;
   }
+
+  
 }
+
+@media (max-width: 1300px) {
+.admin-container {
+  /* background-image: url("../images/SteamGameShuffle.png");
+  background-repeat: no-repeat;
+  background-size: contain; */
+  max-width: 90vw;
+}
+
+.admin-image {
+  max-width: 90vw;
+}
+}
+
 /* Collapse */
 @media (max-width: 991.98px) {
   /* Resize for collapse */
@@ -1135,6 +1156,8 @@ textarea.email-textbox {
   .navbar-nav {
     align-items: flex-start;
   }
+
+  
 }
 
 .alert-text {
