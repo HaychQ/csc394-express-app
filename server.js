@@ -118,11 +118,11 @@ app.get("/userIndex", (req, res) => {
   res.render("userIndex.ejs");
 });
 
-app.get("/errorPage", (req, res) => {
+app.get("/errorPage", checkNotAuthenticated, (req, res) => {
   res.render("errorPage.ejs");
 });
 
-app.get("/getFriendsList/inviteFriend/:friendid", (req, res) => {
+app.get("/getFriendsList/inviteFriend/:friendid", checkNotAuthenticated, (req, res) => {
   friend_id = req.params.friendid;
   res.render("inviteFriend.ejs", { friend_id });
 });
@@ -179,20 +179,22 @@ app.post("/sendEmail/:friendid", async (req, res) => {
 
       // create transporter
       //console.log("Checkpoint #4");
-      const transporter = nodemailer.createTransport({
-          service: "hotmail",
-          port: 587,
-          secure: false, // true for 465, false for other ports
-          auth: {
-          user: "steamAPIproject@hotmail.com",
-          pass: "Steam123"
-          },
+      let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          type: 'OAuth2',
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD,
+          clientId: process.env.OAUTH_CLIENTID,
+          clientSecret: process.env.OAUTH_CLIENT_SECRET,
+          refreshToken: process.env.OAUTH_REFRESH_TOKEN
+        }
       });
 
       // set email information
       //console.log("Checkpoint #5");
       const mailOptions = {
-          from: "Steamy <steamAPIproject@hotmail.com>",
+          from: "Steamy <steamywebapp@gmail.com>",
           to: to,
           subject: "You have been invited to join Steamy!",
           message: message,
@@ -230,7 +232,7 @@ app.post("/sendEmail/:friendid", async (req, res) => {
 
 /*************************************************************/
 
-app.get("/getOwnedGames", (req, res) => {
+app.get("/getOwnedGames", checkNotAuthenticated, (req, res) => {
   // console.log("this is the user id logged in:", [user.id]);
 
   pool.query(
@@ -275,7 +277,7 @@ app.get("/getOwnedGames", (req, res) => {
   );
 });
 
-app.get("/getAchievements/:appid", async (req, res) => {
+app.get("/getAchievements/:appid", checkNotAuthenticated, async (req, res) => {
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -326,7 +328,7 @@ app.get("/getAchievements/:appid", async (req, res) => {
   );
 });
 
-app.get("/getFriendsList", async (req, res) => {
+app.get("/getFriendsList", checkNotAuthenticated, async (req, res) => {
   var invalidCredentials = false;
   pool.query(
     `SELECT * FROM usertable
@@ -406,7 +408,7 @@ app.get("/getFriendsList", async (req, res) => {
   );
 });
 
-app.get("/getRandomGame", (req, res) => {
+app.get("/getRandomGame", checkNotAuthenticated, (req, res) => {
   var invalidCredentials = false;
   pool.query(
     `SELECT * FROM usertable
@@ -472,7 +474,7 @@ app.get("/getRandomGame", (req, res) => {
   );
 });
 
-app.get("/compareGames/:friendid", async (req, res) => {
+app.get("/compareGames/:friendid", checkNotAuthenticated, async (req, res) => {
   pool.query(
     `SELECT * FROM usertable
     WHERE id = $1`,
@@ -593,7 +595,7 @@ app.get("/compareGames/:friendid", async (req, res) => {
   );
 });
 
-app.get("/getFeaturedGames", async (req, res) => {
+app.get("/getFeaturedGames", checkNotAuthenticated, async (req, res) => {
   const urlgetFeaturedGames = `https://store.steampowered.com/api/featured/`;
   featuredGamesArray = [];
   featuredGamesArrayPrice = []
@@ -638,7 +640,7 @@ app.get("/getnews", (req, res) => {
 });
 
 //DB HERE
-app.get("/admin", (req, res) => {
+app.get("/admin", checkNotAuthenticated, (req, res) => {
   pool.query(`SELECT * FROM usertable ORDER BY id`, (err, results) => {
     if (!err) {
       //Checking to see if the user who is trying to acesss admin panel is superuser.
@@ -655,7 +657,7 @@ app.get("/admin", (req, res) => {
   });
 });
 
-app.get("/editUser/:id", (req, res) => {
+app.get("/editUser/:id", checkNotAuthenticated, (req, res) => {
   console.log(req.params.id);
 
   pool.query(
@@ -693,7 +695,7 @@ app.post("/editUser/:id", (req, res) => {
   );
 });
 
-app.get("/delete/:id", async (req, res) => {
+app.get("/delete/:id", checkNotAuthenticated, async (req, res) => {
   pool.query(
     `DELETE FROM usertable
     WHERE id = $1`,
