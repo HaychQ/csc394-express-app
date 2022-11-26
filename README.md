@@ -24,7 +24,7 @@
   6. allows you to view your achievments for every game and when you achieved said achievment
   7. Ability to email someone an invite link to our site as long as you know their email
 
-#Notes about Steamy
+# Notes about Steamy
   - Uses the steam api to fetch all of its information
   - We ran out of time during class, but to fix the long load time of the friendslist, pagination could be implemented
   - Has a functioning admin page, along with postgreSQL for storing user accounts
